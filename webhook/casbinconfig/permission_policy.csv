@@ -1,1 +1,1 @@
-p,my-nginx-svc,services,DELETE,allow
+p,my-nginx-svc,services,DELETE,deny
