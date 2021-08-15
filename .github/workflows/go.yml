@@ -2,9 +2,9 @@ name: Go
 
 on:
   push:
-    branches: [ master ]
+    branches: [ '*' ]
   pull_request:
-    branches: [ master ]
+    branches: [ '*' ]
 
 jobs:
 
@@ -19,7 +19,7 @@ jobs:
         go-version: 1.16
 
     - name: Build
-      run: cd webhook&&go build -v ./...
+      run: go build -v cmd/webhook/main.go
 
     - name: Test
-      run: cd webhook&&go test -v ./...
+      run: go test -v ./...
