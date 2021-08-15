@@ -1,2 +1,0 @@
-cd /webhook
-go run .

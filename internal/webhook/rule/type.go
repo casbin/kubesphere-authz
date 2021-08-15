@@ -11,32 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package resourcehandler
+package rule
 
-import (
-	"fmt"
-	casbin "github.com/casbin/casbin/v2"
-	v1 "k8s.io/api/admission/v1"
-	"log"
-)
-
-func CheckPermission(review v1.AdmissionReview, model string, policy string) error {
-	e, err := casbin.NewEnforcer(model, policy)
-	if err != nil {
-		return err
-	}
-	ok, err := e.Enforce(
-		review.Request.Name,
-		review.Request.Resource.Resource,
-		string(review.Request.Operation),
-	)
-	if err != nil {
-		log.Fatal(err.Error())
-		return err
-	}
-	if !ok {
-		return fmt.Errorf("checkPermission rejected this request")
-	}
-	return nil
-
-}
+type Rules struct{}

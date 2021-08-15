@@ -1,0 +1,12 @@
+{
+        "ResourceOperationPermission":{
+            "available":true,
+            "model":"config/casbinconfig/permission_model.conf",
+            "policy":"config/casbinconfig/permission_policy.csv"
+        },
+        "AllowedRepos":{
+            "available":true,
+            "model":"config/casbinconfig/image_model.conf",
+            "policy":"config/casbinconfig/image_policy.csv"
+        }
+}
