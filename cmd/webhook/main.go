@@ -14,32 +14,9 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/unrolled/secure"
+	"ksauth/internal/webhook"
 )
 
-//set up https midware
-func tlsHandler(c *gin.Context) {
-	secureMiddleware := secure.New(secure.Options{
-		SSLRedirect: true,
-		SSLHost:     "localhost:8080",
-	})
-	err := secureMiddleware.Process(c.Writer, c.Request)
-
-	// If there was an error, do not continue.
-	if err != nil {
-		return
-	}
-	c.Next()
-}
-
 func main() {
-	r := gin.Default()
-	r.Any("/check", handler)
-	r.Any("/deployment", handler)
-	r.Any("/ping", ping)
-	r.Use(tlsHandler)
-	// https://kubernetes.docker.internal:8080/check
-	r.RunTLS(":8080", "certificate/server.crt", "certificate/server.key")
-
+	webhook.GetAdmissionWebhook().RunTLS(":8080", "config/certificate/server.crt", "config/certificate/server.key")
 }

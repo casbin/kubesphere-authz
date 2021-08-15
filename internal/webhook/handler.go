@@ -11,10 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package main
+package webhook
 
 import (
-	//"fmt"
 	"fmt"
 	"io/ioutil"
 
@@ -22,7 +21,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 
-	//casbin "github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 )
 
@@ -39,17 +37,15 @@ func handler(c *gin.Context) {
 		approve(c, string(requestBody.Request.UID))
 		return
 	}
-	//have all checkitems checked
+	//have all rules enforced
 	for item, config := range webHookConfig {
 		if !config.Available {
 			continue
 		}
-		if checkFunc, ok := webHookCheckItem[item]; ok {
-			err := checkFunc(requestBody, config.Model, config.Policy)
-			if err != nil {
-				reject(c, string(requestBody.Request.UID), err.Error())
-				return
-			}
+		err := enforceGeneralRules(item, requestBody, config.Model, config.Policy)
+		if err != nil {
+			reject(c, string(requestBody.Request.UID), err.Error())
+			return
 		}
 	}
 	approve(c, string(requestBody.Request.UID))
