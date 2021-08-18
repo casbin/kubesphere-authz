@@ -41,7 +41,7 @@ func TestAllowedReposForDeployment(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.AllowedRepos(review, "../../../config/casbinconfig/image_model.conf", "../../../config/casbinconfig/image_policy.csv")
+	res := rule.AllowedRepos(&review, "../../../example/casbinconfig/allowed_repo.conf", "../../../example/casbinconfig/allowed_repo.csv")
 	if res == nil {
 		t.Error("should be rejected")
 	}
@@ -66,7 +66,7 @@ func TestAllowedReposForDeployment2(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.AllowedRepos(review, "../../../config/casbinconfig/image_model.conf", "../../../config/casbinconfig/image_policy.csv")
+	res := rule.AllowedRepos(&review, "../../../example/casbinconfig/allowed_repo.conf", "../../../example/casbinconfig/allowed_repo.csv")
 	if res != nil {
 		t.Error("should be rejected")
 	}
@@ -82,7 +82,7 @@ func TestAllowedReposForDeployment3(t *testing.T) {
 	review.Request.Resource.Resource = "deployments"
 
 	review.Request.Operation = "DELETE"
-	res := rule.AllowedRepos(review, "../../../config/casbinconfig/image_model.conf", "../../../config/casbinconfig/image_policy.csv")
+	res := rule.AllowedRepos(&review, "../../../example/casbinconfig/allowed_repo.conf", "../../../example/casbinconfig/allowed_repo.csv")
 	if res != nil {
 		t.Error(res.Error())
 	}
@@ -105,7 +105,7 @@ func TestAllowedReposForPod(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.AllowedRepos(review, "../../../config/casbinconfig/image_model.conf", "../../../config/casbinconfig/image_policy.csv")
+	res := rule.AllowedRepos(&review, "../../../example/casbinconfig/allowed_repo.conf", "../../../example/casbinconfig/allowed_repo.csv")
 	if res == nil {
 		t.Error("should be rejected")
 		return
@@ -131,7 +131,7 @@ func TestAllowedReposForPod2(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.AllowedRepos(review, "../../../config/casbinconfig/image_model.conf", "../../../config/casbinconfig/image_policy.csv")
+	res := rule.AllowedRepos(&review, "../../../example/casbinconfig/allowed_repo.conf", "../../../example/casbinconfig/allowed_repo.csv")
 	if res != nil {
 		t.Error("should be rejected")
 	}
@@ -146,7 +146,7 @@ func TestAllowedReposForPod3(t *testing.T) {
 	review.Request.Resource.Resource = "pods"
 
 	review.Request.Operation = "DELETE"
-	res := rule.AllowedRepos(review, "../../../config/casbinconfig/image_model.conf", "../../../config/casbinconfig/image_policy.csv")
+	res := rule.AllowedRepos(&review, "../../../example/casbinconfig/allowed_repo.conf", "../../../example/casbinconfig/allowed_repo.csv")
 	if res != nil {
 		t.Error(res.Error())
 	}

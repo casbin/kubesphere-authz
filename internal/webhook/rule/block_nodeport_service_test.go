@@ -14,35 +14,58 @@
 package rule
 
 import (
-	v1 "k8s.io/api/admission/v1"
+	"encoding/json"
 	"testing"
+
+	v1 "k8s.io/api/admission/v1"
+	core "k8s.io/api/core/v1"
 )
 
-func TestCheckPermission(t *testing.T) {
+func TestBlockNodeportService(t *testing.T) {
+	//should fail
 	var rule *Rules
+
+	var serviceObj core.Service
+	serviceObj.SetName("my-nginx-svc")
+	serviceObj.Spec.Type = core.ServiceTypeNodePort
 
 	var review v1.AdmissionReview
 	review.Request = &v1.AdmissionRequest{}
 	review.Request.Namespace = "default"
-	review.Request.Name = "my-nginx-svc"
 	review.Request.Resource.Resource = "services"
-	review.Request.Operation = "DELETE"
-	res := rule.ResourceOperationPermission(&review, "../../../example/casbinconfig/permission_model.conf", "../../../example/casbinconfig/permission_policy.csv")
-	if res == nil {
-		t.Error("should be rejected")
+
+	data, err := json.Marshal(serviceObj)
+	if err != nil {
+		t.Error(err)
+	}
+	review.Request.Object.Raw = data
+
+	err = rule.BlockNodeportService(&review, "", "")
+	if err == nil {
+		t.Errorf("Should have failed, nodeport service shouldn't be allowed")
 	}
 }
-
-func TestCheckPermission2(t *testing.T) {
+func TestBlockNodeportService2(t *testing.T) {
+	//should pass
 	var rule *Rules
+
+	var serviceObj core.Service
+	serviceObj.SetName("my-nginx-svc")
+	serviceObj.Spec.Type = core.ServiceTypeLoadBalancer
+
 	var review v1.AdmissionReview
 	review.Request = &v1.AdmissionRequest{}
 	review.Request.Namespace = "default"
-	review.Request.Name = "my-nginx-svc"
 	review.Request.Resource.Resource = "services"
-	review.Request.Operation = "UPDATE"
-	res := rule.ResourceOperationPermission(&review, "../../../example/casbinconfig/permission_model.conf", "../../../example/casbinconfig/permission_policy.csv")
-	if res != nil {
-		t.Error(res)
+
+	data, err := json.Marshal(serviceObj)
+	if err != nil {
+		t.Error(err)
+	}
+	review.Request.Object.Raw = data
+
+	err = rule.BlockNodeportService(&review, "", "")
+	if err != nil {
+		t.Errorf("Should have passed, but got %v", err)
 	}
 }

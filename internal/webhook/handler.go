@@ -42,7 +42,7 @@ func handler(c *gin.Context) {
 		if !config.Available {
 			continue
 		}
-		err := enforceGeneralRules(item, requestBody, config.Model, config.Policy)
+		err := enforceGeneralRules(item, &requestBody, config.Model, config.Policy)
 		if err != nil {
 			reject(c, string(requestBody.Request.UID), err.Error())
 			return
