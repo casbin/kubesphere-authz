@@ -56,7 +56,7 @@ func init() {
 	typeOfGeneral = reflect.TypeOf(generalObj)
 }
 
-func enforceGeneralRules(methodName string, review v1.AdmissionReview, model string, policy string) error {
+func enforceGeneralRules(methodName string, review *v1.AdmissionReview, model string, policy string) error {
 	args := []reflect.Value{
 		reflect.ValueOf(review),
 		reflect.ValueOf(model),

@@ -4,9 +4,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "echo",
+            "label": "fmt",
             "type": "shell",
-            "command": "go fmt ./..."
+            "command": "go fmt ./...",
+            "problemMatcher": []
         }
     ]
 }

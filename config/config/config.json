@@ -1,12 +1,23 @@
 {
         "ResourceOperationPermission":{
-            "available":true,
-            "model":"config/casbinconfig/permission_model.conf",
-            "policy":"config/casbinconfig/permission_policy.csv"
+            "available":false,
+            "model":"example/casbinconfig/permission_model.conf",
+            "policy":"example/casbinconfig/permission_policy.csv"
         },
         "AllowedRepos":{
+            "available":false,
+            "model":"example/casbinconfig/allowed_repo.conf",
+            "policy":"example/casbinconfig/allowed_repo.csv"
+        },
+        "ContainerResourceLimit":{
+            "available":false,
+            "model":"example/casbinconfig/container_resource_limit.conf",
+            "policy":"example/casbinconfig/container_resource_limit.csv"
+        },
+        "BlockNodeportService":{
             "available":true,
-            "model":"config/casbinconfig/image_model.conf",
-            "policy":"config/casbinconfig/image_policy.csv"
+            "model":"",
+            "policy":""
         }
+
 }
