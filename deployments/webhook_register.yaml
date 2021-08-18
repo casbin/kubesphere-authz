@@ -6,8 +6,8 @@ metadata:
 webhooks:
 - name: "webhook.domain.local"
   rules:
-  - apiGroups:   [""]
-    apiVersions: ["*"]
+  - apiGroups:   ["*"]
+    apiVersions: ['*']
     operations:  ["*"]
     resources:   ["*/*"]
     scope:       "*"
