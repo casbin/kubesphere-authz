@@ -39,15 +39,15 @@ var valueOfGeneral reflect.Value
 var typeOfGeneral reflect.Type
 
 //load the webhook/config.json
-func init() {
-	fileContent, err := ioutil.ReadFile("config/config/config.json")
+func Initconfig(configPath string) {
+	fileContent, err := ioutil.ReadFile(configPath)
 	if err != nil {
-		log.Fatal("Failed to load config/config/config.json," + err.Error())
+		log.Fatal("Failed to load "+configPath+" due to" + err.Error())
 	}
 
 	err = json.Unmarshal(fileContent, &webHookConfig)
 	if err != nil {
-		log.Fatal("Failed to load config/config/config.json," + err.Error())
+		log.Fatal("Failed to load "+configPath+" due to" + err.Error())
 	}
 
 	//use reflect to get type and value of general object

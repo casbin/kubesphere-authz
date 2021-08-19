@@ -15,3 +15,6 @@
 # vendor/
 # Get rid of vscode configurations
 /.vscode
+/build
+*.log
+__pycache__/

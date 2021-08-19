@@ -1,0 +1,7 @@
+ {
+    "ResourceOperationPermission": {
+        "available": true,
+        "model": "example/permission/permission_model.conf",
+        "policy": "example/permission/permission_policy.csv"
+    }
+}

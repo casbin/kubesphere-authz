@@ -1,0 +1,7 @@
+ {
+    "ContainerResourceLimit": {
+        "available": true,
+        "model": "example/container_resource_limit/container_resource_limit.conf",
+        "policy": "example/container_resource_limit/container_resource_limit.csv"
+    }
+}
