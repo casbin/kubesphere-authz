@@ -20,44 +20,45 @@ import (
 	v1 "k8s.io/api/admission/v1"
 	app "k8s.io/api/apps/v1"
 	core "k8s.io/api/core/v1"
+	"ksauth/pkg/casbinhelper"
 	"log"
 )
 
 /*
-[ks-admission-general-allowed-repos]
+[ks-admission-general-container-resource-limits]
 
 <Brief introduction>
-Only images specified in the associated casbin policy can be allowed.
-Precisely, if the image name starts with any prefix specified by the policy, then this image is allowed.
+When a new container is created via k8s, you must specified the maximum cpu and memory limit for this container, and these limits must not exceed a user specified limit
 
 <Coverage Area of Rule>
 pods and deployments resources will be checked.
 */
-func (g *Rules) AllowedRepos(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) ContainerResourceLimit(review *v1.AdmissionReview, model string, policy string) error {
 	var resourceKind = review.Request.Resource.Resource
-	//fmt.Println(resourceKind)
 	switch resourceKind {
 	case "pods":
-		return g.allowedReposForPod(review, model, policy)
+		return g.containerResourceLimitForPod(review, model, policy)
 	case "deployments":
-		return g.allowedReposForDeployment(review, model, policy)
+		return g.containerResourceLimitForDeployment(review, model, policy)
 	default:
 		return nil
 	}
 }
 
-func (g *Rules) allowedReposForPod(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) containerResourceLimitForPod(review *v1.AdmissionReview, model string, policy string) error {
 	enforcer, err := casbin.NewEnforcer(model, policy)
+
 	if err != nil {
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
-
+	enforcer.AddFunction("parseFloat", casbinhelper.ParseFloat)
 	if review.Request.Operation == "DELETE" {
 		//delete operation have no docker image to check
 		log.Printf("AllowedRepos: pod %s:%s approved", review.Request.Namespace, review.Request.Name)
 		return nil
 	}
+
 	var podObject core.Pod
 	if err := json.Unmarshal(review.Request.Object.Raw, &podObject); err != nil {
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
@@ -66,33 +67,48 @@ func (g *Rules) allowedReposForPod(review *v1.AdmissionReview, model string, pol
 	allContainers := make([]core.Container, len(podObject.Spec.Containers))
 	copy(allContainers, podObject.Spec.Containers)
 	allContainers = append(allContainers, podObject.Spec.InitContainers...)
+
 	for _, container := range allContainers {
-		var image = container.Image
+		resource := container.Resources
+		cpu, ok := resource.Limits["cpu"]
+		if !ok {
+			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no cpu limit", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image)
+			return fmt.Errorf("container %s has no cpu limit", container.Image)
+		}
+		memory, ok := resource.Limits["memory"]
+		if !ok {
+			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no memory limit", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image)
+			return fmt.Errorf("container %s has no memory limit", container.Image)
+		}
+		cpuInByte := int(cpu.Value())
+		memoryInByte := int(memory.Value())
 		ok, err := enforcer.Enforce(
 			review.Request.Namespace,
-			image,
+			cpuInByte,
+			memoryInByte,
 		)
-
 		if err != nil {
 			log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 			return err
 		}
 		if !ok {
-			log.Printf("AllowedRepos(%s %s::%s): container %s is not allowed", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image)
-			return fmt.Errorf("casbin rejects the untrusted image %s", image)
+			log.Printf("ContainerResourceLimi(%s %s::%s): container %s resource limit [cpu: %d, memory:%d] is higher than the maximum limit", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image, cpuInByte, memoryInByte)
+			return fmt.Errorf("container %s resource limit [cpu: %d, memory:%d] is higher than the maximum limit", container.Image, cpuInByte, memoryInByte)
 		}
-
 	}
-	log.Printf("AllowedRepos(%s %s::%s): approved", review.Request.Resource.Resource, podObject.Namespace, podObject.Name)
+	log.Printf("ContainerResourceLimi(%s %s::%s) approved", review.Request.Resource.Resource, podObject.Namespace, podObject.Name)
 	return nil
+
 }
 
-func (g *Rules) allowedReposForDeployment(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) containerResourceLimitForDeployment(review *v1.AdmissionReview, model string, policy string) error {
 	enforcer, err := casbin.NewEnforcer(model, policy)
+
 	if err != nil {
 		log.Printf("AllowedRepos: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
+	enforcer.AddFunction("parseFloat", casbinhelper.ParseFloat)
 	if review.Request.Operation == "DELETE" {
 		//delete operation have no docker image to check
 		log.Printf("AllowedRepos: deployment %s:%s approved", review.Request.Namespace, review.Request.Name)
@@ -107,24 +123,37 @@ func (g *Rules) allowedReposForDeployment(review *v1.AdmissionReview, model stri
 	allContainers := make([]core.Container, len(deploymentObject.Spec.Template.Spec.Containers))
 	copy(allContainers, deploymentObject.Spec.Template.Spec.Containers)
 	allContainers = append(allContainers, deploymentObject.Spec.Template.Spec.InitContainers...)
+
 	for _, container := range allContainers {
-		var image = container.Image
-		fmt.Println(image)
+		resource := container.Resources
+		cpu, ok := resource.Limits["cpu"]
+		if !ok {
+			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no cpu limit", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image)
+			return fmt.Errorf("container %s has no cpu limit", container.Image)
+		}
+		memory, ok := resource.Limits["memory"]
+		if !ok {
+			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no memory limit", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image)
+			return fmt.Errorf("container %s has no memory limit", container.Image)
+		}
+		cpuInByte := int(cpu.Value())
+		memoryInByte := int(memory.Value())
+		fmt.Println(cpuInByte, memoryInByte)
 		ok, err := enforcer.Enforce(
 			review.Request.Namespace,
-			image,
+			cpuInByte,
+			memoryInByte,
 		)
-
 		if err != nil {
 			log.Printf("AllowedRepos: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 			return err
 		}
 		if !ok {
-			log.Printf("AllowedRepos(%s %s::%s): container %s is not allowed", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image)
-			return fmt.Errorf("casbin rejects the untrusted image %s", image)
+			log.Printf("ContainerResourceLimit(%s %s::%s): container %s resource limit [cpu: %d, memory:%d] is higher than the maximum limit", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image, cpuInByte, memoryInByte)
+			return fmt.Errorf("container %s resource limit [cpu: %d, memory:%d] is higher than the maximum limit", container.Image, cpuInByte, memoryInByte)
 		}
 
 	}
-	log.Printf("AllowedRepos(%s %s::%s): approved", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name)
+	log.Printf("ContainerResourceLimi(%s %s::%s) approved", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name)
 	return nil
 }

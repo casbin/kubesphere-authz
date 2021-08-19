@@ -11,14 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package rule
+package casbinhelper
 
 import (
-	"log"
+	"fmt"
+	"strconv"
 )
 
-type Rules struct{}
-
-func init() {
-	log.SetFlags(log.Ldate | log.Lmicroseconds | log.Llongfile)
+func ParseFloat(args ...interface{}) (interface{}, error) {
+	if len(args) != 1 {
+		return nil, fmt.Errorf("ParseFloat requires 1 parameters, currently %d", len(args))
+	}
+	numString, ok := args[0].(string)
+	if !ok {
+		return nil, fmt.Errorf("ParseFloat requires 1st parameter to be string")
+	}
+	num, err := strconv.ParseFloat(numString, 64)
+	return num, err
 }
