@@ -20,7 +20,7 @@ import (
 	"log"
 )
 
-func (g *Rules) ResourceOperationPermission(review v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) ResourceOperationPermission(review *v1.AdmissionReview, model string, policy string) error {
 	e, err := casbin.NewEnforcer(model, policy)
 	if err != nil {
 		return err
