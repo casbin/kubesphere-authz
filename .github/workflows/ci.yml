@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16
+
+    - name: Build
+      run: go build -v cmd/webhook/main.go
+
+    - name: Test
+      run: go test -v ./...
+  docker-build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: ./build.sh
+  e2e-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: modify host
+      run: cd test/e2e/pretest && sudo ./modify_host.sh
+    - name: run e2e test
+      run: cd test/e2e && ./test.sh
+
+
+
