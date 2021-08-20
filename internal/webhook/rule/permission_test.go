@@ -26,8 +26,8 @@ func TestCheckPermission(t *testing.T) {
 	review.Request.Namespace = "default"
 	review.Request.Name = "my-nginx-svc"
 	review.Request.Resource.Resource = "services"
-	review.Request.Operation = "DELETE"
-	res := rule.ResourceOperationPermission(&review, "../../../example/casbinconfig/permission_model.conf", "../../../example/casbinconfig/permission_policy.csv")
+	review.Request.Operation = "CREATE"
+	res := rule.ResourceOperationPermission(&review, "../../../example/permission/permission_model.conf", "../../../example/permission/permission_policy.csv")
 	if res == nil {
 		t.Error("should be rejected")
 	}
@@ -41,7 +41,7 @@ func TestCheckPermission2(t *testing.T) {
 	review.Request.Name = "my-nginx-svc"
 	review.Request.Resource.Resource = "services"
 	review.Request.Operation = "UPDATE"
-	res := rule.ResourceOperationPermission(&review, "../../../example/casbinconfig/permission_model.conf", "../../../example/casbinconfig/permission_policy.csv")
+	res := rule.ResourceOperationPermission(&review, "../../../example/permission/permission_model.conf", "../../../example/permission/permission_policy.csv")
 	if res != nil {
 		t.Error(res)
 	}
