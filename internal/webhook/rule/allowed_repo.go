@@ -20,6 +20,7 @@ import (
 	v1 "k8s.io/api/admission/v1"
 	app "k8s.io/api/apps/v1"
 	core "k8s.io/api/core/v1"
+	"ksauth/pkg/casbinhelper"
 	"log"
 )
 
@@ -52,6 +53,7 @@ func (g *Rules) allowedReposForPod(review *v1.AdmissionReview, model string, pol
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
+	enforcer.AddFunction("hasPrefix", casbinhelper.HasPrefix)
 
 	if review.Request.Operation == "DELETE" {
 		//delete operation have no docker image to check
@@ -93,6 +95,7 @@ func (g *Rules) allowedReposForDeployment(review *v1.AdmissionReview, model stri
 		log.Printf("AllowedRepos: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
+	enforcer.AddFunction("hasPrefix", casbinhelper.HasPrefix)
 	if review.Request.Operation == "DELETE" {
 		//delete operation have no docker image to check
 		log.Printf("AllowedRepos: deployment %s:%s approved", review.Request.Namespace, review.Request.Name)

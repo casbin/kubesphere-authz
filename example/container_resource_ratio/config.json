@@ -1,0 +1,7 @@
+ {
+    "ContainerResourceRatio":{
+        "available": true,
+        "model": "example/container_resource_ratio/container_resource_ratio.conf",
+        "policy": "example/container_resource_ratio/container_resource_ratio.csv"
+    }
+} 
