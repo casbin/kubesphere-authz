@@ -23,7 +23,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 )
 
-func TestContainerResourceLimitForPod1(t *testing.T) {
+func TestContainerResourceRatioForPod1(t *testing.T) {
 	var rule *Rules
 	//No cpu and memory limit
 	var podObject core.Pod
@@ -42,7 +42,7 @@ func TestContainerResourceLimitForPod1(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -50,71 +50,13 @@ func TestContainerResourceLimitForPod1(t *testing.T) {
 	}
 }
 
-func TestContainerResourceLimitForPod2(t *testing.T) {
+func TestContainerResourceRatioForPod2(t *testing.T) {
 	var rule *Rules
-	//No memory limit
+	//No request
 	var podObject core.Pod
 	var container core.Container
 	container.Image = "nginx:1.14.2"
-	container.Resources.Limits = make(core.ResourceList)
-	container.Resources.Limits["cpu"] = resource.MustParse("100Ki")
-	podObject.Spec.Containers = append(podObject.Spec.Containers, container)
-
-	var review v1.AdmissionReview
-	review.Request = &v1.AdmissionRequest{}
-	review.Request.Namespace = "default"
-	review.Request.Resource.Resource = "pods"
-
-	data, err := json.Marshal(podObject)
-	if err != nil {
-		t.Error(err)
-	}
-	review.Request.Object.Raw = data
-
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "../../../example/container_resource_limit/container_resource_limit.csv")
-	t.Log(err)
-	//should reject
-	if err == nil {
-		t.Errorf("container without resource limits should be rejected")
-	}
-}
-
-func TestContainerResourceLimitForPod3(t *testing.T) {
-	var rule *Rules
-	//Exceeded resource limit
-	var podObject core.Pod
-	var container core.Container
-	container.Image = "nginx:1.14.2"
-	container.Resources.Limits = make(core.ResourceList)
-	container.Resources.Limits["cpu"] = resource.MustParse("100Gi")
-	container.Resources.Limits["memory"] = resource.MustParse("100Gi")
-	podObject.Spec.Containers = append(podObject.Spec.Containers, container)
-
-	var review v1.AdmissionReview
-	review.Request = &v1.AdmissionRequest{}
-	review.Request.Namespace = "default"
-	review.Request.Resource.Resource = "pods"
-
-	data, err := json.Marshal(podObject)
-	if err != nil {
-		t.Error(err)
-	}
-	review.Request.Object.Raw = data
-
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "../../../example/container_resource_limit/container_resource_limit.csv")
-	t.Log(err)
-	//should reject
-	if err == nil {
-		t.Errorf("container without resource limits should be rejected")
-	}
-}
-
-func TestContainerResourceLimitForPod4(t *testing.T) {
-	var rule *Rules
-	//should pass
-	var podObject core.Pod
-	var container core.Container
-	container.Image = "nginx:1.14.2"
+	container.Resources.Requests = make(core.ResourceList)
 	container.Resources.Limits = make(core.ResourceList)
 	container.Resources.Limits["cpu"] = resource.MustParse("100Ki")
 	container.Resources.Limits["memory"] = resource.MustParse("100Ki")
@@ -131,7 +73,103 @@ func TestContainerResourceLimitForPod4(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
+	t.Log(err)
+	//should reject
+	if err == nil {
+		t.Errorf("container without resource limits should be rejected")
+	}
+}
+func TestContainerResourceRatioForPod3(t *testing.T) {
+	var rule *Rules
+	//No Limits
+	var podObject core.Pod
+	var container core.Container
+	container.Image = "nginx:1.14.2"
+	container.Resources.Limits = make(core.ResourceList)
+	container.Resources.Requests = make(core.ResourceList)
+	container.Resources.Requests["cpu"] = resource.MustParse("100Ki")
+	container.Resources.Requests["memory"] = resource.MustParse("100Ki")
+	podObject.Spec.Containers = append(podObject.Spec.Containers, container)
+
+	var review v1.AdmissionReview
+	review.Request = &v1.AdmissionRequest{}
+	review.Request.Namespace = "default"
+	review.Request.Resource.Resource = "pods"
+
+	data, err := json.Marshal(podObject)
+	if err != nil {
+		t.Error(err)
+	}
+	review.Request.Object.Raw = data
+
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
+	t.Log(err)
+	//should reject
+	if err == nil {
+		t.Errorf("container without resource limits should be rejected")
+	}
+}
+
+func TestContainerResourceRatioForPod4(t *testing.T) {
+	var rule *Rules
+	//Exceeded cpu redundancy ratio
+	var podObject core.Pod
+	var container core.Container
+	container.Image = "nginx:1.14.2"
+	container.Resources.Limits = make(core.ResourceList)
+	container.Resources.Requests = make(core.ResourceList)
+	container.Resources.Limits["cpu"] = resource.MustParse("300Ki")
+	container.Resources.Limits["memory"] = resource.MustParse("100Ki")
+	container.Resources.Requests["cpu"] = resource.MustParse("100Ki")
+	container.Resources.Requests["memory"] = resource.MustParse("100Ki")
+	podObject.Spec.Containers = append(podObject.Spec.Containers, container)
+
+	var review v1.AdmissionReview
+	review.Request = &v1.AdmissionRequest{}
+	review.Request.Namespace = "default"
+	review.Request.Resource.Resource = "pods"
+
+	data, err := json.Marshal(podObject)
+	if err != nil {
+		t.Error(err)
+	}
+	review.Request.Object.Raw = data
+
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
+	t.Log(err)
+	//should reject
+	if err == nil {
+		t.Errorf("container without resource limits should be rejected")
+	}
+}
+
+func TestContainerResourceRatioForPod5(t *testing.T) {
+	var rule *Rules
+	//should pass
+	var podObject core.Pod
+	var container core.Container
+	container.Image = "nginx:1.14.2"
+	container.Resources.Limits = make(core.ResourceList)
+	container.Resources.Requests = make(core.ResourceList)
+	container.Resources.Limits["cpu"] = resource.MustParse("101Ki")
+	container.Resources.Limits["memory"] = resource.MustParse("101Ki")
+	container.Resources.Requests["cpu"] = resource.MustParse("100Ki")
+	container.Resources.Requests["memory"] = resource.MustParse("100Ki")
+	podObject.Spec.Containers = append(podObject.Spec.Containers, container)
+
+	var review v1.AdmissionReview
+	review.Request = &v1.AdmissionRequest{}
+	review.Request.Namespace = "default"
+	review.Request.Resource.Resource = "pods"
+
+	data, err := json.Marshal(podObject)
+	if err != nil {
+		t.Error(err)
+	}
+	review.Request.Object.Raw = data
+
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//shouldn't reject
 	if err != nil {
@@ -139,7 +177,7 @@ func TestContainerResourceLimitForPod4(t *testing.T) {
 	}
 }
 
-func TestContainerResourceLimitForDeployment1(t *testing.T) {
+func TestContainerResourceRatioForDeployment1(t *testing.T) {
 	var rule *Rules
 	//No cpu and memory limit
 	var podObject app.Deployment
@@ -158,7 +196,7 @@ func TestContainerResourceLimitForDeployment1(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -166,72 +204,14 @@ func TestContainerResourceLimitForDeployment1(t *testing.T) {
 	}
 }
 
-func TestContainerResourceLimitForDeployment2(t *testing.T) {
+func TestContainerResourceRatioForDeployment2(t *testing.T) {
 	var rule *Rules
-	//No memory limit
+	//No requests
 	var podObject app.Deployment
 	var container core.Container
 	container.Image = "nginx:1.14.2"
 	container.Resources.Limits = make(core.ResourceList)
-	container.Resources.Limits["cpu"] = resource.MustParse("100Ki")
-	podObject.Spec.Template.Spec.Containers = append(podObject.Spec.Template.Spec.Containers, container)
-
-	var review v1.AdmissionReview
-	review.Request = &v1.AdmissionRequest{}
-	review.Request.Namespace = "default"
-	review.Request.Resource.Resource = "deployments"
-
-	data, err := json.Marshal(podObject)
-	if err != nil {
-		t.Error(err)
-	}
-	review.Request.Object.Raw = data
-
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "../../../example/container_resource_limit/container_resource_limit.csv")
-	t.Log(err)
-	//should reject
-	if err == nil {
-		t.Errorf("container without resource limits should be rejected")
-	}
-}
-
-func TestContainerResourceLimitForDeployment3(t *testing.T) {
-	var rule *Rules
-	//Exceeded resource limit
-	var podObject app.Deployment
-	var container core.Container
-	container.Image = "nginx:1.14.2"
-	container.Resources.Limits = make(core.ResourceList)
-	container.Resources.Limits["cpu"] = resource.MustParse("100Gi")
-	container.Resources.Limits["memory"] = resource.MustParse("100Gi")
-	podObject.Spec.Template.Spec.Containers = append(podObject.Spec.Template.Spec.Containers, container)
-
-	var review v1.AdmissionReview
-	review.Request = &v1.AdmissionRequest{}
-	review.Request.Namespace = "default"
-	review.Request.Resource.Resource = "deployments"
-
-	data, err := json.Marshal(podObject)
-	if err != nil {
-		t.Error(err)
-	}
-	review.Request.Object.Raw = data
-
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "../../../example/container_resource_limit/container_resource_limit.csv")
-	t.Log(err)
-	//should reject
-	if err == nil {
-		t.Errorf("container without resource limits should be rejected")
-	}
-}
-
-func TestContainerResourceLimitForDeployment4(t *testing.T) {
-	var rule *Rules
-	//should pass
-	var podObject app.Deployment
-	var container core.Container
-	container.Image = "nginx:1.14.2"
-	container.Resources.Limits = make(core.ResourceList)
+	container.Resources.Requests = make(core.ResourceList)
 	container.Resources.Limits["cpu"] = resource.MustParse("100Ki")
 	container.Resources.Limits["memory"] = resource.MustParse("100Ki")
 	podObject.Spec.Template.Spec.Containers = append(podObject.Spec.Template.Spec.Containers, container)
@@ -247,7 +227,103 @@ func TestContainerResourceLimitForDeployment4(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
+	t.Log(err)
+	//should reject
+	if err == nil {
+		t.Errorf("container without resource limits should be rejected")
+	}
+}
+
+func TestContainerResourceRatioForDeployment3(t *testing.T) {
+	var rule *Rules
+	//no limits
+	var podObject app.Deployment
+	var container core.Container
+	container.Image = "nginx:1.14.2"
+	container.Resources.Limits = make(core.ResourceList)
+	container.Resources.Requests = make(core.ResourceList)
+	container.Resources.Requests["cpu"] = resource.MustParse("100Ki")
+	container.Resources.Requests["memory"] = resource.MustParse("100Ki")
+	podObject.Spec.Template.Spec.Containers = append(podObject.Spec.Template.Spec.Containers, container)
+
+	var review v1.AdmissionReview
+	review.Request = &v1.AdmissionRequest{}
+	review.Request.Namespace = "default"
+	review.Request.Resource.Resource = "deployments"
+
+	data, err := json.Marshal(podObject)
+	if err != nil {
+		t.Error(err)
+	}
+	review.Request.Object.Raw = data
+
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
+	t.Log(err)
+	//should reject
+	if err == nil {
+		t.Errorf("container without resource limits should be rejected")
+	}
+}
+
+func TestContainerResourceRatioForDeployment4(t *testing.T) {
+	var rule *Rules
+	//exceeded cpu redundancy
+	var podObject app.Deployment
+	var container core.Container
+	container.Image = "nginx:1.14.2"
+	container.Resources.Limits = make(core.ResourceList)
+	container.Resources.Requests = make(core.ResourceList)
+	container.Resources.Limits["cpu"] = resource.MustParse("300Ki")
+	container.Resources.Limits["memory"] = resource.MustParse("100Ki")
+	container.Resources.Requests["cpu"] = resource.MustParse("100Ki")
+	container.Resources.Requests["memory"] = resource.MustParse("100Ki")
+	podObject.Spec.Template.Spec.Containers = append(podObject.Spec.Template.Spec.Containers, container)
+
+	var review v1.AdmissionReview
+	review.Request = &v1.AdmissionRequest{}
+	review.Request.Namespace = "default"
+	review.Request.Resource.Resource = "deployments"
+
+	data, err := json.Marshal(podObject)
+	if err != nil {
+		t.Error(err)
+	}
+	review.Request.Object.Raw = data
+
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
+	t.Log(err)
+	//should reject
+	if err == nil {
+		t.Errorf("container without resource limits should be rejected")
+	}
+}
+func TestContainerResourceRatioForDeployment5(t *testing.T) {
+	var rule *Rules
+	//should pass
+	var podObject app.Deployment
+	var container core.Container
+	container.Image = "nginx:1.14.2"
+	container.Resources.Limits = make(core.ResourceList)
+	container.Resources.Requests = make(core.ResourceList)
+	container.Resources.Limits["cpu"] = resource.MustParse("101Ki")
+	container.Resources.Limits["memory"] = resource.MustParse("101Ki")
+	container.Resources.Requests["cpu"] = resource.MustParse("100Ki")
+	container.Resources.Requests["memory"] = resource.MustParse("100Ki")
+	podObject.Spec.Template.Spec.Containers = append(podObject.Spec.Template.Spec.Containers, container)
+
+	var review v1.AdmissionReview
+	review.Request = &v1.AdmissionRequest{}
+	review.Request.Namespace = "default"
+	review.Request.Resource.Resource = "deployments"
+
+	data, err := json.Marshal(podObject)
+	if err != nil {
+		t.Error(err)
+	}
+	review.Request.Object.Raw = data
+
+	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//shouldn't reject
 	if err != nil {

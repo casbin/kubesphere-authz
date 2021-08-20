@@ -42,12 +42,12 @@ var typeOfGeneral reflect.Type
 func Initconfig(configPath string) {
 	fileContent, err := ioutil.ReadFile(configPath)
 	if err != nil {
-		log.Fatal("Failed to load "+configPath+" due to" + err.Error())
+		log.Fatal("Failed to load " + configPath + " due to" + err.Error())
 	}
 
 	err = json.Unmarshal(fileContent, &webHookConfig)
 	if err != nil {
-		log.Fatal("Failed to load "+configPath+" due to" + err.Error())
+		log.Fatal("Failed to load " + configPath + " due to" + err.Error())
 	}
 
 	//use reflect to get type and value of general object

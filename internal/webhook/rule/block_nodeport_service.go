@@ -22,6 +22,15 @@ import (
 	core "k8s.io/api/core/v1"
 )
 
+/*
+[ks-admission-general-block-nodeport-services]
+
+<Brief introduction>
+Prohibit all NodePort services
+
+<Coverage Area of Rule>
+services resources will be checked.
+*/
 func (g *Rules) BlockNodeportService(review *v1.AdmissionReview, _ string, _ string) error {
 	var resourceKind = review.Request.Resource.Resource
 	if resourceKind != "services" {

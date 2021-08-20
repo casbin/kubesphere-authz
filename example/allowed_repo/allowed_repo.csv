@@ -1,1 +1,1 @@
-p,default,nginx:1.14.2,deny
+p, default, test, allow

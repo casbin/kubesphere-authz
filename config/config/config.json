@@ -15,8 +15,18 @@
         "policy": "example/container_resource_limit/container_resource_limit.csv"
     },
     "BlockNodeportService": {
-        "available": true,
+        "available": false,
         "model": "",
         "policy": ""
+    },
+    "ContainerResourceRatio":{
+        "available": false,
+        "model": "example/container_resource_ratio/container_resource_ratio.conf",
+        "policy": "example/container_resource_ratio/container_resource_ratio.csv"
+    },
+    "DisallowedTags":{
+        "available": true,
+        "model": "example/disallowed_tags/disallowed_tags.conf",
+        "policy": "example/disallowed_tags/disallowed_tags.csv"
     }
-}
+} 

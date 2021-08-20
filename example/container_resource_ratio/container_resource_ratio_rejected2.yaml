@@ -29,6 +29,11 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: test/nginx:1.14.3
+        image: nginx:1.14.2
         ports:
         - containerPort: 80
+        resources:
+          limits:
+            cpu: "30000Ki"
+            memory: "10000Ki"
+        
