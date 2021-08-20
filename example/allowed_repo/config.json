@@ -1,0 +1,7 @@
+ {
+    "AllowedRepos": {
+        "available": true,
+        "model": "example/allowed_repo/allowed_repo.conf",
+        "policy": "example/allowed_repo/allowed_repo.csv"
+    }
+}
