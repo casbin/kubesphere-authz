@@ -25,8 +25,23 @@
         "policy": "example/container_resource_ratio/container_resource_ratio.csv"
     },
     "DisallowedTags":{
-        "available": true,
+        "available": false,
         "model": "example/disallowed_tags/disallowed_tags.conf",
         "policy": "example/disallowed_tags/disallowed_tags.csv"
+    },
+    "ExternalIP":{
+        "available":false,
+        "model":"example/external_ip/external_ip.conf",
+        "policy":"example/external_ip/external_ip.csv"
+    },
+    "HttpsOnly":{
+        "available": false,
+        "model": "",
+        "policy": ""
+    },
+    "ImageDigest":{
+        "available": true,
+        "model": "",
+        "policy": ""
     }
 } 
