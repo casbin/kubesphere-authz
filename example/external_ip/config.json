@@ -1,0 +1,7 @@
+ {
+    "ExternalIP":{
+        "available":true,
+        "model":"example/external_ip/external_ip.conf",
+        "policy":"example/external_ip/external_ip.csv"
+    }
+} 
