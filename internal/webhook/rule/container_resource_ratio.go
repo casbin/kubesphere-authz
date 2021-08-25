@@ -25,27 +25,30 @@ import (
 )
 
 /*
-[ks-admission-general-container-resource-limits]
+[ks-admission-general-container-resource-ratios]
 
 <Brief introduction>
-When a new container is created via k8s, you must specified the maximum cpu and memory limit for this container, and these limits must not exceed a user specified limit
+When a new container is created via k8s, you must specified the maximum cpu and memory limit for this container,
+as well as the cpu and memory requested by this container. It's normal to have some redundancy for the resources so the amount declared in limit should be a little bigger than that in request. However, the redundancy should not be to high. This rule ensures that the redundancy ratio doesn't exceed the limit.
+
+redundancy ratio= (amount of resource declared in limit)/(amount of resource declared in request)
 
 <Coverage Area of Rule>
 pods and deployments resources will be checked.
 */
-func (g *Rules) ContainerResourceLimit(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) ContainerResourceRatio(review *v1.AdmissionReview, model string, policy string) error {
 	var resourceKind = review.Request.Resource.Resource
 	switch resourceKind {
 	case "pods":
-		return g.containerResourceLimitForPod(review, model, policy)
+		return g.containerResourceRatioForPod(review, model, policy)
 	case "deployments":
-		return g.containerResourceLimitForDeployment(review, model, policy)
+		return g.containerResourceRatioForDeployment(review, model, policy)
 	default:
 		return nil
 	}
 }
 
-func (g *Rules) containerResourceLimitForPod(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) containerResourceRatioForPod(review *v1.AdmissionReview, model string, policy string) error {
 	enforcer, err := casbin.NewEnforcer(model, policy)
 
 	if err != nil {
@@ -70,30 +73,47 @@ func (g *Rules) containerResourceLimitForPod(review *v1.AdmissionReview, model s
 
 	for _, container := range allContainers {
 		resource := container.Resources
-		cpu, ok := resource.Limits["cpu"]
+		cpuLimit, ok := resource.Limits["cpu"]
 		if !ok {
 			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no cpu limit", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image)
 			return fmt.Errorf("container %s has no cpu limit", container.Image)
 		}
-		memory, ok := resource.Limits["memory"]
+		memoryLimit, ok := resource.Limits["memory"]
 		if !ok {
 			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no memory limit", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image)
 			return fmt.Errorf("container %s has no memory limit", container.Image)
 		}
-		cpuInByte := cpu.Value()
-		memoryInByte := memory.Value()
+		cpuRequest, ok := resource.Requests["cpu"]
+		if !ok {
+			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no cpu request", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image)
+			return fmt.Errorf("container %s has no cpu request", container.Image)
+		}
+		memoryRequest, ok := resource.Requests["memory"]
+		if !ok {
+			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no memory request", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image)
+			return fmt.Errorf("container %s has no memory request", container.Image)
+		}
+
+		cpuLimitInByte := cpuLimit.Value()
+		memoryLimitInByte := memoryLimit.Value()
+		cpuRequestInByte := cpuRequest.Value()
+		memoryRequestInByte := memoryRequest.Value()
+
+		cpuRedundancyRatio := float64(cpuLimitInByte) / float64(cpuRequestInByte)
+		memoryRedundancyRatio := float64(memoryLimitInByte) / float64(memoryRequestInByte)
+
 		ok, err := enforcer.Enforce(
 			review.Request.Namespace,
-			cpuInByte,
-			memoryInByte,
+			cpuRedundancyRatio,
+			memoryRedundancyRatio,
 		)
 		if err != nil {
 			log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 			return err
 		}
 		if !ok {
-			log.Printf("ContainerResourceLimi(%s %s::%s): container %s resource limit [cpu: %d, memory:%d] is higher than the maximum limit", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image, cpuInByte, memoryInByte)
-			return fmt.Errorf("container %s resource limit [cpu: %d, memory:%d] is higher than the maximum limit", container.Image, cpuInByte, memoryInByte)
+			log.Printf("ContainerResourceLimi(%s %s::%s): container %s resource redundancy ratio [cpu: %f, memory:%f] is higher than the maximum redundancy ratio", review.Request.Resource.Resource, podObject.Namespace, podObject.Name, container.Image, cpuRedundancyRatio, memoryRedundancyRatio)
+			return fmt.Errorf("container %s resource limit [cpu: %f, memory:%f] is higher than the maximum redundancy ratio", container.Image, cpuRedundancyRatio, memoryRedundancyRatio)
 		}
 	}
 	log.Printf("ContainerResourceLimi(%s %s::%s) approved", review.Request.Resource.Resource, podObject.Namespace, podObject.Name)
@@ -101,7 +121,7 @@ func (g *Rules) containerResourceLimitForPod(review *v1.AdmissionReview, model s
 
 }
 
-func (g *Rules) containerResourceLimitForDeployment(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) containerResourceRatioForDeployment(review *v1.AdmissionReview, model string, policy string) error {
 	enforcer, err := casbin.NewEnforcer(model, policy)
 
 	if err != nil {
@@ -126,31 +146,47 @@ func (g *Rules) containerResourceLimitForDeployment(review *v1.AdmissionReview, 
 
 	for _, container := range allContainers {
 		resource := container.Resources
-		cpu, ok := resource.Limits["cpu"]
+		cpuLimit, ok := resource.Limits["cpu"]
 		if !ok {
 			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no cpu limit", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image)
 			return fmt.Errorf("container %s has no cpu limit", container.Image)
 		}
-		memory, ok := resource.Limits["memory"]
+		memoryLimit, ok := resource.Limits["memory"]
 		if !ok {
 			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no memory limit", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image)
 			return fmt.Errorf("container %s has no memory limit", container.Image)
 		}
-		cpuInByte := cpu.Value()
-		memoryInByte := memory.Value()
-		fmt.Println(cpuInByte, memoryInByte)
+		cpuRequest, ok := resource.Requests["cpu"]
+		if !ok {
+			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no cpu request", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image)
+			return fmt.Errorf("container %s has no cpu request", container.Image)
+		}
+		memoryRequest, ok := resource.Requests["memory"]
+		if !ok {
+			log.Printf("ContainerResourceLimit(%s %s::%s): container %s has no memory request", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image)
+			return fmt.Errorf("container %s has no memory request", container.Image)
+		}
+
+		cpuLimitInByte := cpuLimit.Value()
+		memoryLimitInByte := memoryLimit.Value()
+		cpuRequestInByte := cpuRequest.Value()
+		memoryRequestInByte := memoryRequest.Value()
+
+		cpuRedundancyRatio := float64(cpuLimitInByte) / float64(cpuRequestInByte)
+		memoryRedundancyRatio := float64(memoryLimitInByte) / float64(memoryRequestInByte)
+
 		ok, err := enforcer.Enforce(
 			review.Request.Namespace,
-			cpuInByte,
-			memoryInByte,
+			cpuRedundancyRatio,
+			memoryRedundancyRatio,
 		)
 		if err != nil {
-			log.Printf("AllowedRepos: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+			log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 			return err
 		}
 		if !ok {
-			log.Printf("ContainerResourceLimit(%s %s::%s): container %s resource limit [cpu: %d, memory:%d] is higher than the maximum limit", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image, cpuInByte, memoryInByte)
-			return fmt.Errorf("container %s resource limit [cpu: %d, memory:%d] is higher than the maximum limit", container.Image, cpuInByte, memoryInByte)
+			log.Printf("ContainerResourceLimi(%s %s::%s): container %s resource redundancy ratio [cpu: %f, memory:%f] is higher than the maximum limit", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image, cpuRedundancyRatio, memoryRedundancyRatio)
+			return fmt.Errorf("container %s resource limit [cpu: %f, memory:%f] is higher than the maximum limit", container.Image, cpuRedundancyRatio, memoryRedundancyRatio)
 		}
 
 	}

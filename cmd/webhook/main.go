@@ -21,15 +21,15 @@ import (
 
 //please use ${workspaceDir} as cwd, since all unittest and default config depends on this prerequisite
 func main() {
-	var configPath=""
-	if len(os.Args)>2{
+	var configPath = ""
+	if len(os.Args) > 2 {
 		fmt.Println("stating webhook needs exactly 1 parameter: path of config file.")
 		return
-	}else if len(os.Args)==1{
+	} else if len(os.Args) == 1 {
 		//use default config path: ${workspaceDir}/config/config/config.json
-		configPath="config/config/config.json"
-	}else{
-		configPath=os.Args[1]
+		configPath = "config/config/config.json"
+	} else {
+		configPath = os.Args[1]
 	}
 	webhook.Initconfig(configPath)
 	webhook.GetAdmissionWebhook().RunTLS(":8080", "config/certificate/server.crt", "config/certificate/server.key")
