@@ -29,3 +29,15 @@ func ParseFloat(args ...interface{}) (interface{}, error) {
 	num, err := strconv.ParseFloat(numString, 64)
 	return num, err
 }
+
+func ParseInt(args ...interface{}) (interface{}, error) {
+	if len(args) != 1 {
+		return nil, fmt.Errorf("ParseFloat requires 1 parameters, currently %d", len(args))
+	}
+	numString, ok := args[0].(string)
+	if !ok {
+		return nil, fmt.Errorf("ParseFloat requires 1st parameter to be string")
+	}
+	num, err := strconv.Atoi(numString)
+	return num, err
+}

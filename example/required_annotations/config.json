@@ -1,0 +1,7 @@
+ {
+    "RequiredAnnotations":{
+        "available":true,
+        "model":"example/required_annotations/required_annotations.conf",
+        "policy":"example/required_annotations/required_annotations.csv"
+    }
+} 

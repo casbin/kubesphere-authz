@@ -95,6 +95,50 @@ tester.addTestSuite(TestSuite(
         (workspacePath+"/example/image_digest/image_digest_rejected2.yaml", False),
     ]
 ))
+# test for replica_limits
+tester.addTestSuite(TestSuite(
+    "replica_limits",
+    workspacePath+"/example/replica_limits/config.json",
+    [
+        (workspacePath+"/example/replica_limits/replica_limits_approved.yaml", True),
+        (workspacePath+"/example/replica_limits/replica_limits_rejected1.yaml", False),
+        (workspacePath+"/example/replica_limits/replica_limits_rejected2.yaml", False),
+        (workspacePath+"/example/replica_limits/replica_limits_rejected3.yaml", False),
+    ]
+))
+
+# test for required_labels
+tester.addTestSuite(TestSuite(
+    "required_labels",
+    workspacePath+"/example/required_labels/config.json",
+    [
+        (workspacePath+"/example/required_labels/required_labels_approved.yaml", True),
+        (workspacePath+"/example/required_labels/required_labels_rejected1.yaml", False),
+        (workspacePath+"/example/required_labels/required_labels_rejected2.yaml", False),
+    ]
+))
+# test for required_annotations
+tester.addTestSuite(TestSuite(
+    "required_annotations",
+    workspacePath+"/example/required_annotations/config.json",
+    [
+        (workspacePath+"/example/required_annotations/required_annotations_approved.yaml", True),
+        (workspacePath+"/example/required_annotations/required_annotations_rejected1.yaml", False),
+        (workspacePath+"/example/required_annotations/required_annotations_rejected2.yaml", False),
+    ]
+))
+
+# test for required_probes
+tester.addTestSuite(TestSuite(
+    "required_probes",
+    workspacePath+"/example/required_probes/config.json",
+    [
+        (workspacePath+"/example/required_probes/required_probes_approved.yaml", True),
+        (workspacePath+"/example/required_probes/required_probes_rejected1.yaml", False),
+        (workspacePath+"/example/required_probes/required_probes_rejected2.yaml", False),
+    ]
+))
+
 res = tester.run()
 if res == False:
     sys.exit(1)
