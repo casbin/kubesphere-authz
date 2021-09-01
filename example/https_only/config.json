@@ -1,0 +1,7 @@
+ {
+    "HttpsOnly":{
+        "available": true,
+        "model": "",
+        "policy": ""
+    }
+} 

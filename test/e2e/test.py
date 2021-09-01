@@ -64,7 +64,37 @@ tester.addTestSuite(TestSuite(
         (workspacePath+"/example/disallowed_tags/disallowed_tags_rejected2.yaml", False),
     ]
 ))
+# test for external_ip
+tester.addTestSuite(TestSuite(
+    "external_ip",
+    workspacePath+"/example/external_ip/config.json",
+    [
+        (workspacePath+"/example/external_ip/external_ip_approved.yaml", True),
+        (workspacePath+"/example/external_ip/external_ip_rejected.yaml", False),
+        (workspacePath+"/example/external_ip/external_ip_approved2.yaml", True),
+    ]
+))
 
+# test for disallowed_tags
+tester.addTestSuite(TestSuite(
+    "https_only",
+    workspacePath+"/example/https_only/config.json",
+    [
+        (workspacePath+"/example/https_only/https_only_approved.yaml", True),
+        (workspacePath+"/example/https_only/https_only_rejected1.yaml", False),
+        (workspacePath+"/example/https_only/https_only_rejected2.yaml", False),
+    ]
+))
+# test for disallowed_tags
+tester.addTestSuite(TestSuite(
+    "image_digest",
+    workspacePath+"/example/image_digest/config.json",
+    [
+        (workspacePath+"/example/image_digest/image_digest_approved.yaml", True),
+        (workspacePath+"/example/image_digest/image_digest_rejected1.yaml", False),
+        (workspacePath+"/example/image_digest/image_digest_rejected2.yaml", False),
+    ]
+))
 res = tester.run()
 if res == False:
     sys.exit(1)
