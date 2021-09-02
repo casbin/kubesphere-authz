@@ -23,9 +23,9 @@ import (
 	"regexp"
 )
 
+var imageRegex *regexp.Regexp
 
-var imageRegex *regexp.Regexp;
-func init(){
+func init() {
 	imageRegex, _ = regexp.Compile(`@[a-z0-9]+([+._-][a-z0-9]+)*:[a-zA-Z0-9=_-]+`)
 }
 
@@ -66,7 +66,7 @@ func (g *Rules) imageDigestForPod(review *v1.AdmissionReview, model string, poli
 	allContainers := make([]core.Container, len(podObject.Spec.Containers))
 	copy(allContainers, podObject.Spec.Containers)
 	allContainers = append(allContainers, podObject.Spec.InitContainers...)
-	
+
 	for _, container := range allContainers {
 		var image = container.Image
 		ok := imageRegex.MatchString(image)
@@ -97,7 +97,7 @@ func (g *Rules) imageDigestForDeployment(review *v1.AdmissionReview, model strin
 	allContainers := make([]core.Container, len(deploymentObject.Spec.Template.Spec.Containers))
 	copy(allContainers, deploymentObject.Spec.Template.Spec.Containers)
 	allContainers = append(allContainers, deploymentObject.Spec.Template.Spec.InitContainers...)
-	
+
 	for _, container := range allContainers {
 		var image = container.Image
 		ok := imageRegex.MatchString(image)
