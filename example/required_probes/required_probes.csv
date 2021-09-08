@@ -1,0 +1,5 @@
+p, readinessProbe
+p, livenessProbe
+p2, readinessProbe, tcpSocket
+p2, readinessProbe, httpGet
+p2, livenessProbe, tcpSocket

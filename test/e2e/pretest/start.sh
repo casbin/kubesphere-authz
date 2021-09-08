@@ -11,7 +11,7 @@ cd ${pretestBaseDir}
 # prepare necessary environment for e2e test
 # 0 remove all old logs
 cd "${workspaceBaseDir}/test/e2e/testlog"
-rm *.log
+rm -f *.log
 
 #exit if any command encountered error
 set -e
