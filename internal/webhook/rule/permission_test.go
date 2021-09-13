@@ -14,8 +14,9 @@
 package rule
 
 import (
-	v1 "k8s.io/api/admission/v1"
 	"testing"
+
+	v1 "k8s.io/api/admission/v1"
 )
 
 func TestCheckPermission(t *testing.T) {
@@ -27,7 +28,7 @@ func TestCheckPermission(t *testing.T) {
 	review.Request.Name = "my-nginx-svc"
 	review.Request.Resource.Resource = "services"
 	review.Request.Operation = "CREATE"
-	res := rule.ResourceOperationPermission(&review, "../../../example/permission/permission_model.conf", "../../../example/permission/permission_policy.csv")
+	res := rule.ResourceOperationPermission(&review, "../../../example/permission/permission.conf", "file://../../../example/permission/permission.csv")
 	if res == nil {
 		t.Error("should be rejected")
 	}
@@ -41,7 +42,7 @@ func TestCheckPermission2(t *testing.T) {
 	review.Request.Name = "my-nginx-svc"
 	review.Request.Resource.Resource = "services"
 	review.Request.Operation = "UPDATE"
-	res := rule.ResourceOperationPermission(&review, "../../../example/permission/permission_model.conf", "../../../example/permission/permission_policy.csv")
+	res := rule.ResourceOperationPermission(&review, "../../../example/permission/permission.conf", "file://../../../example/permission/permission.csv")
 	if res != nil {
 		t.Error(res)
 	}

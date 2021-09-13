@@ -49,7 +49,12 @@ func (g *Rules) DisallowedTags(review *v1.AdmissionReview, model string, policy 
 }
 
 func (g *Rules) disallowedTagsForPod(review *v1.AdmissionReview, model string, policy string) error {
-	enforcer, err := casbin.NewEnforcer(model, policy)
+	adaptor, err := getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("DisallowedTags: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("DisallowedTags: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
@@ -97,7 +102,13 @@ func (g *Rules) disallowedTagsForPod(review *v1.AdmissionReview, model string, p
 }
 
 func (g *Rules) disallowedTagsForDeployment(review *v1.AdmissionReview, model string, policy string) error {
-	enforcer, err := casbin.NewEnforcer(model, policy)
+	adaptor, err := getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("DisallowedTags: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
+
 	if err != nil {
 		log.Printf("DisallowedTags: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err

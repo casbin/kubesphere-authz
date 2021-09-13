@@ -2,6 +2,6 @@
     "ContainerResourceRatio":{
         "available": true,
         "model": "example/container_resource_ratio/container_resource_ratio.conf",
-        "policy": "example/container_resource_ratio/container_resource_ratio.csv"
+        "policy": "crd://example/container_resource_ratio/crd/container_resource_ratio_definition.yaml#policy"
     }
 } 

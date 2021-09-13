@@ -2,6 +2,6 @@
     "ContainerResourceLimit": {
         "available": true,
         "model": "example/container_resource_limit/container_resource_limit.conf",
-        "policy": "example/container_resource_limit/container_resource_limit.csv"
+        "policy": "crd://example/container_resource_limit/crd/container_resource_limit_definition.yaml#policy"
     }
 }

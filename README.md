@@ -100,10 +100,10 @@ In webhook2.yaml you can see 'caBundle' attribute. This is the base64 encoded st
 
 In webhook3.yaml, you can find that we used local docker image and set the image policy to 'never pull images from remote'. for the convenience of running this tiny project. If your corporation has a private docker repo, you should modify this part.
 ### Reexamine casbin configs
-casbin model and policies are stored in webhook/casbinconfig. There are 2 sets of model&policy. image_model.conf and image_policy controls whether a image is trusted, and permission_model.conf and permission_policy.csv control whether an operation on a resource can be applied
+casbin model and policies are stored in webhook/casbinconfig. There are 2 sets of model&policy. image_model.conf and image_policy controls whether a image is trusted, and permission.conf and permission.csv control whether an operation on a resource can be applied
 
 ### Reexamine webhook configs
-In webhook/webhookconfig you can see config.json. Through this file, you can turn on or turn off a check rule, **or modify the parmeter of casbin Enforcer**. For example, you can modify them so that casbin's enforcer can use something like redis or mysql adapters  so that ploicies can be modified dynamically. In this project we use files as policy to make an exapmle, which is not recommeded because if so, you have to shut down ther service and rebuild the docker image every time you make some changes to policy.  
+In webhook/webhookconfig you can see config.json. Through this file, you can turn on or turn off a check rule, **or modify the parmeter of casbin Enforcer**. For example, you can modify them so that casbin's enforcer can use something like redis or mysql adaptors  so that ploicies can be modified dynamically. In this project we use files as policy to make an exapmle, which is not recommeded because if so, you have to shut down ther service and rebuild the docker image every time you make some changes to policy.  
 
 ### Pack this service into helm app 
 If you want to make this service became a infrastructure of your organization, you should ack this service into helm app, which is the only format the kubesphere app store supports. 

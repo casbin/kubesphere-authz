@@ -41,7 +41,7 @@ func TestExternalIP(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ExternalIP(&review, "../../../example/external_ip/external_ip.conf", "../../../example/external_ip/external_ip.csv")
+	err = rule.ExternalIP(&review, "../../../example/external_ip/external_ip.conf", "file://../../../example/external_ip/external_ip.csv")
 	if err != nil {
 		t.Errorf("Should have passed, but get " + err.Error())
 	}
@@ -66,7 +66,7 @@ func TestExternalIP2(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ExternalIP(&review, "../../../example/external_ip/external_ip.conf", "../../../example/external_ip/external_ip.csv")
+	err = rule.ExternalIP(&review, "../../../example/external_ip/external_ip.conf", "file://../../../example/external_ip/external_ip.csv")
 	if err == nil {
 		t.Errorf("Should have failed, nodeport service shouldn't be allowed")
 	}
@@ -90,7 +90,7 @@ func TestExternalIP3(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ExternalIP(&review, "../../../example/external_ip/external_ip.conf", "../../../example/external_ip/external_ip.csv")
+	err = rule.ExternalIP(&review, "../../../example/external_ip/external_ip.conf", "file://../../../example/external_ip/external_ip.csv")
 	if err != nil {
 		t.Errorf("Should have passed, but get " + err.Error())
 	}

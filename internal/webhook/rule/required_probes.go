@@ -3,11 +3,12 @@ package rule
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+
 	casbin "github.com/casbin/casbin/v2"
 	v1 "k8s.io/api/admission/v1"
 	app "k8s.io/api/apps/v1"
 	core "k8s.io/api/core/v1"
-	"log"
 )
 
 func (g *Rules) RequiredProbes(review *v1.AdmissionReview, model string, policy string) error {
@@ -23,7 +24,12 @@ func (g *Rules) RequiredProbes(review *v1.AdmissionReview, model string, policy 
 }
 
 func (g *Rules) requiredProbesForPod(review *v1.AdmissionReview, model string, policy string) error {
-	enforcer, err := casbin.NewEnforcer(model, policy)
+	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("RequiredProbes: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("RequiredProbes: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
@@ -51,7 +57,12 @@ func (g *Rules) requiredProbesForPod(review *v1.AdmissionReview, model string, p
 }
 
 func (g *Rules) requiredProbesForDeployment(review *v1.AdmissionReview, model string, policy string) error {
-	enforcer, err := casbin.NewEnforcer(model, policy)
+	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("RequiredProbes: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("RequiredProbes: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err

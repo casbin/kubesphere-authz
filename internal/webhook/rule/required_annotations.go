@@ -3,14 +3,20 @@ package rule
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+
 	casbin "github.com/casbin/casbin/v2"
 	v1 "k8s.io/api/admission/v1"
-	"log"
 )
 
 func (g *Rules) RequiredAnnotations(review *v1.AdmissionReview, model string, policy string) error {
 	var resourceKind = review.Request.Resource.Resource
-	enforcer, err := casbin.NewEnforcer(model, policy)
+	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("RequiredAnnotations: %s %s:%s rejected due to error:%s", resourceKind, review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
 
 	if err != nil {
 		log.Printf("RequiredAnnotations: %s %s:%s rejected due to error:%s", resourceKind, review.Request.Namespace, review.Request.Name, err.Error())

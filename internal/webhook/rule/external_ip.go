@@ -16,10 +16,11 @@ package rule
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+
 	casbin "github.com/casbin/casbin/v2"
 	v1 "k8s.io/api/admission/v1"
 	core "k8s.io/api/core/v1"
-	"log"
 )
 
 func (g *Rules) ExternalIP(review *v1.AdmissionReview, model string, policy string) error {
@@ -40,7 +41,12 @@ func (g *Rules) ExternalIP(review *v1.AdmissionReview, model string, policy stri
 		log.Printf("ExternalIP: service %s:%s rejected due to error when unmarshal: %s.", serviceObject.Namespace, serviceObject.Name, err.Error())
 		return err
 	}
-	enforcer, err := casbin.NewEnforcer(model, policy)
+	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("ExternalIP: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("ExternalIP: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err

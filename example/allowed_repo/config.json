@@ -2,6 +2,6 @@
     "AllowedRepos": {
         "available": true,
         "model": "example/allowed_repo/allowed_repo.conf",
-        "policy": "example/allowed_repo/allowed_repo.csv"
+        "policy": "crd://example/allowed_repo/crd/allowed_repo_definition.yaml#policy"
     }
 }

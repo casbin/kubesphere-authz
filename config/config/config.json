@@ -1,18 +1,18 @@
  {
     "ResourceOperationPermission": {
         "available": false,
-        "model": "example/permission/permission_model.conf",
-        "policy": "example/permission/permission_policy.csv"
+        "model": "example/permission/permission.conf",
+        "policy": "file://example/permission/permission.csv"
     },
     "AllowedRepos": {
         "available": false,
         "model": "example/allowed_repo/allowed_repo.conf",
-        "policy": "example/allowed_repo/allowed_repo.csv"
+        "policy": "file://example/allowed_repo/allowed_repo.csv"
     },
     "ContainerResourceLimit": {
         "available": false,
         "model": "example/container_resource_limit/container_resource_limit.conf",
-        "policy": "example/container_resource_limit/container_resource_limit.csv"
+        "policy": "file://example/container_resource_limit/container_resource_limit.csv"
     },
     "BlockNodeportService": {
         "available": false,
@@ -22,17 +22,17 @@
     "ContainerResourceRatio":{
         "available": false,
         "model": "example/container_resource_ratio/container_resource_ratio.conf",
-        "policy": "example/container_resource_ratio/container_resource_ratio.csv"
+        "policy": "file://example/container_resource_ratio/container_resource_ratio.csv"
     },
     "DisallowedTags":{
         "available": false,
         "model": "example/disallowed_tags/disallowed_tags.conf",
-        "policy": "example/disallowed_tags/disallowed_tags.csv"
+        "policy": "file://example/disallowed_tags/disallowed_tags.csv"
     },
     "ExternalIP":{
         "available":false,
         "model":"example/external_ip/external_ip.conf",
-        "policy":"example/external_ip/external_ip.csv"
+        "policy":"file://example/external_ip/external_ip.csv"
     },
     "HttpsOnly":{
         "available": false,
@@ -47,21 +47,21 @@
     "ReplicaLimits":{
         "available":false,
         "model":"example/replica_limits/replica_limits.conf",
-        "policy":"example/replica_limits/replica_limits.csv"
+        "policy":"file://example/replica_limits/replica_limits.csv"
     },
     "RequiredLabel":{
         "available":false,
         "model":"example/required_labels/required_labels.conf",
-        "policy":"example/required_labels/required_labels.csv"
+        "policy":"file://example/required_labels/required_labels.csv"
     },
     "RequiredAnnotations":{
         "available":false,
         "model":"example/required_annotations/required_annotations.conf",
-        "policy":"example/required_annotations/required_annotations.csv"
+        "policy":"file://example/required_annotations/required_annotations.csv"
     },
     "RequiredProbes":{
         "available":true,
         "model":"example/required_probes/required_probes.conf",
-        "policy":"example/required_probes/required_probes.csv"
+        "policy":"file://example/required_probes/required_probes.csv"
     }
 } 

@@ -2,6 +2,6 @@
     "RequiredLabel":{
         "available":true,
         "model":"example/required_labels/required_labels.conf",
-        "policy":"example/required_labels/required_labels.csv"
+        "policy":"crd://example/required_labels/crd/required_labels_definition.yaml#policy"
     }
 } 
