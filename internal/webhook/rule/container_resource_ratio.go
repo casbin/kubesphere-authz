@@ -16,12 +16,13 @@ package rule
 import (
 	"encoding/json"
 	"fmt"
+	"ksauth/pkg/casbinhelper"
+	"log"
+
 	casbin "github.com/casbin/casbin/v2"
 	v1 "k8s.io/api/admission/v1"
 	app "k8s.io/api/apps/v1"
 	core "k8s.io/api/core/v1"
-	"ksauth/pkg/casbinhelper"
-	"log"
 )
 
 /*
@@ -49,22 +50,26 @@ func (g *Rules) ContainerResourceRatio(review *v1.AdmissionReview, model string,
 }
 
 func (g *Rules) containerResourceRatioForPod(review *v1.AdmissionReview, model string, policy string) error {
-	enforcer, err := casbin.NewEnforcer(model, policy)
-
+	adaptor,err:=getAdaptorObject(policy)
 	if err != nil {
-		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	enforcer, err := casbin.NewEnforcer(model,adaptor)
+	if err != nil {
+		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
 	enforcer.AddFunction("parseFloat", casbinhelper.ParseFloat)
 	if review.Request.Operation == "DELETE" {
 		//delete operation have no docker image to check
-		log.Printf("AllowedRepos: pod %s:%s approved", review.Request.Namespace, review.Request.Name)
+		log.Printf("ContainerResourceRatio: pod %s:%s approved", review.Request.Namespace, review.Request.Name)
 		return nil
 	}
 
 	var podObject core.Pod
 	if err := json.Unmarshal(review.Request.Object.Raw, &podObject); err != nil {
-		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
 	allContainers := make([]core.Container, len(podObject.Spec.Containers))
@@ -108,7 +113,7 @@ func (g *Rules) containerResourceRatioForPod(review *v1.AdmissionReview, model s
 			memoryRedundancyRatio,
 		)
 		if err != nil {
-			log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+			log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 			return err
 		}
 		if !ok {
@@ -122,21 +127,26 @@ func (g *Rules) containerResourceRatioForPod(review *v1.AdmissionReview, model s
 }
 
 func (g *Rules) containerResourceRatioForDeployment(review *v1.AdmissionReview, model string, policy string) error {
-	enforcer, err := casbin.NewEnforcer(model, policy)
+	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	enforcer, err := casbin.NewEnforcer(model,adaptor)
 
 	if err != nil {
-		log.Printf("AllowedRepos: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		log.Printf("ContainerResourceRatio: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
 	enforcer.AddFunction("parseFloat", casbinhelper.ParseFloat)
 	if review.Request.Operation == "DELETE" {
 		//delete operation have no docker image to check
-		log.Printf("AllowedRepos: deployment %s:%s approved", review.Request.Namespace, review.Request.Name)
+		log.Printf("ContainerResourceRatio: deployment %s:%s approved", review.Request.Namespace, review.Request.Name)
 		return nil
 	}
 	var deploymentObject app.Deployment
 	if err := json.Unmarshal(review.Request.Object.Raw, &deploymentObject); err != nil {
-		log.Printf("AllowedRepos: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		log.Printf("ContainerResourceRatio: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
 
@@ -181,7 +191,7 @@ func (g *Rules) containerResourceRatioForDeployment(review *v1.AdmissionReview, 
 			memoryRedundancyRatio,
 		)
 		if err != nil {
-			log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+			log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 			return err
 		}
 		if !ok {

@@ -25,7 +25,7 @@ func TestRequiredProbesForPod(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "../../../example/required_probes/required_probes.csv")
+	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "file://../../../example/required_probes/required_probes.csv")
 	if res == nil {
 		t.Error("should be rejected")
 		return
@@ -56,7 +56,7 @@ func TestRequiredProbesForPod2(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "../../../example/required_probes/required_probes.csv")
+	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "file://../../../example/required_probes/required_probes.csv")
 	if res != nil {
 		t.Error("should not be rejected")
 		return
@@ -87,7 +87,7 @@ func TestRequiredProbesForPod3(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "../../../example/required_probes/required_probes.csv")
+	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "file://../../../example/required_probes/required_probes.csv")
 	if res == nil {
 		t.Error("should be rejected")
 		return
@@ -114,7 +114,7 @@ func TestRequiredProbesForDeployment(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "../../../example/required_probes/required_probes.csv")
+	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "file://../../../example/required_probes/required_probes.csv")
 	if res == nil {
 		t.Error("should be rejected")
 	}
@@ -146,7 +146,7 @@ func TestRequiredProbesForDeployment2(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "../../../example/required_probes/required_probes.csv")
+	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "file://../../../example/required_probes/required_probes.csv")
 	if res != nil {
 		t.Error("should not be rejected")
 	}
@@ -178,7 +178,7 @@ func TestRequiredProbesForDeployment3(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "../../../example/required_probes/required_probes.csv")
+	res := rule.RequiredProbes(&review, "../../../example/required_probes/required_probes.conf", "file://../../../example/required_probes/required_probes.csv")
 	if res == nil {
 		t.Error("should  be rejected")
 	}

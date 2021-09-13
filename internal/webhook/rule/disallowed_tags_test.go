@@ -41,7 +41,7 @@ func TestDisallowedTagsForDeployment(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "../../../example/disallowed_tags/disallowed_tags.csv")
+	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "file://../../../example/disallowed_tags/disallowed_tags.csv")
 	if res == nil {
 		t.Error("should be rejected")
 	}
@@ -66,7 +66,7 @@ func TestDisallowedTagsForDeployment2(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "../../../example/disallowed_tags/disallowed_tags.csv")
+	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "file://../../../example/disallowed_tags/disallowed_tags.csv")
 	if res != nil {
 		t.Errorf("should not be rejected,%s", res.Error())
 	}
@@ -91,7 +91,7 @@ func TestDisallowedTagsForDeployment3(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "../../../example/disallowed_tags/disallowed_tags.csv")
+	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "file://../../../example/disallowed_tags/disallowed_tags.csv")
 	if res == nil {
 		t.Errorf("should be rejected")
 	}
@@ -117,7 +117,7 @@ func TestDisallowedTagsForPod(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "../../../example/disallowed_tags/disallowed_tags.csv")
+	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "file://../../../example/disallowed_tags/disallowed_tags.csv")
 	if res == nil {
 		t.Error("should be rejected")
 	}
@@ -142,7 +142,7 @@ func TestDisallowedTagsForPod2(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "../../../example/disallowed_tags/disallowed_tags.csv")
+	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "file://../../../example/disallowed_tags/disallowed_tags.csv")
 	if res != nil {
 		t.Errorf("should not be rejected,%s", res.Error())
 	}
@@ -167,7 +167,7 @@ func TestDisallowedTagsForPod3(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "../../../example/disallowed_tags/disallowed_tags.csv")
+	res := rule.DisallowedTags(&review, "../../../example/disallowed_tags/disallowed_tags.conf", "file://../../../example/disallowed_tags/disallowed_tags.csv")
 	if res == nil {
 		t.Errorf("should be rejected")
 	}

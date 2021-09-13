@@ -1,11 +1,12 @@
-package crdadapter
+package crdadaptor
 
 import (
 	"bytes"
 	"crypto/md5"
 	"encoding/hex"
-	"github.com/casbin/casbin/v2/util"
 	"strings"
+
+	"github.com/casbin/casbin/v2/util"
 )
 
 func removeStringAndLineBreaks(old string) string {

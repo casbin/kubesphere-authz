@@ -24,7 +24,7 @@ func TestRequiredAnnotations(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredAnnotations(&review, "../../../example/required_annotations/required_annotations.conf", "../../../example/required_annotations/required_annotations.csv")
+	res := rule.RequiredAnnotations(&review, "../../../example/required_annotations/required_annotations.conf", "file://../../../example/required_annotations/required_annotations.csv")
 	if res == nil {
 		t.Error("should be rejected")
 		return
@@ -51,7 +51,7 @@ func TestRequiredAnnotations2(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredAnnotations(&review, "../../../example/required_annotations/required_annotations.conf", "../../../example/required_annotations/required_annotations.csv")
+	res := rule.RequiredAnnotations(&review, "../../../example/required_annotations/required_annotations.conf", "file://../../../example/required_annotations/required_annotations.csv")
 	if res != nil {
 		t.Error("should not be rejected")
 		return
@@ -78,7 +78,7 @@ func TestRequiredAnnotations3(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredAnnotations(&review, "../../../example/required_annotations/required_annotations.conf", "../../../example/required_annotations/required_annotations.csv")
+	res := rule.RequiredAnnotations(&review, "../../../example/required_annotations/required_annotations.conf", "file://../../../example/required_annotations/required_annotations.csv")
 	if res == nil {
 		t.Error("should  be rejected")
 		return
@@ -106,7 +106,7 @@ func TestRequiredAnnotations4(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredAnnotations(&review, "../../../example/required_annotations/required_annotations.conf", "../../../example/required_annotations/required_annotations.csv")
+	res := rule.RequiredAnnotations(&review, "../../../example/required_annotations/required_annotations.conf", "file://../../../example/required_annotations/required_annotations.csv")
 	if res != nil {
 		t.Error("should not be rejected")
 		return
@@ -122,7 +122,7 @@ func TestRequiredAnnotations5(t *testing.T) {
 	review.Request.Operation = "DELETE"
 
 	var rule *Rules
-	res := rule.ReplicaLimits(&review, "../../../example/replica_limits/replica_limits.conf", "../../../example/replica_limits/replica_limits.csv")
+	res := rule.ReplicaLimits(&review, "../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
 	if res != nil {
 		t.Error("should not be rejected ")
 		return

@@ -38,6 +38,10 @@ echo "[E2E PreTest] build admission webhook"
 cd $workspaceBaseDir
 go build -o "${workspaceBaseDir}/test/e2e/testbuild/main.exe" cmd/webhook/main.go
 
+echo "[E2E PreTest] load policies to k8s"
+cd "${workspaceBaseDir}/deployments"
+python3 load_crd.py
+
 # 4. register external webhook into k8s
 echo "[E2E PreTest] configure admission webhook in k8s"
 cd ${workspaceBaseDir}/deployments

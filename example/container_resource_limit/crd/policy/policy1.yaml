@@ -1,0 +1,11 @@
+apiVersion: "stable.example.com/v1"
+kind: ContainerResourceLimit
+metadata:
+  name: policy1
+  namespace: policy
+spec:
+  policyItem: |
+    p, default, 104857600, 104857600, allow
+  
+
+  

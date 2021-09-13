@@ -1,0 +1,11 @@
+apiVersion: "stable.example.com/v1"
+kind: Permission
+metadata:
+  name: policy1
+  namespace: policy
+spec:
+  policyItem: |
+    p,my-nginx-svc,services,CREATE,deny
+  
+
+  
