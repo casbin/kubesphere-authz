@@ -5,7 +5,7 @@
         "policy": "file://example/permission/permission.csv"
     },
     "AllowedRepos": {
-        "available": false,
+        "available": true,
         "model": "example/allowed_repo/allowed_repo.conf",
         "policy": "file://example/allowed_repo/allowed_repo.csv"
     },
@@ -60,7 +60,7 @@
         "policy":"file://example/required_annotations/required_annotations.csv"
     },
     "RequiredProbes":{
-        "available":true,
+        "available":false,
         "model":"example/required_probes/required_probes.conf",
         "policy":"file://example/required_probes/required_probes.csv"
     }
