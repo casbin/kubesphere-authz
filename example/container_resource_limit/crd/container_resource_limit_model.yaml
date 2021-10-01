@@ -1,0 +1,21 @@
+apiVersion: "stable.example.com/v1"
+kind: CasbinModel
+metadata:
+  name: container-resource-limit
+  namespace: policy
+spec:
+  modelText: |
+    [request_definition]
+    r = namespace, cpu, memory
+    
+    [policy_definition]
+    p = namespace, cpu, memory, eft
+    
+    [policy_effect]
+    e =some(where (p.eft == allow))
+    
+    [matchers]
+    m = r.namespace == p.namespace && r.cpu < parseFloat(p.cpu) && r.memory < parseFloat(p.memory)
+  
+
+  

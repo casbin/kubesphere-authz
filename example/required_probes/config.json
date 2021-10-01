@@ -1,7 +1,7 @@
  {
     "RequiredProbes":{
         "available":true,
-        "model":"example/required_probes/required_probes.conf",
+        "model":"crd://required-probes#policy",
         "policy":"crd://example/required_probes/crd/required_probes_definition.yaml#policy"
     }
 } 

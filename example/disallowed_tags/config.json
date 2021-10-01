@@ -1,7 +1,7 @@
  {
     "DisallowedTags":{
         "available": true,
-        "model": "example/disallowed_tags/disallowed_tags.conf",
+        "model": "crd://disallowed-tags#policy",
         "policy": "crd://example/disallowed_tags/crd/disallowed_tags_definition.yaml#policy"
     }
 } 

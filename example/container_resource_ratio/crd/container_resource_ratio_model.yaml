@@ -1,0 +1,22 @@
+apiVersion: "stable.example.com/v1"
+kind: CasbinModel
+metadata:
+  name: container-resource-ratio
+  namespace: policy
+spec:
+  modelText: |
+    [request_definition]
+    r = namespace, cpuRedundancyRatio, memoryRedundancyRatio
+    
+    [policy_definition]
+    p = namespace, cpuRedundancyRatio, memoryRedundancyRatio, eft
+    
+    [policy_effect]
+    e =some(where (p.eft == allow))
+    
+    [matchers]
+    m = r.namespace == p.namespace && r.cpuRedundancyRatio < parseFloat(p.cpuRedundancyRatio) && r.memoryRedundancyRatio < parseFloat(p.memoryRedundancyRatio)
+    
+  
+
+  

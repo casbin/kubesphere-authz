@@ -1,7 +1,7 @@
  {
     "ReplicaLimits":{
         "available":true,
-        "model":"example/replica_limits/replica_limits.conf",
+        "model":"crd://replica-limits#policy",
         "policy":"crd://example/replica_limits/crd/replica_limits_definition.yaml#policy"
     }
 } 
