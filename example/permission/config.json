@@ -1,7 +1,7 @@
  {
     "ResourceOperationPermission": {
         "available": true,
-        "model": "example/permission/permission.conf",
+        "model": "crd://permission#policy",
         "policy": "crd://example/permission/crd/permission_definition.yaml#policy"
     }
 }

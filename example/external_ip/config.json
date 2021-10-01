@@ -1,7 +1,7 @@
  {
     "ExternalIP":{
         "available":true,
-        "model":"example/external_ip/external_ip.conf",
+        "model":"crd://external-ip#policy",
         "policy":"crd://example/external_ip/crd/external_ip_definition.yaml#policy"
     }
 } 

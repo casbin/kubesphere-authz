@@ -11,12 +11,17 @@ import (
 	app "k8s.io/api/apps/v1"
 )
 
-func (g *Rules) ReplicaLimits(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) ReplicaLimits(review *v1.AdmissionReview, modelUrl string, policy string) error {
 	var resourceKind = review.Request.Resource.Resource
 	if resourceKind != "deployments" {
 		return nil
 	}
 	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("ReplicaLimits: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	model,err:=getModelObject(modelUrl)
 	if err != nil {
 		log.Printf("ReplicaLimits: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err

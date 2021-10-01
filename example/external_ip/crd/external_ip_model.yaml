@@ -1,0 +1,21 @@
+apiVersion: "stable.example.com/v1"
+kind: CasbinModel
+metadata:
+  name: external-ip
+  namespace: policy
+spec:
+  modelText: |
+    [request_definition]
+    r = namespace,ip
+    
+    [policy_definition]
+    p = namespace,ip,eft
+    
+    [policy_effect]
+    e =some(where (p.eft == allow))
+    
+    [matchers]
+    m = r.namespace == p.namespace && r.ip==p.ip
+  
+
+  

@@ -29,7 +29,7 @@ func TestReplicaLimitTest(t *testing.T) {
 	review.Request.Object.Raw = data
 
 	var rule *Rules
-	res := rule.ReplicaLimits(&review, "../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
+	res := rule.ReplicaLimits(&review, "file://../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
 
 	if res != nil {
 		t.Errorf("should not be rejected, but got %s", err.Error())
@@ -58,7 +58,7 @@ func TestReplicaLimitTest2(t *testing.T) {
 	review.Request.Object.Raw = data
 
 	var rule *Rules
-	res := rule.ReplicaLimits(&review, "../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
+	res := rule.ReplicaLimits(&review, "file://../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
 
 	if res == nil {
 		t.Error("should be rejected ")
@@ -87,7 +87,7 @@ func TestReplicaLimitTest3(t *testing.T) {
 	review.Request.Object.Raw = data
 
 	var rule *Rules
-	res := rule.ReplicaLimits(&review, "../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
+	res := rule.ReplicaLimits(&review, "file://../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
 	if res == nil {
 		t.Error("should be rejected ")
 		return
@@ -104,7 +104,7 @@ func TestReplicaLimitTest4(t *testing.T) {
 	review.Request.Operation = "DELETE"
 
 	var rule *Rules
-	res := rule.ReplicaLimits(&review, "../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
+	res := rule.ReplicaLimits(&review, "file://../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
 	if res != nil {
 		t.Error("should not be rejected ")
 		return

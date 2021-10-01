@@ -21,8 +21,12 @@ import (
 	v1 "k8s.io/api/admission/v1"
 )
 
-func (g *Rules) ResourceOperationPermission(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) ResourceOperationPermission(review *v1.AdmissionReview, modelUrl string, policy string) error {
 	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		return err
+	}
+	model,err:=getModelObject(modelUrl)
 	if err != nil {
 		return err
 	}

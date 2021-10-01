@@ -1,0 +1,11 @@
+apiVersion: "stable.example.com/v1"
+kind: CasbinModel
+metadata:
+  name: ${plural}
+  namespace: policy
+spec:
+  modelText: |
+    ${text}
+  
+
+  
