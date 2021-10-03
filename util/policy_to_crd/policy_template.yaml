@@ -1,0 +1,11 @@
+apiVersion: "stable.example.com/v1"
+kind: ${kind}
+metadata:
+  name: ${name}
+  namespace: policy
+spec:
+  policyItem: |
+    ${policy}
+  
+
+  

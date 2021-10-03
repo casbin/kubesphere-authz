@@ -15,13 +15,18 @@ package rule
 
 import (
 	"fmt"
+	"log"
+
 	casbin "github.com/casbin/casbin/v2"
 	v1 "k8s.io/api/admission/v1"
-	"log"
 )
 
 func (g *Rules) ResourceOperationPermission(review *v1.AdmissionReview, model string, policy string) error {
-	e, err := casbin.NewEnforcer(model, policy)
+	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		return err
+	}
+	e, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		return err
 	}

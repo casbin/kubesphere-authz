@@ -2,6 +2,6 @@
     "DisallowedTags":{
         "available": true,
         "model": "example/disallowed_tags/disallowed_tags.conf",
-        "policy": "example/disallowed_tags/disallowed_tags.csv"
+        "policy": "crd://example/disallowed_tags/crd/disallowed_tags_definition.yaml#policy"
     }
 } 

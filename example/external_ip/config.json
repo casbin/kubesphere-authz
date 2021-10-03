@@ -2,6 +2,6 @@
     "ExternalIP":{
         "available":true,
         "model":"example/external_ip/external_ip.conf",
-        "policy":"example/external_ip/external_ip.csv"
+        "policy":"crd://example/external_ip/crd/external_ip_definition.yaml#policy"
     }
 } 

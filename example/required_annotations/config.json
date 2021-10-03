@@ -2,6 +2,6 @@
     "RequiredAnnotations":{
         "available":true,
         "model":"example/required_annotations/required_annotations.conf",
-        "policy":"example/required_annotations/required_annotations.csv"
+        "policy":"crd://example/required_annotations/crd/required_annotations_definition.yaml#policy"
     }
 } 

@@ -16,12 +16,13 @@ package rule
 import (
 	"encoding/json"
 	"fmt"
+	"ksauth/pkg/casbinhelper"
+	"log"
+
 	casbin "github.com/casbin/casbin/v2"
 	v1 "k8s.io/api/admission/v1"
 	app "k8s.io/api/apps/v1"
 	core "k8s.io/api/core/v1"
-	"ksauth/pkg/casbinhelper"
-	"log"
 )
 
 /*
@@ -48,7 +49,13 @@ func (g *Rules) AllowedRepos(review *v1.AdmissionReview, model string, policy st
 }
 
 func (g *Rules) allowedReposForPod(review *v1.AdmissionReview, model string, policy string) error {
-	enforcer, err := casbin.NewEnforcer(model, policy)
+	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+
+	enforcer, err := casbin.NewEnforcer(model,adaptor)
 	if err != nil {
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
@@ -90,7 +97,12 @@ func (g *Rules) allowedReposForPod(review *v1.AdmissionReview, model string, pol
 }
 
 func (g *Rules) allowedReposForDeployment(review *v1.AdmissionReview, model string, policy string) error {
-	enforcer, err := casbin.NewEnforcer(model, policy)
+	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("AllowedRepos: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("AllowedRepos: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
@@ -125,6 +137,7 @@ func (g *Rules) allowedReposForDeployment(review *v1.AdmissionReview, model stri
 		if !ok {
 			log.Printf("AllowedRepos(%s %s::%s): container %s is not allowed", review.Request.Resource.Resource, deploymentObject.Namespace, deploymentObject.Name, container.Image)
 			return fmt.Errorf("casbin rejects the untrusted image %s", image)
+
 		}
 
 	}

@@ -2,6 +2,6 @@
     "ReplicaLimits":{
         "available":true,
         "model":"example/replica_limits/replica_limits.conf",
-        "policy":"example/replica_limits/replica_limits.csv"
+        "policy":"crd://example/replica_limits/crd/replica_limits_definition.yaml#policy"
     }
 } 

@@ -51,7 +51,7 @@ func (g *Rules) ImageDigest(review *v1.AdmissionReview, model string, policy str
 	}
 }
 
-func (g *Rules) imageDigestForPod(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) imageDigestForPod(review *v1.AdmissionReview, _ string, _ string) error {
 
 	if review.Request.Operation == "DELETE" {
 		//delete operation have no docker image to check
@@ -81,7 +81,7 @@ func (g *Rules) imageDigestForPod(review *v1.AdmissionReview, model string, poli
 	return nil
 }
 
-func (g *Rules) imageDigestForDeployment(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) imageDigestForDeployment(review *v1.AdmissionReview, _ string, _cy string) error {
 
 	if review.Request.Operation == "DELETE" {
 		//delete operation have no docker image to check

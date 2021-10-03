@@ -1,0 +1,11 @@
+apiVersion: "stable.example.com/v1"
+kind: RequiredAnnotations
+metadata:
+  name: policy1
+  namespace: policy
+spec:
+  policyItem: |
+    p, "a8r.io/owner", "test\-\d*", allow
+  
+
+  

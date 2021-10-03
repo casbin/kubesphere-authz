@@ -21,7 +21,7 @@ import (
 	"log"
 )
 
-func (g *Rules) HttpsOnly(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) HttpsOnly(review *v1.AdmissionReview, _ string, _ string) error {
 	var resourceKind = review.Request.Resource.Resource
 	if resourceKind != "ingresses" {
 		//only ingresses is checked

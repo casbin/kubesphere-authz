@@ -24,7 +24,7 @@ func TestRequiredLabel(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredLabel(&review, "../../../example/required_labels/required_labels.conf", "../../../example/required_labels/required_labels.csv")
+	res := rule.RequiredLabel(&review, "../../../example/required_labels/required_labels.conf", "file://../../../example/required_labels/required_labels.csv")
 	if res == nil {
 		t.Error("should be rejected")
 		return
@@ -51,7 +51,7 @@ func TestRequiredLabel2(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredLabel(&review, "../../../example/required_labels/required_labels.conf", "../../../example/required_labels/required_labels.csv")
+	res := rule.RequiredLabel(&review, "../../../example/required_labels/required_labels.conf", "file://../../../example/required_labels/required_labels.csv")
 	if res != nil {
 		t.Error("should not be rejected")
 		return
@@ -78,7 +78,7 @@ func TestRequiredLabel3(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredLabel(&review, "../../../example/required_labels/required_labels.conf", "../../../example/required_labels/required_labels.csv")
+	res := rule.RequiredLabel(&review, "../../../example/required_labels/required_labels.conf", "file://../../../example/required_labels/required_labels.csv")
 	if res == nil {
 		t.Error("should  be rejected")
 		return
@@ -106,7 +106,7 @@ func TestRequiredLabel4(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.RequiredLabel(&review, "../../../example/required_labels/required_labels.conf", "../../../example/required_labels/required_labels.csv")
+	res := rule.RequiredLabel(&review, "../../../example/required_labels/required_labels.conf", "file://../../../example/required_labels/required_labels.csv")
 	if res != nil {
 		t.Errorf("should not be rejected, but got %s", res.Error())
 		return
@@ -122,7 +122,7 @@ func TestRequiredLabel5(t *testing.T) {
 	review.Request.Operation = "DELETE"
 
 	var rule *Rules
-	res := rule.ReplicaLimits(&review, "../../../example/replica_limits/replica_limits.conf", "../../../example/replica_limits/replica_limits.csv")
+	res := rule.ReplicaLimits(&review, "../../../example/replica_limits/replica_limits.conf", "file://../../../example/replica_limits/replica_limits.csv")
 	if res != nil {
 		t.Error("should not be rejected ")
 		return
