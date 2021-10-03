@@ -1,17 +1,18 @@
 package main
 
 import (
+	"ksauth/pkg/crdadaptor"
+
 	casbin "github.com/casbin/casbin/v2"
-	"ksauth/pkg/crdadapter"
 )
 
 func main() {
-	adapter, err := crdadapter.NewK8sCRDAdapterByYamlDefinition("policy", "crd_example.yaml", crdadapter.EXTERNAL_CLIENT)
+	adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlDefinition("policy", "crd_example.yaml", crdadaptor.EXTERNAL_CLIENT)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	enforcer, err := casbin.NewEnforcer("external_ip.conf", adapter)
+	enforcer, err := casbin.NewEnforcer("external_ip.conf", adaptor)
 	if err != nil {
 		panic(err.Error())
 	}

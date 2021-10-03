@@ -1,0 +1,11 @@
+apiVersion: "stable.example.com/v1"
+kind: RequiredProbes
+metadata:
+  name: policy5
+  namespace: policy
+spec:
+  policyItem: |
+    p2, livenessProbe, tcpSocket
+  
+
+  

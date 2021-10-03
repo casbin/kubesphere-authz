@@ -1,4 +1,4 @@
-package crdadapter
+package crdadaptor
 
 import (
 	"errors"
@@ -18,7 +18,7 @@ const (
 	INTERNAL_CLIENT ClientType = "internal_client"
 )
 
-type K8sCRDAdapter struct {
+type K8sCRDAdaptor struct {
 	group            string
 	version          string
 	namespace        string     //in which namespace these name are stored
@@ -28,7 +28,7 @@ type K8sCRDAdapter struct {
 	clientset        dynamic.Interface
 }
 
-func (k *K8sCRDAdapter) LoadPolicy(model model.Model) error {
+func (k *K8sCRDAdaptor) LoadPolicy(model model.Model) error {
 	policyObjectList, err := k.getAllPolicyObjects()
 	if err != nil {
 		return err
@@ -41,7 +41,7 @@ func (k *K8sCRDAdapter) LoadPolicy(model model.Model) error {
 	return nil
 }
 
-func (k *K8sCRDAdapter) SavePolicy(model model.Model) error {
+func (k *K8sCRDAdaptor) SavePolicy(model model.Model) error {
 	//before we save the policy, we must confirm which policies should be deleted.
 	//create a set for all policies
 	newPolicyMap := make(map[string]bool)
@@ -86,7 +86,7 @@ func (k *K8sCRDAdapter) SavePolicy(model model.Model) error {
 	return nil
 }
 
-func (k *K8sCRDAdapter) UpdatePolicy(sec string, ptype string, oldRule, newPolicy []string) error {
+func (k *K8sCRDAdaptor) UpdatePolicy(sec string, ptype string, oldRule, newPolicy []string) error {
 	//FIXME: should ptype be put into string?
 	oldRuleString := removeStringAndLineBreaks(strings.Join(append([]string{ptype}, oldRule...), ","))
 	newRuleString := removeStringAndLineBreaks(strings.Join(append([]string{ptype}, newPolicy...), ","))
@@ -108,9 +108,9 @@ func (k *K8sCRDAdapter) UpdatePolicy(sec string, ptype string, oldRule, newPolic
 	return nil
 }
 
-func (k *K8sCRDAdapter) UpdatePolicies(sec string, ptype string, oldRules, newRules [][]string) error {
+func (k *K8sCRDAdaptor) UpdatePolicies(sec string, ptype string, oldRules, newRules [][]string) error {
 	if len(oldRules) != len(newRules) {
-		return fmt.Errorf("Adapter::UpdatePolicies: parameter oldRule and newRules don't have the same length")
+		return fmt.Errorf("Adaptor::UpdatePolicies: parameter oldRule and newRules don't have the same length")
 	}
 	for i, _ := range oldRules {
 		err := k.UpdatePolicy(sec, ptype, oldRules[i], newRules[i])
@@ -121,12 +121,12 @@ func (k *K8sCRDAdapter) UpdatePolicies(sec string, ptype string, oldRules, newRu
 	return nil
 }
 
-func (k *K8sCRDAdapter) UpdateFilteredPolicies(sec string, ptype string, newPolicies [][]string, fieldIndex int, fieldValues ...string) ([][]string, error) {
+func (k *K8sCRDAdaptor) UpdateFilteredPolicies(sec string, ptype string, newPolicies [][]string, fieldIndex int, fieldValues ...string) ([][]string, error) {
 	return nil, errors.New("not implemented")
 }
 
 // AddPolicy adds a policy rule to the storage.
-func (k *K8sCRDAdapter) AddPolicy(sec string, ptype string, rule []string) error {
+func (k *K8sCRDAdaptor) AddPolicy(sec string, ptype string, rule []string) error {
 	//confirm that there is no same policy
 	//find out the old policy
 	newRuleString := removeStringAndLineBreaks(strings.Join(append([]string{ptype}, rule...), ","))
@@ -148,7 +148,7 @@ func (k *K8sCRDAdapter) AddPolicy(sec string, ptype string, rule []string) error
 }
 
 // AddPolicies adds policy rules to the storage.
-func (k *K8sCRDAdapter) AddPolicies(sec string, ptype string, rules [][]string) error {
+func (k *K8sCRDAdaptor) AddPolicies(sec string, ptype string, rules [][]string) error {
 	for i, _ := range rules {
 		err := k.AddPolicy(sec, ptype, rules[i])
 		if err != nil {
@@ -159,7 +159,7 @@ func (k *K8sCRDAdapter) AddPolicies(sec string, ptype string, rules [][]string) 
 }
 
 // RemovePolicy removes a policy rule from the storage.
-func (k *K8sCRDAdapter) RemovePolicy(sec string, ptype string, rule []string) error {
+func (k *K8sCRDAdaptor) RemovePolicy(sec string, ptype string, rule []string) error {
 	ruleString := removeStringAndLineBreaks(strings.Join(append([]string{ptype}, rule...), ","))
 	policyObjectList, err := k.getAllPolicyObjects()
 	if err != nil {
@@ -178,7 +178,7 @@ func (k *K8sCRDAdapter) RemovePolicy(sec string, ptype string, rule []string) er
 }
 
 // RemovePolicies removes policy rules from the storage.
-func (k *K8sCRDAdapter) RemovePolicies(sec string, ptype string, rules [][]string) error {
+func (k *K8sCRDAdaptor) RemovePolicies(sec string, ptype string, rules [][]string) error {
 	for i, _ := range rules {
 		err := k.RemovePolicy(sec, ptype, rules[i])
 		if err != nil {
@@ -189,6 +189,6 @@ func (k *K8sCRDAdapter) RemovePolicies(sec string, ptype string, rules [][]strin
 }
 
 // RemoveFilteredPolicy removes policy rules that match the filter from the storage.
-func (k *K8sCRDAdapter) RemoveFilteredPolicy(sec string, ptype string, fieldIndex int, fieldValues ...string) error {
+func (k *K8sCRDAdaptor) RemoveFilteredPolicy(sec string, ptype string, fieldIndex int, fieldValues ...string) error {
 	return errors.New("not implemented")
 }

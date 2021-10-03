@@ -1,0 +1,11 @@
+apiVersion: "stable.example.com/v1"
+kind: RequiredLabels
+metadata:
+  name: policy1
+  namespace: policy
+spec:
+  policyItem: |
+    p, "owner", "test\-\d*", allow
+  
+
+  

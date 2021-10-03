@@ -41,7 +41,7 @@ func TestAllowedReposForDeployment(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "../../../example/allowed_repo/allowed_repo.csv")
+	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "file://../../../example/allowed_repo/allowed_repo.csv")
 	if res == nil {
 		t.Error("should be rejected")
 	}
@@ -62,9 +62,9 @@ func TestAllowedReposForDeployment2(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "../../../example/allowed_repo/allowed_repo.csv")
+	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "file://../../../example/allowed_repo/allowed_repo.csv")
 	if res != nil {
-		t.Error("should be rejected")
+		t.Error(res.Error())
 	}
 
 }
@@ -87,7 +87,7 @@ func TestAllowedReposForDeployment3(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "../../../example/allowed_repo/allowed_repo.csv")
+	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "file://../../../example/allowed_repo/allowed_repo.csv")
 	if res != nil {
 		t.Error(res.Error())
 	}
@@ -103,7 +103,7 @@ func TestAllowedReposForDeployment4(t *testing.T) {
 	review.Request.Resource.Resource = "deployments"
 
 	review.Request.Operation = "DELETE"
-	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "../../../example/allowed_repo/allowed_repo.csv")
+	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "file://../../../example/allowed_repo/allowed_repo.csv")
 	if res != nil {
 		t.Error(res.Error())
 	}
@@ -126,7 +126,7 @@ func TestAllowedReposForPod(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "../../../example/allowed_repo/allowed_repo.csv")
+	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "file://../../../example/allowed_repo/allowed_repo.csv")
 	if res == nil {
 		t.Error("should be rejected")
 		return
@@ -149,9 +149,9 @@ func TestAllowedReposForPod2(t *testing.T) {
 		t.Error(err)
 	}
 	review.Request.Object.Raw = data
-	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "../../../example/allowed_repo/allowed_repo.csv")
+	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "file://../../../example/allowed_repo/allowed_repo.csv")
 	if res != nil {
-		t.Error("should be rejected")
+		t.Error(res.Error())
 	}
 
 }
@@ -164,7 +164,7 @@ func TestAllowedReposForPod3(t *testing.T) {
 	review.Request.Resource.Resource = "pods"
 
 	review.Request.Operation = "DELETE"
-	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "../../../example/allowed_repo/allowed_repo.csv")
+	res := rule.AllowedRepos(&review, "../../../example/allowed_repo/allowed_repo.conf", "file://../../../example/allowed_repo/allowed_repo.csv")
 	if res != nil {
 		t.Error(res.Error())
 	}

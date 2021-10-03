@@ -1,4 +1,4 @@
-package crdadapter
+package crdadaptor
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
-func (k *K8sCRDAdapter) getAllPolicyObjects() (PolicyList, error) {
+func (k *K8sCRDAdaptor) getAllPolicyObjects() (PolicyList, error) {
 	var emptyPolicyList PolicyList
 	gvr := GetGroupVersionResource(k.group, k.version, k.policyNamePlural)
 	unstructured, err := k.clientset.Resource(gvr).Namespace(k.namespace).List(context.TODO(), metav1.ListOptions{})
@@ -28,12 +28,12 @@ func (k *K8sCRDAdapter) getAllPolicyObjects() (PolicyList, error) {
 	return policyObjectList, nil
 }
 
-func (k *K8sCRDAdapter) deletePolicyObject(name string) error {
+func (k *K8sCRDAdaptor) deletePolicyObject(name string) error {
 	gvr := GetGroupVersionResource(k.group, k.version, k.policyNamePlural)
 	return k.clientset.Resource(gvr).Namespace(k.namespace).Delete(context.TODO(), name, metav1.DeleteOptions{})
 }
 
-func (k *K8sCRDAdapter) insertPolicyObject(name string, policy string) error {
+func (k *K8sCRDAdaptor) insertPolicyObject(name string, policy string) error {
 	gvr := GetGroupVersionResource(k.group, k.version, k.policyNamePlural)
 	// oldUnstructured, err := k.clientset.Resource(gvr).Namespace(k.namespace).List(context.TODO(), metav1.ListOptions{})
 	// if err != nil {
@@ -64,7 +64,7 @@ func (k *K8sCRDAdapter) insertPolicyObject(name string, policy string) error {
 	return nil
 }
 
-func (k *K8sCRDAdapter) updatePolicyObject(name string, policy string) error {
+func (k *K8sCRDAdaptor) updatePolicyObject(name string, policy string) error {
 	gvr := GetGroupVersionResource(k.group, k.version, k.policyNamePlural)
 	oldUnstructured, err := k.clientset.Resource(gvr).Namespace(k.namespace).Get(context.TODO(), name, metav1.GetOptions{})
 	if err != nil {
