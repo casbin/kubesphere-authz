@@ -1,7 +1,21 @@
  {
-    "ReplicaLimits":{
-        "available":true,
-        "model":"crd://replica-limits#policy",
-        "policy":"crd://example/replica_limits/crd/replica_limits_definition.yaml#policy"
-    }
+     "rules":{
+
+         "ReplicaLimits":{
+             "available":true,
+             "model":"crd://replica-limits#policy",
+             "policy":"crd://example/replica_limits/crd/replica_limits_definition.yaml#policy"
+         }
+     },
+     "externalClient": true,
+     "casbinWorkspace": "casbinauth",
+     "excludedNamespaces": [
+         "kube-node-lease",
+         "kube-public",
+         "kube-system",
+         "policy"
+     ],
+     "debugMode": true,
+     "certificateFile": "config/certificate/server.crt",
+     "privateKeyFile": "config/certificate/server.key"
 } 

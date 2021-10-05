@@ -1,7 +1,21 @@
  {
-    "ContainerResourceRatio":{
-        "available": true,
-        "model": "crd://container-resource-ratio#policy",
-        "policy": "crd://example/container_resource_ratio/crd/container_resource_ratio_definition.yaml#policy"
-    }
+    "rules":{
+        "ContainerResourceRatio":{
+            "available": true,
+            "model": "crd://container-resource-ratio#policy",
+            "policy": "crd://example/container_resource_ratio/crd/container_resource_ratio_definition.yaml#policy"
+        }
+    },
+    "externalClient": true,
+    "casbinWorkspace": "casbinauth",
+    "excludedNamespaces": [
+        "kube-node-lease",
+        "kube-public",
+        "kube-system",
+        "policy"
+    ],
+    "debugMode": true,
+    "certificateFile": "config/certificate/server.crt",
+    "privateKeyFile": "config/certificate/server.key"
+
 } 

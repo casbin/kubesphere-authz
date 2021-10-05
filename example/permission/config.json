@@ -1,7 +1,21 @@
  {
-    "ResourceOperationPermission": {
-        "available": true,
-        "model": "crd://permission#policy",
-        "policy": "crd://example/permission/crd/permission_definition.yaml#policy"
-    }
+     "rules":{
+
+         "ResourceOperationPermission": {
+             "available": true,
+             "model": "crd://permission#policy",
+             "policy": "crd://example/permission/crd/permission_definition.yaml#policy"
+         }
+     },
+     "externalClient": true,
+     "casbinWorkspace": "casbinauth",
+     "excludedNamespaces": [
+         "kube-node-lease",
+         "kube-public",
+         "kube-system",
+         "policy"
+     ],
+     "debugMode": true,
+     "certificateFile": "config/certificate/server.crt",
+     "privateKeyFile": "config/certificate/server.key"
 }

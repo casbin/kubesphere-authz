@@ -14,46 +14,25 @@
 package webhook
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"reflect"
-
 	"ksauth/internal/webhook/rule"
-
 	"k8s.io/api/admission/v1"
 )
 
-type RuleConfig struct {
-	Available bool   `json:"available"`
-	Model     string `json:"model"`
-	Policy    string `json:"policy"`
-	RuleGroup string `json:"-"`
-}
+
 
 //maping check item name to configuration
-var webHookConfig map[string]RuleConfig
 
 var valueOfGeneral reflect.Value
 var typeOfGeneral reflect.Type
 
 //load the webhook/config.json
-func Initconfig(configPath string) {
-	fileContent, err := ioutil.ReadFile(configPath)
-	if err != nil {
-		log.Fatal("Failed to load " + configPath + " due to" + err.Error())
-	}
-
-	err = json.Unmarshal(fileContent, &webHookConfig)
-	if err != nil {
-		log.Fatal("Failed to load " + configPath + " due to" + err.Error())
-	}
-
+func init() {
 	//use reflect to get type and value of general object
-	var generalObj *rule.Rules
-	valueOfGeneral = reflect.ValueOf(generalObj)
-	typeOfGeneral = reflect.TypeOf(generalObj)
+	var ruleObj *rule.Rules
+	valueOfGeneral = reflect.ValueOf(ruleObj)
+	typeOfGeneral = reflect.TypeOf(ruleObj)
 }
 
 func enforceGeneralRules(methodName string, review *v1.AdmissionReview, model string, policy string) error {

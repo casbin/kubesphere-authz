@@ -1,7 +1,20 @@
  {
-    "AllowedRepos": {
-        "available": true,
-        "model": "crd://allowed-repo#policy",
-        "policy": "crd://example/allowed_repo/crd/allowed_repo_definition.yaml#policy"
-    }
+    "rules":{
+        "AllowedRepos": {
+            "available": true,
+            "model": "crd://allowed-repo#policy",
+            "policy": "crd://example/allowed_repo/crd/allowed_repo_definition.yaml#policy"
+        }
+    },
+    "externalClient": true,
+    "casbinWorkspace": "casbinauth",
+    "excludedNamespaces": [
+        "kube-node-lease",
+        "kube-public",
+        "kube-system",
+        "policy"
+    ],
+    "debugMode": true,
+    "certificateFile": "config/certificate/server.crt",
+    "privateKeyFile": "config/certificate/server.key"
 }

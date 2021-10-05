@@ -16,6 +16,7 @@ package main
 import (
 	"fmt"
 	"ksauth/internal/webhook"
+	"ksauth/internal/config"
 	"os"
 )
 
@@ -31,6 +32,11 @@ func main() {
 	} else {
 		configPath = os.Args[1]
 	}
-	webhook.Initconfig(configPath)
-	webhook.GetAdmissionWebhook().RunTLS(":8080", "config/certificate/server.crt", "config/certificate/server.key")
+	err:=config.InitConfig(configPath)
+	if err!=nil{
+		return
+	}
+
+	crt,key:=config.GetCrtAndKey()
+	webhook.GetAdmissionWebhook().RunTLS(":8080", crt, key)
 }

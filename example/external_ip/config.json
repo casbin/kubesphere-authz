@@ -1,7 +1,21 @@
  {
-    "ExternalIP":{
-        "available":true,
-        "model":"crd://external-ip#policy",
-        "policy":"crd://example/external_ip/crd/external_ip_definition.yaml#policy"
-    }
+     "rules":{
+
+         "ExternalIP":{
+             "available":true,
+             "model":"crd://external-ip#policy",
+             "policy":"crd://example/external_ip/crd/external_ip_definition.yaml#policy"
+         }
+     },
+     "externalClient": true,
+     "casbinWorkspace": "casbinauth",
+     "excludedNamespaces": [
+         "kube-node-lease",
+         "kube-public",
+         "kube-system",
+         "policy"
+     ],
+     "debugMode": true,
+     "certificateFile": "config/certificate/server.crt",
+     "privateKeyFile": "config/certificate/server.key"
 } 
