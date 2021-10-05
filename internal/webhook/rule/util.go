@@ -24,7 +24,7 @@ func getModelObject(url string)(interface{},error){
 		yamlPath:="config/model_definition.yaml"
 		modelName:=tmp[0]
 		namespace:=tmp[1]
-		model,err:=crdmodel.GetModelFromCrdByYamlDefinition(yamlPath,namespace,modelName,config.CLIENT_MODE)
+		model,err:=crdmodel.GetModelFromCrdByYamlDefinition(yamlPath,namespace,modelName,config.GetClientMode())
 		return model,err
 	}
 	return nil,fmt.Errorf("invalid scheme %s",scheme)
@@ -46,7 +46,7 @@ func getAdaptorObject(url string)(interface{},error){
 		}
 		yamlPath:=tmp[0]
 		namespace:=tmp[1]
-		adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlDefinition(namespace, yamlPath, config.CLIENT_MODE)
+		adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlDefinition(namespace, yamlPath, config.GetClientMode())
 		if err!=nil{
 			return nil,err
 		}

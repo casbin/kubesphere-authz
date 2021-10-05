@@ -1,7 +1,21 @@
  {
-    "HttpsOnly":{
-        "available": true,
-        "model": "",
-        "policy": ""
-    }
+    "rules":{
+        "HttpsOnly":{
+            "available": true,
+            "model": "",
+            "policy": ""
+        }
+    },
+    "externalClient": true,
+    "casbinWorkspace": "casbinauth",
+    "excludedNamespaces": [
+        "kube-node-lease",
+        "kube-public",
+        "kube-system",
+        "policy"
+    ],
+    "debugMode": true,
+    "certificateFile": "config/certificate/server.crt",
+    "privateKeyFile": "config/certificate/server.key"
+
 } 

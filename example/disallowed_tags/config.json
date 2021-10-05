@@ -1,7 +1,20 @@
  {
-    "DisallowedTags":{
-        "available": true,
-        "model": "crd://disallowed-tags#policy",
-        "policy": "crd://example/disallowed_tags/crd/disallowed_tags_definition.yaml#policy"
-    }
+     "rules":{
+         "DisallowedTags":{
+             "available": true,
+             "model": "crd://disallowed-tags#policy",
+             "policy": "crd://example/disallowed_tags/crd/disallowed_tags_definition.yaml#policy"
+         }
+     },
+     "externalClient": true,
+     "casbinWorkspace": "casbinauth",
+     "excludedNamespaces": [
+         "kube-node-lease",
+         "kube-public",
+         "kube-system",
+         "policy"
+     ],
+     "debugMode": true,
+     "certificateFile": "config/certificate/server.crt",
+     "privateKeyFile": "config/certificate/server.key"
 } 

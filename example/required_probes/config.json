@@ -1,7 +1,21 @@
  {
-    "RequiredProbes":{
-        "available":true,
-        "model":"crd://required-probes#policy",
-        "policy":"crd://example/required_probes/crd/required_probes_definition.yaml#policy"
-    }
+     "rules":{
+
+         "RequiredProbes":{
+             "available":true,
+             "model":"crd://required-probes#policy",
+             "policy":"crd://example/required_probes/crd/required_probes_definition.yaml#policy"
+         }
+     },
+     "externalClient": true,
+     "casbinWorkspace": "casbinauth",
+     "excludedNamespaces": [
+         "kube-node-lease",
+         "kube-public",
+         "kube-system",
+         "policy"
+     ],
+     "debugMode": true,
+     "certificateFile": "config/certificate/server.crt",
+     "privateKeyFile": "config/certificate/server.key"
 } 
