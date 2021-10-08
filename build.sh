@@ -11,4 +11,4 @@ cp -r example build/example
 go build -o build/main cmd/webhook/main.go 
 
 echo "=====build docker images for webhook====="
-docker build -t casbin-kubesphere-authz .
+docker build -t casbin-kubesphere-authz:v1 .

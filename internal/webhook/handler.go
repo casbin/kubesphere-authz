@@ -22,6 +22,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 
 	"github.com/gin-gonic/gin"
+	"ksauth/internal/config"
 )
 
 func handler(c *gin.Context) {
@@ -33,10 +34,14 @@ func handler(c *gin.Context) {
 	//for debug only. Todo:remove this block of code
 
 	fmt.Printf("%s\n", requestBody.Request.Resource.Resource)
-	if requestBody.Request.Namespace != "default" {
-		approve(c, string(requestBody.Request.UID))
-		return
+
+	for _,excluded:=range config.EXCLUDED_NAMESPACE{
+		if requestBody.Request.Namespace ==excluded{
+			approve(c, string(requestBody.Request.UID))
+			return
+		}
 	}
+
 	//have all rules enforced
 	for item, config := range webHookConfig {
 		if !config.Available {
