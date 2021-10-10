@@ -1,0 +1,7 @@
+apiVersion: auth.casbin.org/v1
+kind: CasbinModel
+metadata:
+  name: casbinmodel-sample
+spec:
+  # Add fields here
+  foo: bar

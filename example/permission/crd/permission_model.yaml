@@ -1,4 +1,4 @@
-apiVersion: "stable.example.com/v1"
+apiVersion: "auth.casbin.org/v1"
 kind: CasbinModel
 metadata:
   name: permission

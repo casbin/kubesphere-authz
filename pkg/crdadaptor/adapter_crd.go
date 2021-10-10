@@ -41,7 +41,7 @@ func (k *K8sCRDAdaptor) insertPolicyObject(name string, policy string) error {
 	// }
 
 	var policyObject Policy
-	policyObject.APIVersion = "stable.example.com/v1"
+	policyObject.APIVersion = "auth.casbin.org/v1"
 	policyObject.Kind = k.policyNameKind
 	policyObject.SetName(name)
 	policyObject.Spec.PolicyItem = policy
@@ -72,7 +72,7 @@ func (k *K8sCRDAdaptor) updatePolicyObject(name string, policy string) error {
 	}
 
 	var policyObject Policy
-	policyObject.APIVersion = "stable.example.com/v1"
+	policyObject.APIVersion = "auth.casbin.org/v1"
 	policyObject.Kind = k.policyNameKind
 	policyObject.SetName(name)
 	policyObject.Spec.PolicyItem = policy
