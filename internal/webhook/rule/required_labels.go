@@ -11,12 +11,12 @@ import (
 
 func (g *Rules) RequiredLabel(review *v1.AdmissionReview, modelUrl string, policy string) error {
 	var resourceKind = review.Request.Resource.Resource
-	adaptor,err:=getAdaptorObject(policy)
+	adaptor, err := getAdaptorObject(policy)
 	if err != nil {
 		log.Printf("RequiredLabel: %s %s:%s rejected due to error:%s", resourceKind, review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
-	model,err:=getModelObject(modelUrl)
+	model, err := getModelObject(modelUrl)
 	if err != nil {
 		log.Printf("RequiredLabel: %s %s:%s rejected due to error:%s", resourceKind, review.Request.Namespace, review.Request.Name, err.Error())
 		return err
