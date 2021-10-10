@@ -14,6 +14,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
+	crd "ksauth/api/v1"
 )
 
 
@@ -75,7 +76,7 @@ func GetModelTextFromCrd(group, version,namespace,modelResourcePlural,modelName 
 	if err!=nil{
 		return "",err
 	}
-	var crdModel CrdModel
+	var crdModel crd.CasbinModel
 	err=json.Unmarshal(raw,&crdModel)
 	if err!=nil{
 		return "",err

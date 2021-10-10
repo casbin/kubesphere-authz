@@ -3,11 +3,11 @@ kind: CustomResourceDefinition
 metadata:
   ##EDIT HERE
   # name must match the spec fields below, and be in the form: <plural>.<group>
-  name: allowed-repo.stable.example.com
+  name: allowed-repo.auth.casbin.org
   namespace: policy
 spec:
   # group name to use for REST API: /apis/<group>/<version>
-  group: stable.example.com
+  group: auth.casbin.org
   # list of versions supported by this CustomResourceDefinition
   versions:
     - name: v1

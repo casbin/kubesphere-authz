@@ -3,11 +3,11 @@ kind: CustomResourceDefinition
 metadata:
   ##EDIT HERE
   # name must match the spec fields below, and be in the form: <plural>.<group>
-  name: disallowed-tags.stable.example.com
+  name: disallowed-tags.auth.casbin.org
   namespace: policy
 spec:
   # group name to use for REST API: /apis/<group>/<version>
-  group: stable.example.com
+  group: auth.casbin.org
   # list of versions supported by this CustomResourceDefinition
   versions:
     - name: v1
