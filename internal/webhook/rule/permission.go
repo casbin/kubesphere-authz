@@ -22,11 +22,11 @@ import (
 )
 
 func (g *Rules) ResourceOperationPermission(review *v1.AdmissionReview, modelUrl string, policy string) error {
-	adaptor,err:=getAdaptorObject(policy)
+	adaptor, err := getAdaptorObject(policy)
 	if err != nil {
 		return err
 	}
-	model,err:=getModelObject(modelUrl)
+	model, err := getModelObject(modelUrl)
 	if err != nil {
 		return err
 	}

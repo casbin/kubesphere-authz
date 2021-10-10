@@ -18,6 +18,8 @@ package controllers
 
 import (
 	"context"
+	"fmt"
+	"os/exec"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -48,9 +50,19 @@ type CasbinModelReconciler struct {
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.8.3/pkg/reconcile
 func (r *CasbinModelReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
-
 	// your logic here
+	var model authv1.CasbinModel
+	if err := r.Get(ctx, req.NamespacedName, &model); err != nil {
+		return ctrl.Result{}, nil
+	}
 
+	policyCrd := generatePolicyCrdDefinition(model.Spec.AssociatedPolicyCrdPlural)
+
+	//apply it
+	command := fmt.Sprintf("echo \"%s\" | kubectl apply -f -", policyCrd)
+	cmd := exec.Command("/bin/bash", "-c", command)
+	cmd.Run()
+	fmt.Println("here")
 	return ctrl.Result{}, nil
 }
 

@@ -15,12 +15,10 @@ package webhook
 
 import (
 	"fmt"
-	"reflect"
-	"ksauth/internal/webhook/rule"
 	"k8s.io/api/admission/v1"
+	"ksauth/internal/webhook/rule"
+	"reflect"
 )
-
-
 
 //maping check item name to configuration
 
