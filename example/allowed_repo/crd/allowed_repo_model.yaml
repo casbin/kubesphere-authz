@@ -4,6 +4,7 @@ metadata:
   name: allowed-repo
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: allowed-repo
   modelText: |
     [request_definition]
     r = namespace,image

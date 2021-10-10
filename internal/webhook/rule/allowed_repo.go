@@ -49,18 +49,18 @@ func (g *Rules) AllowedRepos(review *v1.AdmissionReview, model string, policy st
 }
 
 func (g *Rules) allowedReposForPod(review *v1.AdmissionReview, modelUrl string, policy string) error {
-	adaptor,err:=getAdaptorObject(policy)
+	adaptor, err := getAdaptorObject(policy)
 	if err != nil {
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
-	model,err:=getModelObject(modelUrl)
+	model, err := getModelObject(modelUrl)
 
 	if err != nil {
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
-	enforcer, err := casbin.NewEnforcer(model,adaptor)
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
@@ -102,12 +102,12 @@ func (g *Rules) allowedReposForPod(review *v1.AdmissionReview, modelUrl string, 
 }
 
 func (g *Rules) allowedReposForDeployment(review *v1.AdmissionReview, modelUrl string, policy string) error {
-	adaptor,err:=getAdaptorObject(policy)
+	adaptor, err := getAdaptorObject(policy)
 	if err != nil {
 		log.Printf("AllowedRepos: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
-	model,err:=getModelObject(modelUrl)
+	model, err := getModelObject(modelUrl)
 
 	if err != nil {
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())

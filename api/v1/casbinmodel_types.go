@@ -34,7 +34,7 @@ type CasbinModelSpec struct {
 	//ModelText contains the content of casbin model
 	ModelText string `json:"modelText"`
 	//AssociatedPolicyCrdPlural contains the plural form of the name of policy crd resource
-	//AssociatedPolicyCrdPlural string `json:"associatedPolicyCrdPlural"`
+	AssociatedPolicyCrdPlural string `json:"associatedPolicyCrdPlural,omitempty"`
 }
 
 // CasbinModelStatus defines the observed state of CasbinModel

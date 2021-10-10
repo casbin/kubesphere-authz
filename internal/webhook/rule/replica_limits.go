@@ -16,12 +16,12 @@ func (g *Rules) ReplicaLimits(review *v1.AdmissionReview, modelUrl string, polic
 	if resourceKind != "deployments" {
 		return nil
 	}
-	adaptor,err:=getAdaptorObject(policy)
+	adaptor, err := getAdaptorObject(policy)
 	if err != nil {
 		log.Printf("ReplicaLimits: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
-	model,err:=getModelObject(modelUrl)
+	model, err := getModelObject(modelUrl)
 	if err != nil {
 		log.Printf("ReplicaLimits: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err

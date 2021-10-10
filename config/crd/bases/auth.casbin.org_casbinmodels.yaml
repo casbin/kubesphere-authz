@@ -36,6 +36,10 @@ spec:
           spec:
             description: CasbinModelSpec defines the desired state of CasbinModel
             properties:
+              associatedPolicyCrdPlural:
+                description: AssociatedPolicyCrdPlural contains the plural form of
+                  the name of policy crd resource
+                type: string
               modelText:
                 description: ModelText contains the content of casbin model
                 type: string
