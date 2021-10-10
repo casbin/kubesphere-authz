@@ -21,7 +21,7 @@ func getModelObject(url string)(interface{},error){
 		if len(tmp)==0{
 			return nil,fmt.Errorf("invalid syntax for crd url path. correct syntax: <yaml path to crd definition>#<namespace>")
 		}
-		yamlPath:="config/model_definition.yaml"
+		yamlPath:="config/crd/bases/auth.casbin.org_casbinmodels.yaml"
 		modelName:=tmp[0]
 		namespace:=tmp[1]
 		model,err:=crdmodel.GetModelFromCrdByYamlDefinition(yamlPath,namespace,modelName,config.GetClientMode())
