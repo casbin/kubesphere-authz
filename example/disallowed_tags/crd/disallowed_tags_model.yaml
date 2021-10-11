@@ -4,6 +4,7 @@ metadata:
   name: disallowed-tags
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: disallowed-tags
   modelText: |
     [request_definition]
     r = namespace,tag

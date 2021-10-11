@@ -4,6 +4,7 @@ metadata:
   name: container-resource-ratio
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: container-resource-ratio
   modelText: |
     [request_definition]
     r = namespace, cpuRedundancyRatio, memoryRedundancyRatio

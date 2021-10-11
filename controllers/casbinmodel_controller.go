@@ -49,20 +49,23 @@ type CasbinModelReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.8.3/pkg/reconcile
 func (r *CasbinModelReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = log.FromContext(ctx)
+	logger := log.FromContext(ctx)
 	// your logic here
+	logger.Info("CasbinModelReconciler:: Reconcile triggered")
 	var model authv1.CasbinModel
 	if err := r.Get(ctx, req.NamespacedName, &model); err != nil {
+		//no need to requeue
+		logger.Info("CasbinModelReconciler:: Reconcile model not found ")
 		return ctrl.Result{}, nil
 	}
 
-	policyCrd := generatePolicyCrdDefinition(model.Spec.AssociatedPolicyCrdPlural)
+	policyCrd := GeneratePolicyCrdDefinition(model.Spec.AssociatedPolicyCrdPlural)
 
 	//apply it
 	command := fmt.Sprintf("echo \"%s\" | kubectl apply -f -", policyCrd)
 	cmd := exec.Command("/bin/bash", "-c", command)
 	cmd.Run()
-	fmt.Println("here")
+	logger.Info("CasbinModelReconciler:: Policy CRD applied, ", "policyName", model.Spec.AssociatedPolicyCrdPlural)
 	return ctrl.Result{}, nil
 }
 

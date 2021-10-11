@@ -4,7 +4,7 @@
         "ContainerResourceLimit": {
             "available": true,
             "model": "crd://container-resource-limit#policy",
-            "policy": "crd://example/container_resource_limit/crd/container_resource_limit_definition.yaml#policy"
+            "policy": ""
         }
     },
     "externalClient": true,

@@ -40,6 +40,32 @@ func NewK8sCRDAdaptor(group, version, namespace, policyNameKind, policyNamePlura
 	return &res, nil
 }
 
+func NewK8sCRDAdaptorByYamlString(namespace string, content string, mode ClientType) (*K8sCRDAdaptor, error) {
+	var definition apiextensions.CustomResourceDefinition
+	fileData := []byte(content)
+	err := yaml.Unmarshal(fileData, &definition)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(definition.Spec.Versions) == 0 {
+		return nil, fmt.Errorf("no versions information provided")
+	}
+	fmt.Println(definition.Spec.Group,
+		definition.Spec.Versions[0].Name,
+		namespace,
+		definition.Spec.Names.Kind,
+		definition.Spec.Names.Plural)
+	//TODO: remove the hard code index 0
+	return NewK8sCRDAdaptor(
+		definition.Spec.Group,
+		definition.Spec.Versions[0].Name,
+		namespace,
+		definition.Spec.Names.Kind,
+		definition.Spec.Names.Plural,
+		mode)
+}
+
 //warning: if multiple versions are specified in yaml definition, only the 1st element will be used.
 func NewK8sCRDAdaptorByYamlDefinition(namespace string, yamlDefinitionPath string, mode ClientType) (*K8sCRDAdaptor, error) {
 	var definition apiextensions.CustomResourceDefinition

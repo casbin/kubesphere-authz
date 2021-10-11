@@ -4,6 +4,7 @@ metadata:
   name: required-annotations
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: required-annotations
   modelText: |
     [request_definition]
     r = k,v

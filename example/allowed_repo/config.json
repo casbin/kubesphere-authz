@@ -3,7 +3,7 @@
         "AllowedRepos": {
             "available": true,
             "model": "crd://allowed-repo#policy",
-            "policy": "crd://example/allowed_repo/crd/allowed_repo_definition.yaml#policy"
+            "policy": ""
         }
     },
     "externalClient": true,

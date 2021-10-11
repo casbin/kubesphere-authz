@@ -4,6 +4,7 @@ metadata:
   name: required-labels
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: required-labels
   modelText: |
     [request_definition]
     r = k,v
