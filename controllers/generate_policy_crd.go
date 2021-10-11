@@ -41,7 +41,7 @@ spec:
     kind: ${kind}
 `
 
-func generatePolicyCrdDefinition(plural string) string {
+func GeneratePolicyCrdDefinition(plural string) string {
 	split := strings.Split(plural, "-")
 	for i, s := range split {
 		split[i] = capitalize(s)

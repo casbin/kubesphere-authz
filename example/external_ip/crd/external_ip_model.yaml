@@ -4,6 +4,7 @@ metadata:
   name: external-ip
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: external-ip
   modelText: |
     [request_definition]
     r = namespace,ip

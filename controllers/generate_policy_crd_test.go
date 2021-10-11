@@ -58,7 +58,7 @@ spec:
     # kind is normally the CamelCased singular type. Your resource manifests use this.
     kind: AllowedRepo
 `
-	res := generatePolicyCrdDefinition("allowed-repo")
+	res := GeneratePolicyCrdDefinition("allowed-repo")
 	if res != expected {
 		t.Errorf("incorrect answer generated")
 	}
