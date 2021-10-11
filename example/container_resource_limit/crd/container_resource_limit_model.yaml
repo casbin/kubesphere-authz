@@ -4,6 +4,7 @@ metadata:
   name: container-resource-limit
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: container-resource-limit
   modelText: |
     [request_definition]
     r = namespace, cpu, memory

@@ -4,6 +4,7 @@ metadata:
   name: permission
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: permission
   modelText: |
     [request_definition]
     r = resourceName,resourceKind,operation

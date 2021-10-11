@@ -4,7 +4,7 @@
          "ReplicaLimits":{
              "available":true,
              "model":"crd://replica-limits#policy",
-             "policy":"crd://example/replica_limits/crd/replica_limits_definition.yaml#policy"
+             "policy":""
          }
      },
      "externalClient": true,

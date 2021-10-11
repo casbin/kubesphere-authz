@@ -41,13 +41,8 @@ func (g *Rules) ExternalIP(review *v1.AdmissionReview, modelUrl string, policy s
 		log.Printf("ExternalIP: service %s:%s rejected due to error when unmarshal: %s.", serviceObject.Namespace, serviceObject.Name, err.Error())
 		return err
 	}
-	adaptor, err := getAdaptorObject(policy)
-	if err != nil {
-		log.Printf("ExternalIP: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
-		return err
-	}
 
-	model, err := getModelObject(modelUrl)
+	model, adaptor, err := getModelAndPolicyObject(modelUrl, policy)
 	if err != nil {
 		log.Printf("ExternalIP: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err

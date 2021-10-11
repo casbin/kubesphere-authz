@@ -4,6 +4,7 @@ metadata:
   name: replica-limits
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: replica-limits
   modelText: |
     [request_definition]
     r = namespace, replica

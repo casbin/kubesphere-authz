@@ -4,6 +4,7 @@ metadata:
   name: required-probes
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: required-probes
   modelText: |
     [request_definition]
     r = probe
