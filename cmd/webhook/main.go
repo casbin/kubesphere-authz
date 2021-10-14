@@ -17,7 +17,10 @@ import (
 	"fmt"
 	"ksauth/internal/config"
 	"ksauth/internal/webhook"
+	"ksauth/internal/webhook/audit"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 //please use ${workspaceDir} as cwd, since all unittest and default config depends on this prerequisite
@@ -37,6 +40,16 @@ func main() {
 		return
 	}
 
+	logPath, numberPerFile := config.GetAuditParam()
+	auditor := audit.NewAuditor(numberPerFile, true, logPath)
+	go auditor.Run()
+	webhook.SetAuditor(auditor)
 	crt, key := config.GetCrtAndKey()
-	webhook.GetAdmissionWebhook().RunTLS(":8080", crt, key)
+	go webhook.GetAdmissionWebhook().RunTLS(":8080", crt, key)
+	//in case of signal interrupt
+	signalChan := make(chan os.Signal, 1)
+	signal.Notify(signalChan, syscall.SIGINT|syscall.SIGKILL)
+	signal := <-signalChan
+	fmt.Printf("signal %v received, quit", signal)
+
 }
