@@ -23,12 +23,20 @@ type Config struct {
 	ExcludedNamespaces []string              `json:"excludedNamespaces"`
 	DebugMode          bool                  `json:"debugMode"`
 
-	CertificateFile string `json:"certificateFile"`
-	PrivateKeyFile  string `json:"privateKeyFile"`
+	CertificateFile   string `json:"certificateFile"`
+	PrivateKeyFile    string `json:"privateKeyFile"`
+	AuditLogFolder    string `json:"auditLogFolder"`
+	ItemsNumberPerLog int    `json:"itemsNumberPerLog"`
 }
 
 var currentConfig Config
 var mutex sync.Mutex
+
+func GetAuditParam() (string, int) {
+	mutex.Lock()
+	defer mutex.Unlock()
+	return currentConfig.AuditLogFolder, currentConfig.ItemsNumberPerLog
+}
 
 func GetClientMode() crdadaptor.ClientType {
 	mutex.Lock()

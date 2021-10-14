@@ -15,15 +15,18 @@ package webhook
 
 import (
 	"fmt"
-	"k8s.io/api/admission/v1"
+	"ksauth/internal/webhook/audit"
 	"ksauth/internal/webhook/rule"
 	"reflect"
+
+	"k8s.io/api/admission/v1"
 )
 
 //maping check item name to configuration
 
 var valueOfGeneral reflect.Value
 var typeOfGeneral reflect.Type
+var auditor *audit.Auditor
 
 //load the webhook/config.json
 func init() {
@@ -31,8 +34,11 @@ func init() {
 	var ruleObj *rule.Rules
 	valueOfGeneral = reflect.ValueOf(ruleObj)
 	typeOfGeneral = reflect.TypeOf(ruleObj)
+	//load audit component
 }
-
+func SetAuditor(a *audit.Auditor) {
+	auditor = a
+}
 func enforceGeneralRules(methodName string, review *v1.AdmissionReview, model string, policy string) error {
 	args := []reflect.Value{
 		reflect.ValueOf(review),
