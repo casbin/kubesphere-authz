@@ -54,7 +54,6 @@ def main():
         return
     inputfile=sys.argv[1]
     splits=inputfile.split(".")
-    print(splits[-1])
     if len(splits)==1 or splits[-1] != "csv":
         print("Fatal: input policy file must be in csv format")
         return

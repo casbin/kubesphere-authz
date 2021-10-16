@@ -23,7 +23,7 @@ import (
 	core "k8s.io/api/core/v1"
 )
 
-func (g *Rules) ExternalIP(review *v1.AdmissionReview, model string, policy string) error {
+func (g *Rules) ExternalIP(review *v1.AdmissionReview, modelUrl string, policy string) error {
 
 	var resourceKind = review.Request.Resource.Resource
 	if resourceKind != "services" {
@@ -42,6 +42,12 @@ func (g *Rules) ExternalIP(review *v1.AdmissionReview, model string, policy stri
 		return err
 	}
 	adaptor,err:=getAdaptorObject(policy)
+	if err != nil {
+		log.Printf("ExternalIP: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
+		return err
+	}
+
+	model,err:=getModelObject(modelUrl)
 	if err != nil {
 		log.Printf("ExternalIP: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err

@@ -42,7 +42,7 @@ func TestContainerResourceRatioForPod1(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -73,7 +73,7 @@ func TestContainerResourceRatioForPod2(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -103,7 +103,7 @@ func TestContainerResourceRatioForPod3(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -136,7 +136,7 @@ func TestContainerResourceRatioForPod4(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -169,7 +169,7 @@ func TestContainerResourceRatioForPod5(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//shouldn't reject
 	if err != nil {
@@ -196,7 +196,7 @@ func TestContainerResourceRatioForDeployment1(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -227,7 +227,7 @@ func TestContainerResourceRatioForDeployment2(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -258,7 +258,7 @@ func TestContainerResourceRatioForDeployment3(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -291,7 +291,7 @@ func TestContainerResourceRatioForDeployment4(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -323,7 +323,7 @@ func TestContainerResourceRatioForDeployment5(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceRatio(&review, "../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
+	err = rule.ContainerResourceRatio(&review, "file://../../../example/container_resource_ratio/container_resource_ratio.conf", "file://../../../example/container_resource_ratio/container_resource_ratio.csv")
 	t.Log(err)
 	//shouldn't reject
 	if err != nil {

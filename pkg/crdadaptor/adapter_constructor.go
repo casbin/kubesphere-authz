@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"flag"
 	"path/filepath"
 
 	yaml "gopkg.in/yaml.v2"
@@ -79,20 +78,11 @@ func (k *K8sCRDAdaptor) establishInternalClient() error {
 	k.clientset = clientset
 	return nil
 }
-var kubeconfig *string=nil
 
 func (k *K8sCRDAdaptor) establishExternalClient() error {
-	if kubeconfig==nil{
-		if home := homedir.HomeDir();home != "" {
-			kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
-		} else {
-			kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
-		}
-		flag.Parse()
-	}
-	
+	home := homedir.HomeDir()
 	// use the current context in kubeconfig
-	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
+	config, err := clientcmd.BuildConfigFromFlags("", filepath.Join(home, ".kube", "config"))
 	if err != nil {
 		return err
 	}

@@ -221,6 +221,7 @@ In this file, each item corresponds to a rule applied to the request, like this:
 
 "policy" specifies where to find the policies. Currently we support 2 kind of policy: traditional csv format policies and our casbin crd adaptor and crd policies(in Chapter 3.3). For csv policy files, the value of "policy" field should follow this syntax: `"file://<path to csv file>"`, for example:  ` "policy": "file://example/permission/permission.csv"`. For crd adaptor, the value of "policy" field should follow this syntax `crd://<path to crd definition file>#<namespace>`, for example: `"policy": "crd://example/allowed_repo/crd/allowed_repo_definition.yaml#policy"`.
 
+allowed_repo_definition.yaml is the definition of policy crd resource for this rule. In this file you can find that the name of this crd definition is generated based on the filename of csv policy files. Also, we need to point out that this policy is under "policy" namespace. If you want to change it, modify the crd_template.yaml and policy_template.yaml.
 
 ## 4 For developer
 ### 4.1 how to debug this webhook?

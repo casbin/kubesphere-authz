@@ -42,7 +42,7 @@ func TestContainerResourceLimitForPod1(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceLimit(&review, "file://../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -71,7 +71,7 @@ func TestContainerResourceLimitForPod2(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceLimit(&review, "file://../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -101,7 +101,7 @@ func TestContainerResourceLimitForPod3(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceLimit(&review, "file://../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -131,7 +131,7 @@ func TestContainerResourceLimitForPod4(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceLimit(&review, "file://../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
 	t.Log(err)
 	//shouldn't reject
 	if err != nil {
@@ -158,7 +158,7 @@ func TestContainerResourceLimitForDeployment1(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceLimit(&review, "file://../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -187,7 +187,7 @@ func TestContainerResourceLimitForDeployment2(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceLimit(&review, "file://../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -217,7 +217,7 @@ func TestContainerResourceLimitForDeployment3(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceLimit(&review, "file://../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
 	t.Log(err)
 	//should reject
 	if err == nil {
@@ -247,7 +247,7 @@ func TestContainerResourceLimitForDeployment4(t *testing.T) {
 	}
 	review.Request.Object.Raw = data
 
-	err = rule.ContainerResourceLimit(&review, "../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
+	err = rule.ContainerResourceLimit(&review, "file://../../../example/container_resource_limit/container_resource_limit.conf", "file://../../../example/container_resource_limit/container_resource_limit.csv")
 	t.Log(err)
 	//shouldn't reject
 	if err != nil {
