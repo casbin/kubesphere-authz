@@ -1,7 +1,22 @@
  {
-    "ContainerResourceLimit": {
-        "available": true,
-        "model": "example/container_resource_limit/container_resource_limit.conf",
-        "policy": "crd://example/container_resource_limit/crd/container_resource_limit_definition.yaml#policy"
-    }
+    "rules":{
+
+        "ContainerResourceLimit": {
+            "available": true,
+            "model": "crd://container-resource-limit#policy",
+            "policy": "crd://example/container_resource_limit/crd/container_resource_limit_definition.yaml#policy"
+        }
+    },
+    "externalClient": true,
+    "casbinWorkspace": "casbinauth",
+    "excludedNamespaces": [
+        "kube-node-lease",
+        "kube-public",
+        "kube-system",
+        "policy"
+    ],
+    "debugMode": true,
+    "certificateFile": "config/certificate/server.crt",
+    "privateKeyFile": "config/certificate/server.key"
+
 }

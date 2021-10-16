@@ -35,7 +35,7 @@ func handler(c *gin.Context) {
 
 	fmt.Printf("%s\n", requestBody.Request.Resource.Resource)
 
-	for _,excluded:=range config.EXCLUDED_NAMESPACE{
+	for _,excluded:=range config.GetExcludedNamespaces(){
 		if requestBody.Request.Namespace ==excluded{
 			approve(c, string(requestBody.Request.UID))
 			return
@@ -43,7 +43,7 @@ func handler(c *gin.Context) {
 	}
 
 	//have all rules enforced
-	for item, config := range webHookConfig {
+	for item, config := range config.GetRules() {
 		if !config.Available {
 			continue
 		}

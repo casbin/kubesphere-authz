@@ -4,12 +4,35 @@ import (
 	"fmt"
 	"ksauth/internal/config"
 	"ksauth/pkg/crdadaptor"
+	"ksauth/pkg/crdmodel"
 	"strings"
 )
 
+func getModelObject(url string)(interface{},error){
+	scheme,path,err:=splitSchemeAndPath(url)
+	if err!=nil{
+		return nil,err
+	}
+	switch scheme{
+	case "file":
+		return path,nil
+	case "crd":
+		tmp:=strings.Split(path,"#")
+		if len(tmp)==0{
+			return nil,fmt.Errorf("invalid syntax for crd url path. correct syntax: <yaml path to crd definition>#<namespace>")
+		}
+		yamlPath:="config/model_definition.yaml"
+		modelName:=tmp[0]
+		namespace:=tmp[1]
+		model,err:=crdmodel.GetModelFromCrdByYamlDefinition(yamlPath,namespace,modelName,config.GetClientMode())
+		return model,err
+	}
+	return nil,fmt.Errorf("invalid scheme %s",scheme)
+}
 
-func getAdaptorObject(policy string)(interface{},error){
-	scheme,path,err:=splitSchemeAndPath(policy)
+
+func getAdaptorObject(url string)(interface{},error){
+	scheme,path,err:=splitSchemeAndPath(url)
 	if err!=nil{
 		return nil,err
 	}
@@ -23,7 +46,7 @@ func getAdaptorObject(policy string)(interface{},error){
 		}
 		yamlPath:=tmp[0]
 		namespace:=tmp[1]
-		adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlDefinition(namespace, yamlPath, config.CLIENT_MODE)
+		adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlDefinition(namespace, yamlPath, config.GetClientMode())
 		if err!=nil{
 			return nil,err
 		}

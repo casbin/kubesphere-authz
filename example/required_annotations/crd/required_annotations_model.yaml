@@ -1,0 +1,21 @@
+apiVersion: "stable.example.com/v1"
+kind: CasbinModel
+metadata:
+  name: required-annotations
+  namespace: policy
+spec:
+  modelText: |
+    [request_definition]
+    r = k,v
+    
+    [policy_definition]
+    p = k,v,eft
+    
+    [policy_effect]
+    e =some(where (p.eft == allow))
+    
+    [matchers]
+    m = r.k == p.k && regexMatch(r.v,p.v)
+  
+
+  

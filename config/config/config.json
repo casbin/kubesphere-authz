@@ -1,67 +1,80 @@
- {
-    "ResourceOperationPermission": {
-        "available": false,
-        "model": "example/permission/permission.conf",
-        "policy": "file://example/permission/permission.csv"
+{
+    "rules": {
+        "ResourceOperationPermission": {
+            "available": false,
+            "model": "example/permission/permission.conf",
+            "policy": "file://example/permission/permission.csv"
+        },
+        "AllowedRepos": {
+            "available": true,
+            "model": "example/allowed_repo/allowed_repo.conf",
+            "policy": "file://example/allowed_repo/allowed_repo.csv"
+        },
+        "ContainerResourceLimit": {
+            "available": false,
+            "model": "example/container_resource_limit/container_resource_limit.conf",
+            "policy": "file://example/container_resource_limit/container_resource_limit.csv"
+        },
+        "BlockNodeportService": {
+            "available": false,
+            "model": "",
+            "policy": ""
+        },
+        "ContainerResourceRatio": {
+            "available": false,
+            "model": "example/container_resource_ratio/container_resource_ratio.conf",
+            "policy": "file://example/container_resource_ratio/container_resource_ratio.csv"
+        },
+        "DisallowedTags": {
+            "available": false,
+            "model": "example/disallowed_tags/disallowed_tags.conf",
+            "policy": "file://example/disallowed_tags/disallowed_tags.csv"
+        },
+        "ExternalIP": {
+            "available": false,
+            "model": "example/external_ip/external_ip.conf",
+            "policy": "file://example/external_ip/external_ip.csv"
+        },
+        "HttpsOnly": {
+            "available": false,
+            "model": "",
+            "policy": ""
+        },
+        "ImageDigest": {
+            "available": false,
+            "model": "",
+            "policy": ""
+        },
+        "ReplicaLimits": {
+            "available": false,
+            "model": "example/replica_limits/replica_limits.conf",
+            "policy": "file://example/replica_limits/replica_limits.csv"
+        },
+        "RequiredLabel": {
+            "available": false,
+            "model": "example/required_labels/required_labels.conf",
+            "policy": "file://example/required_labels/required_labels.csv"
+        },
+        "RequiredAnnotations": {
+            "available": false,
+            "model": "example/required_annotations/required_annotations.conf",
+            "policy": "file://example/required_annotations/required_annotations.csv"
+        },
+        "RequiredProbes": {
+            "available": false,
+            "model": "example/required_probes/required_probes.conf",
+            "policy": "file://example/required_probes/required_probes.csv"
+        }
     },
-    "AllowedRepos": {
-        "available": true,
-        "model": "example/allowed_repo/allowed_repo.conf",
-        "policy": "file://example/allowed_repo/allowed_repo.csv"
-    },
-    "ContainerResourceLimit": {
-        "available": false,
-        "model": "example/container_resource_limit/container_resource_limit.conf",
-        "policy": "file://example/container_resource_limit/container_resource_limit.csv"
-    },
-    "BlockNodeportService": {
-        "available": false,
-        "model": "",
-        "policy": ""
-    },
-    "ContainerResourceRatio":{
-        "available": false,
-        "model": "example/container_resource_ratio/container_resource_ratio.conf",
-        "policy": "file://example/container_resource_ratio/container_resource_ratio.csv"
-    },
-    "DisallowedTags":{
-        "available": false,
-        "model": "example/disallowed_tags/disallowed_tags.conf",
-        "policy": "file://example/disallowed_tags/disallowed_tags.csv"
-    },
-    "ExternalIP":{
-        "available":false,
-        "model":"example/external_ip/external_ip.conf",
-        "policy":"file://example/external_ip/external_ip.csv"
-    },
-    "HttpsOnly":{
-        "available": false,
-        "model": "",
-        "policy": ""
-    },
-    "ImageDigest":{
-        "available": false,
-        "model": "",
-        "policy": ""
-    },
-    "ReplicaLimits":{
-        "available":false,
-        "model":"example/replica_limits/replica_limits.conf",
-        "policy":"file://example/replica_limits/replica_limits.csv"
-    },
-    "RequiredLabel":{
-        "available":false,
-        "model":"example/required_labels/required_labels.conf",
-        "policy":"file://example/required_labels/required_labels.csv"
-    },
-    "RequiredAnnotations":{
-        "available":false,
-        "model":"example/required_annotations/required_annotations.conf",
-        "policy":"file://example/required_annotations/required_annotations.csv"
-    },
-    "RequiredProbes":{
-        "available":false,
-        "model":"example/required_probes/required_probes.conf",
-        "policy":"file://example/required_probes/required_probes.csv"
-    }
-} 
+    "externalClient": true,
+    "casbinWorkspace": "casbinauth",
+    "excludedNamespaces": [
+        "kube-node-lease",
+        "kube-public",
+        "kube-system",
+        "policy"
+    ],
+    "debugMode": true,
+    "certificateFile": "config/certificate/server.crt",
+    "privateKeyFile": "config/certificate/server.key"
+}

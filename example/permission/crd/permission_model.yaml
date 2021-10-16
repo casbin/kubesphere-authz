@@ -1,0 +1,21 @@
+apiVersion: "stable.example.com/v1"
+kind: CasbinModel
+metadata:
+  name: permission
+  namespace: policy
+spec:
+  modelText: |
+    [request_definition]
+    r = resourceName,resourceKind,operation
+    
+    [policy_definition]
+    p = resourceName,resourceKind,operation,eft
+    
+    [policy_effect]
+    e =!some(where (p.eft == deny))
+    
+    [matchers]
+    m = r.resourceName == p.resourceName && r.resourceKind == p.resourceKind && r.operation == p.operation
+  
+
+  

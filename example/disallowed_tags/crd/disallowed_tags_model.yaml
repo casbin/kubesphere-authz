@@ -1,0 +1,21 @@
+apiVersion: "stable.example.com/v1"
+kind: CasbinModel
+metadata:
+  name: disallowed-tags
+  namespace: policy
+spec:
+  modelText: |
+    [request_definition]
+    r = namespace,tag
+    
+    [policy_definition]
+    p = namespace,tag,eft
+    
+    [policy_effect]
+    e =!some(where (p.eft == deny))
+    
+    [matchers]
+    m = r.namespace == p.namespace && r.tag==p.tag
+  
+
+  
