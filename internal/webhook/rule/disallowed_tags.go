@@ -49,12 +49,8 @@ func (g *Rules) DisallowedTags(review *v1.AdmissionReview, model string, policy 
 }
 
 func (g *Rules) disallowedTagsForPod(review *v1.AdmissionReview, modelUrl string, policy string) error {
-	adaptor, err := getAdaptorObject(policy)
-	if err != nil {
-		log.Printf("DisallowedTags: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
-		return err
-	}
-	model,err:=getModelObject(modelUrl)
+
+	model, adaptor, err := getModelAndPolicyObject(modelUrl, policy)
 	if err != nil {
 		log.Printf("DisallowedTags: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
@@ -107,12 +103,8 @@ func (g *Rules) disallowedTagsForPod(review *v1.AdmissionReview, modelUrl string
 }
 
 func (g *Rules) disallowedTagsForDeployment(review *v1.AdmissionReview, modelUrl string, policy string) error {
-	adaptor, err := getAdaptorObject(policy)
-	if err != nil {
-		log.Printf("DisallowedTags: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
-		return err
-	}
-	model,err:=getModelObject(modelUrl)
+
+	model, adaptor, err := getModelAndPolicyObject(modelUrl, policy)
 	if err != nil {
 		log.Printf("DisallowedTags: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err

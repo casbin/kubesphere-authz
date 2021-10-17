@@ -11,12 +11,7 @@ import (
 
 func (g *Rules) RequiredAnnotations(review *v1.AdmissionReview, modelUrl string, policy string) error {
 	var resourceKind = review.Request.Resource.Resource
-	adaptor,err:=getAdaptorObject(policy)
-	if err != nil {
-		log.Printf("RequiredAnnotations: %s %s:%s rejected due to error:%s", resourceKind, review.Request.Namespace, review.Request.Name, err.Error())
-		return err
-	}
-	model,err:=getModelObject(modelUrl)
+	model, adaptor, err := getModelAndPolicyObject(modelUrl, policy)
 	if err != nil {
 		log.Printf("RequiredAnnotations: %s %s:%s rejected due to error:%s", resourceKind, review.Request.Namespace, review.Request.Name, err.Error())
 		return err

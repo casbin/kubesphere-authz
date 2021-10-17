@@ -4,7 +4,7 @@
          "ExternalIP":{
              "available":true,
              "model":"crd://external-ip#policy",
-             "policy":"crd://example/external_ip/crd/external_ip_definition.yaml#policy"
+             "policy":""
          }
      },
      "externalClient": true,

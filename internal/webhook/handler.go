@@ -35,8 +35,8 @@ func handler(c *gin.Context) {
 
 	fmt.Printf("%s\n", requestBody.Request.Resource.Resource)
 
-	for _,excluded:=range config.GetExcludedNamespaces(){
-		if requestBody.Request.Namespace ==excluded{
+	for _, excluded := range config.GetExcludedNamespaces() {
+		if requestBody.Request.Namespace == excluded {
 			approve(c, string(requestBody.Request.UID))
 			return
 		}

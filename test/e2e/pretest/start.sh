@@ -39,8 +39,18 @@ cd $workspaceBaseDir
 go build -o "${workspaceBaseDir}/test/e2e/testbuild/main.exe" cmd/webhook/main.go
 
 echo "[E2E PreTest] load policies to k8s"
+cd "${workspaceBaseDir}"
+make manifests 
+make generate 
+make fmt 
+make vet
+make install
+
+make run &
 cd "${workspaceBaseDir}/deployments"
 python3 load_crd.py
+pid=$(netstat -nap | grep 8081 | tail -n1 | awk '{printf("%d/n"), $7}' | awk -F/ '{printf("%d\n"), $1}')
+kill $pid
 
 # 4. register external webhook into k8s
 echo "[E2E PreTest] configure admission webhook in k8s"

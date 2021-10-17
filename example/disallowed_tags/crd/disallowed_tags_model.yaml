@@ -1,9 +1,10 @@
-apiVersion: "stable.example.com/v1"
+apiVersion: "auth.casbin.org/v1"
 kind: CasbinModel
 metadata:
   name: disallowed-tags
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: disallowed-tags
   modelText: |
     [request_definition]
     r = namespace,tag

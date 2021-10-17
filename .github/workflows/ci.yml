@@ -23,14 +23,14 @@ jobs:
 
     - name: Test
       run: go test -v ./...
-  docker-build:
+  # docker-build:
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: ./build.sh
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Build the Docker image
+  #     run: ./build.sh
   e2e-test:
     runs-on: ubuntu-latest
     steps:

@@ -50,17 +50,13 @@ func (g *Rules) ContainerResourceRatio(review *v1.AdmissionReview, model string,
 }
 
 func (g *Rules) containerResourceRatioForPod(review *v1.AdmissionReview, modelUrl string, policy string) error {
-	adaptor,err:=getAdaptorObject(policy)
+
+	model, adaptor, err := getModelAndPolicyObject(modelUrl, policy)
 	if err != nil {
 		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
-	model,err:=getModelObject(modelUrl)
-	if err != nil {
-		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
-		return err
-	}
-	enforcer, err := casbin.NewEnforcer(model,adaptor)
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
@@ -132,17 +128,13 @@ func (g *Rules) containerResourceRatioForPod(review *v1.AdmissionReview, modelUr
 }
 
 func (g *Rules) containerResourceRatioForDeployment(review *v1.AdmissionReview, modelUrl string, policy string) error {
-	adaptor,err:=getAdaptorObject(policy)
+
+	model, adaptor, err := getModelAndPolicyObject(modelUrl, policy)
 	if err != nil {
 		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
-	model,err:=getModelObject(modelUrl)
-	if err != nil {
-		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
-		return err
-	}
-	enforcer, err := casbin.NewEnforcer(model,adaptor)
+	enforcer, err := casbin.NewEnforcer(model, adaptor)
 
 	if err != nil {
 		log.Printf("ContainerResourceRatio: deployment %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())

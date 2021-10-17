@@ -4,7 +4,7 @@
          "RequiredLabel":{
              "available":true,
              "model":"crd://required-labels#policy",
-             "policy":"crd://example/required_labels/crd/required_labels_definition.yaml#policy"
+             "policy":""
          }
      },
      "externalClient": true,
