@@ -1,9 +1,10 @@
-apiVersion: "stable.example.com/v1"
+apiVersion: "auth.casbin.org/v1"
 kind: CasbinModel
 metadata:
   name: allowed-repo
   namespace: policy
 spec:
+  associatedPolicyCrdPlural: allowed-repo
   modelText: |
     [request_definition]
     r = namespace,image

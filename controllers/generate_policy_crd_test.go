@@ -1,13 +1,35 @@
+package controllers
+
+import "testing"
+
+func TestCapitalize(t *testing.T) {
+
+	testArray := [][]string{
+		{"test1", "Test1"},
+		{"", ""},
+		{"Test", "Test"},
+		{"123avb", "123avb"},
+	}
+	for _, tuple := range testArray {
+		res := capitalize(tuple[0])
+		if res != tuple[1] {
+			t.Errorf("expected %s, got %s", tuple[1], res)
+		}
+	}
+
+}
+
+func TestGeneratePolicyCrdDefinition(t *testing.T) {
+	var expected = `
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  ##EDIT HERE
   # name must match the spec fields below, and be in the form: <plural>.<group>
-  name: disallowed-tags.stable.example.com
+  name: allowed-repo.auth.casbin.org
   namespace: policy
 spec:
   # group name to use for REST API: /apis/<group>/<version>
-  group: stable.example.com
+  group: auth.casbin.org
   # list of versions supported by this CustomResourceDefinition
   versions:
     - name: v1
@@ -23,20 +45,22 @@ spec:
               type: object
               properties:
                 policyItem:
-                  ##EDIT HERE
                   #this policyItem contains a line of policy. multiple lines of policy is forbiddened
                   type: string
                 
   # either Namespaced or Cluster
   scope: Namespaced
   names:
-    ## EDIT HERE: change the plural,singular and kind of the name to your own policy name.
     # plural name to be used in the URL: /apis/<group>/<version>/<plural>
-    plural: disallowed-tags
+    plural: allowed-repo
     # singular name to be used as an alias on the CLI and for display
-    singular: disallowed-tags
+    singular: allowed-repo
     # kind is normally the CamelCased singular type. Your resource manifests use this.
-    kind: DisallowedTags
-    # shortNames allow shorter string to match your resource on the CLI
-    # shortNames:
-    # - pl
+    kind: AllowedRepo
+`
+	res := GeneratePolicyCrdDefinition("allowed-repo")
+	if res != expected {
+		t.Errorf("incorrect answer generated")
+	}
+
+}

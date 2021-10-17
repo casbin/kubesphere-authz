@@ -1,0 +1,24 @@
+# permissions for end users to edit casbinmodels.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: casbinmodel-editor-role
+rules:
+- apiGroups:
+  - auth.casbin.org
+  resources:
+  - casbinmodels
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - auth.casbin.org
+  resources:
+  - casbinmodels/status
+  verbs:
+  - get
