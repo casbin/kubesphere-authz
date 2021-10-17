@@ -21,8 +21,10 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 
-	"github.com/gin-gonic/gin"
 	"ksauth/internal/config"
+	//"ksauth/internal/webhook/audit"
+
+	"github.com/gin-gonic/gin"
 )
 
 func handler(c *gin.Context) {
@@ -34,9 +36,9 @@ func handler(c *gin.Context) {
 	//for debug only. Todo:remove this block of code
 
 	fmt.Printf("%s\n", requestBody.Request.Resource.Resource)
-
 	for _, excluded := range config.GetExcludedNamespaces() {
 		if requestBody.Request.Namespace == excluded {
+			auditor.Insert(data, true, nil)
 			approve(c, string(requestBody.Request.UID))
 			return
 		}
@@ -49,10 +51,12 @@ func handler(c *gin.Context) {
 		}
 		err := enforceGeneralRules(item, &requestBody, config.Model, config.Policy)
 		if err != nil {
+			auditor.Insert(data, false, err)
 			reject(c, string(requestBody.Request.UID), err.Error())
 			return
 		}
 	}
+	auditor.Insert(data, true, nil)
 	approve(c, string(requestBody.Request.UID))
 
 }

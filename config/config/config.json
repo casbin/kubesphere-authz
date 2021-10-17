@@ -76,5 +76,7 @@
     ],
     "debugMode": true,
     "certificateFile": "config/certificate/server.crt",
-    "privateKeyFile": "config/certificate/server.key"
+    "privateKeyFile": "config/certificate/server.key",
+    "auditLogFolder":".",
+    "itemsNumberPerLog":100
 }
