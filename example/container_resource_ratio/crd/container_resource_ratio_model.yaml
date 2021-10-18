@@ -2,7 +2,7 @@ apiVersion: "auth.casbin.org/v1"
 kind: CasbinModel
 metadata:
   name: container-resource-ratio
-  namespace: policy
+  namespace: kubesphere-authz-system
 spec:
   associatedPolicyCrdPlural: container-resource-ratio
   modelText: |

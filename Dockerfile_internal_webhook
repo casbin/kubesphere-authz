@@ -1,0 +1,6 @@
+FROM debian:latest as webhook
+WORKDIR /workspace
+COPY build/webhook .
+COPY config/ config/
+CMD cd /workspace && ./webhook
+

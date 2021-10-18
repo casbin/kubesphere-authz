@@ -2,7 +2,7 @@
     "rules":{
         "ContainerResourceRatio":{
             "available": true,
-            "model": "crd://container-resource-ratio#policy",
+            "model": "crd://container-resource-ratio#kubesphere-authz-system",
             "policy": ""
         }
     },

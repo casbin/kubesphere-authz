@@ -2,7 +2,7 @@ apiVersion: "auth.casbin.org/v1"
 kind: RequiredAnnotations
 metadata:
   name: policy1
-  namespace: policy
+  namespace: kubesphere-authz-system
 spec:
   policyItem: |
     p, "a8r.io/owner", "test\-\d*", allow

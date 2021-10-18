@@ -2,7 +2,7 @@ apiVersion: "auth.casbin.org/v1"
 kind: CasbinModel
 metadata:
   name: container-resource-limit
-  namespace: policy
+  namespace: kubesphere-authz-system
 spec:
   associatedPolicyCrdPlural: container-resource-limit
   modelText: |

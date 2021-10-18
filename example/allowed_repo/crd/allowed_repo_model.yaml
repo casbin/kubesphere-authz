@@ -2,7 +2,7 @@ apiVersion: "auth.casbin.org/v1"
 kind: CasbinModel
 metadata:
   name: allowed-repo
-  namespace: policy
+  namespace: kubesphere-authz-system
 spec:
   associatedPolicyCrdPlural: allowed-repo
   modelText: |

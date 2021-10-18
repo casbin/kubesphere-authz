@@ -2,39 +2,39 @@
     "rules": {
         "ResourceOperationPermission": {
             "available": false,
-            "model": "example/permission/permission.conf",
-            "policy": "file://example/permission/permission.csv"
+            "model": "crd://permission#kubesphere-authz-system",
+            "policy": ""
         },
         "AllowedRepos": {
             "available": true,
-            "model": "example/allowed_repo/allowed_repo.conf",
-            "policy": "file://example/allowed_repo/allowed_repo.csv"
+            "model": "crd://allowed-repo#kubesphere-authz-system",
+            "policy": ""
         },
         "ContainerResourceLimit": {
             "available": false,
-            "model": "example/container_resource_limit/container_resource_limit.conf",
-            "policy": "file://example/container_resource_limit/container_resource_limit.csv"
+            "model": "crd://container-resource-limit#kubesphere-authz-system",
+            "policy": ""
         },
         "BlockNodeportService": {
             "available": false,
             "model": "",
             "policy": ""
         },
-        "ContainerResourceRatio": {
+        "ContainerResourceRatio":{
             "available": false,
-            "model": "example/container_resource_ratio/container_resource_ratio.conf",
-            "policy": "file://example/container_resource_ratio/container_resource_ratio.csv"
+            "model": "crd://container-resource-ratio#kubesphere-authz-system",
+            "policy": ""
         },
-        "DisallowedTags": {
+        "DisallowedTags":{
             "available": false,
-            "model": "example/disallowed_tags/disallowed_tags.conf",
-            "policy": "file://example/disallowed_tags/disallowed_tags.csv"
+            "model": "crd://disallowed-tags#kubesphere-authz-system",
+            "policy": ""
         },
-        "ExternalIP": {
-            "available": false,
-            "model": "example/external_ip/external_ip.conf",
-            "policy": "file://example/external_ip/external_ip.csv"
-        },
+        "ExternalIP":{
+             "available":false,
+             "model":"crd://external-ip#kubesphere-authz-system",
+             "policy":""
+         },
         "HttpsOnly": {
             "available": false,
             "model": "",
@@ -45,29 +45,29 @@
             "model": "",
             "policy": ""
         },
-        "ReplicaLimits": {
-            "available": false,
-            "model": "example/replica_limits/replica_limits.conf",
-            "policy": "file://example/replica_limits/replica_limits.csv"
+        "ReplicaLimits":{
+            "available":false,
+            "model":"crd://replica-limits#kubesphere-authz-system",
+            "policy":""
         },
-        "RequiredLabel": {
-            "available": false,
-            "model": "example/required_labels/required_labels.conf",
-            "policy": "file://example/required_labels/required_labels.csv"
+        "RequiredLabel":{
+            "available":false,
+            "model":"crd://required-labels#kubesphere-authz-system",
+            "policy":""
         },
-        "RequiredAnnotations": {
-            "available": false,
-            "model": "example/required_annotations/required_annotations.conf",
-            "policy": "file://example/required_annotations/required_annotations.csv"
+        "RequiredAnnotations":{
+            "available":false,
+            "model":"crd://required-annotations#kubesphere-authz-system",
+            "policy":""
         },
-        "RequiredProbes": {
-            "available": false,
-            "model": "example/required_probes/required_probes.conf",
-            "policy": "file://example/required_probes/required_probes.csv"
+        "RequiredProbes":{
+            "available":false,
+            "model":"crd://required-probes#kubesphere-authz-system",
+            "policy":""
         }
     },
-    "externalClient": true,
-    "casbinWorkspace": "casbinauth",
+    "externalClient": false,
+    "casbinWorkspace": "kubesphere-authz-system",
     "excludedNamespaces": [
         "kube-node-lease",
         "kube-public",

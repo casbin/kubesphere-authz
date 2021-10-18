@@ -2,7 +2,7 @@ apiVersion: "auth.casbin.org/v1"
 kind: CasbinModel
 metadata:
   name: external-ip
-  namespace: policy
+  namespace: kubesphere-authz-system
 spec:
   associatedPolicyCrdPlural: external-ip
   modelText: |

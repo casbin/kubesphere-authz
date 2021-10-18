@@ -57,7 +57,7 @@ jobs:
     - name: start minikube
       run: minikube start
     - name: setup k8s
-      run: kubectl create namespace policy && kubectl --namespace=policy apply -f test/adaptor/crd_example.yaml
+      run: kubectl create namespace kubesphere-authz-system && kubectl --namespace=kubesphere-authz-system apply -f test/adaptor/crd_example.yaml
     - name: run test
       run: cd test/adaptor && go run .
 

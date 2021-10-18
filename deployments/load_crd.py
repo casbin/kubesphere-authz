@@ -4,7 +4,7 @@ import time
 time.sleep(10)
 workspacePath = os.path.abspath('../')
 print("Load Policy start")
-os.system("kubectl create namespace policy")
+os.system("kubectl create namespace kubesphere-authz-system")
 os.system("kubectl apply -f %s"%(workspacePath+"/config/crd/bases/auth.casbin.org_casbinmodels.yaml"))
 exampleDirs=[name for name in  os.listdir(workspacePath+"/example") if os.path.isdir(workspacePath+"/example/"+name)]
 print(exampleDirs)

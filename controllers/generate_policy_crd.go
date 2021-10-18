@@ -8,7 +8,7 @@ kind: CustomResourceDefinition
 metadata:
   # name must match the spec fields below, and be in the form: <plural>.<group>
   name: ${plural}.auth.casbin.org
-  namespace: policy
+  namespace: kubesphere-authz-system
 spec:
   # group name to use for REST API: /apis/<group>/<version>
   group: auth.casbin.org

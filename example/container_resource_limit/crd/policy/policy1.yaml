@@ -2,7 +2,7 @@ apiVersion: "auth.casbin.org/v1"
 kind: ContainerResourceLimit
 metadata:
   name: policy1
-  namespace: policy
+  namespace: kubesphere-authz-system
 spec:
   policyItem: |
     p, default, 104857600, 104857600, allow

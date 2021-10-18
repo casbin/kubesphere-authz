@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlDefinition("policy", "crd_example.yaml", crdadaptor.EXTERNAL_CLIENT)
+	adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlDefinition("kubesphere-authz-system", "crd_example.yaml", crdadaptor.EXTERNAL_CLIENT)
 	if err != nil {
 		panic(err.Error())
 	}

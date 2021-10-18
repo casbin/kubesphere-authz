@@ -2,7 +2,7 @@
      "rules":{
          "DisallowedTags":{
              "available": true,
-             "model": "crd://disallowed-tags#policy",
+             "model": "crd://disallowed-tags#kubesphere-authz-system",
              "policy": ""
          }
      },

@@ -2,7 +2,7 @@ apiVersion: "auth.casbin.org/v1"
 kind: ${kind}
 metadata:
   name: ${name}
-  namespace: policy
+  namespace: kubesphere-authz-system
 spec:
   policyItem: |
     ${policy}

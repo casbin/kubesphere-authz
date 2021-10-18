@@ -2,7 +2,7 @@
     "rules":{
         "AllowedRepos": {
             "available": true,
-            "model": "crd://allowed-repo#policy",
+            "model": "crd://allowed-repo#kubesphere-authz-system",
             "policy": ""
         }
     },

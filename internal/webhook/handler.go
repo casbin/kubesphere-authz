@@ -38,7 +38,7 @@ func handler(c *gin.Context) {
 	fmt.Printf("%s\n", requestBody.Request.Resource.Resource)
 	for _, excluded := range config.GetExcludedNamespaces() {
 		if requestBody.Request.Namespace == excluded {
-			auditor.Insert(data, true, nil)
+			//auditor.Insert(data, true, nil)
 			approve(c, string(requestBody.Request.UID))
 			return
 		}
@@ -51,12 +51,12 @@ func handler(c *gin.Context) {
 		}
 		err := enforceGeneralRules(item, &requestBody, config.Model, config.Policy)
 		if err != nil {
-			auditor.Insert(data, false, err)
+			//auditor.Insert(data, false, err)
 			reject(c, string(requestBody.Request.UID), err.Error())
 			return
 		}
 	}
-	auditor.Insert(data, true, nil)
+	//auditor.Insert(data, true, nil)
 	approve(c, string(requestBody.Request.UID))
 
 }
