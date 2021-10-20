@@ -1,11 +1,12 @@
-FROM debian:latest as controller
-WORKDIR /workspace
-COPY build/controller .
-ENTRYPOINT ["/workspace/controller" ]
+FROM golang:1.16 as builder
+WORKDIR /webhook
+COPY ./ /webhook
+RUN go env -w GOPROXY=https://goproxy.cn,direct && ./build.sh
 
-#external webhook
-# FROM alpin as webhook
-# WORKDIR /workspace
-# COPY build/webhook .
-# COPY config/config config/config
+FROM debian:latest as webhook
+WORKDIR /workspace
+COPY --from=builder /webhook/build/webhook .
+COPY --from=builder /webhook/build/config/ config/
+CMD cd /workspace && ./webhook
+
 

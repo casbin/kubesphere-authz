@@ -1,13 +1,13 @@
 package main
 
 import (
-	"ksauth/pkg/crdadaptor"
+	crdadaptor "ksauth/pkg/crdadaptorv2"
 
 	casbin "github.com/casbin/casbin/v2"
 )
 
 func main() {
-	adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlDefinition("kubesphere-authz-system", "crd_example.yaml", crdadaptor.EXTERNAL_CLIENT)
+	adaptor, err := crdadaptor.NewK8sCRDAdaptor("kubesphere-authz-system", "test1", crdadaptor.EXTERNAL_CLIENT)
 	if err != nil {
 		panic(err.Error())
 	}

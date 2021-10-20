@@ -1,8 +1,10 @@
 apiVersion: "auth.casbin.org/v1"
-kind: ReplicaLimits
+kind: UniversalPolicy
 metadata:
-  name: policy1
+  name: replica-limits-policy1
   namespace: kubesphere-authz-system
+  labels:
+    model: replica-limits
 spec:
   policyItem: |
     p, default, 2, 10, allow

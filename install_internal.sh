@@ -1,4 +1,6 @@
+#install all crd
 make install
+#load existing models and policies
 cd deployments
 python3 load_crd.py
 #the webhook deployment uses this account

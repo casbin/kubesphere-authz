@@ -1,8 +1,10 @@
 apiVersion: "auth.casbin.org/v1"
-kind: Permission
+kind: UniversalPolicy
 metadata:
-  name: policy1
+  name: permission-policy1
   namespace: kubesphere-authz-system
+  labels:
+    model: permission
 spec:
   policyItem: |
     p,my-nginx-svc,services,CREATE,deny

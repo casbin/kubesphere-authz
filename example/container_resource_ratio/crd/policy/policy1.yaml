@@ -1,8 +1,10 @@
 apiVersion: "auth.casbin.org/v1"
-kind: ContainerResourceRatio
+kind: UniversalPolicy
 metadata:
-  name: policy1
+  name: container-resource-ratio-policy1
   namespace: kubesphere-authz-system
+  labels:
+    model: container-resource-ratio
 spec:
   policyItem: |
     p, default, 2, 2, allow

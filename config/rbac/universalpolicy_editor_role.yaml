@@ -1,15 +1,13 @@
-
----
+# permissions for end users to edit universalpolicies.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  creationTimestamp: null
-  name: manager-role
+  name: universalpolicy-editor-role
 rules:
 - apiGroups:
-  - '*'
+  - auth.casbin.org
   resources:
-  - casbinmodels
+  - universalpolicies
   verbs:
   - create
   - delete
@@ -19,16 +17,8 @@ rules:
   - update
   - watch
 - apiGroups:
-  - '*'
+  - auth.casbin.org
   resources:
-  - casbinmodels/finalizers
-  verbs:
-  - update
-- apiGroups:
-  - '*'
-  resources:
-  - casbinmodels/status
+  - universalpolicies/status
   verbs:
   - get
-  - patch
-  - update

@@ -1,8 +1,10 @@
 apiVersion: "auth.casbin.org/v1"
-kind: RequiredProbes
+kind: UniversalPolicy
 metadata:
-  name: policy5
+  name: required-probes-policy5
   namespace: kubesphere-authz-system
+  labels:
+    model: required-probes
 spec:
   policyItem: |
     p2, livenessProbe, tcpSocket

@@ -1,8 +1,10 @@
 apiVersion: "auth.casbin.org/v1"
-kind: RequiredLabels
+kind: UniversalPolicy
 metadata:
-  name: policy1
+  name: required-labels-policy1
   namespace: kubesphere-authz-system
+  labels:
+    model: required-labels
 spec:
   policyItem: |
     p, "owner", "test\-\d*", allow
