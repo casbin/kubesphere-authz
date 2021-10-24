@@ -4,7 +4,7 @@ metadata:
   name: container-resource-ratio
   namespace: kubesphere-authz-system
 spec:
-  associatedPolicyCrdPlural: container-resource-ratio
+  enabled: true
   modelText: |
     [request_definition]
     r = namespace, cpuRedundancyRatio, memoryRedundancyRatio
@@ -17,7 +17,6 @@ spec:
     
     [matchers]
     m = r.namespace == p.namespace && r.cpuRedundancyRatio < parseFloat(p.cpuRedundancyRatio) && r.memoryRedundancyRatio < parseFloat(p.memoryRedundancyRatio)
-    
-  
+
 
   

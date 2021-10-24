@@ -36,15 +36,14 @@ spec:
           spec:
             description: CasbinModelSpec defines the desired state of CasbinModel
             properties:
-              associatedPolicyCrdPlural:
-                description: AssociatedPolicyCrdPlural contains the plural form of
-                  the name of policy crd resource
-                type: string
+              enabled:
+                description: This Model is valid only if enabled is true
+                type: boolean
               modelText:
                 description: ModelText contains the content of casbin model
                 type: string
             required:
-            - modelText
+            - enabled
             type: object
           status:
             description: CasbinModelStatus defines the observed state of CasbinModel

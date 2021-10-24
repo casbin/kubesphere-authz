@@ -32,15 +32,17 @@ type CasbinModelSpec struct {
 	// Foo string `json:"foo,omitempty"`
 
 	//ModelText contains the content of casbin model
-	ModelText string `json:"modelText"`
-	//AssociatedPolicyCrdPlural contains the plural form of the name of policy crd resource
-	AssociatedPolicyCrdPlural string `json:"associatedPolicyCrdPlural,omitempty"`
+	ModelText string `json:"modelText,omitempty"`
+
+	// This Model is valid only if enabled is true
+	Enabled bool `json:"enabled"`
 }
 
 // CasbinModelStatus defines the observed state of CasbinModel
 type CasbinModelStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
 }
 
 //+kubebuilder:object:root=true

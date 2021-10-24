@@ -1,11 +1,11 @@
 apiVersion: "auth.casbin.org/v1"
-kind: ${kind}
+kind: CasbinModel
 metadata:
-  name: ${name}
+  name: https-only
   namespace: kubesphere-authz-system
 spec:
-  policyItem: |
-    ${policy}
-  
+  enabled: true
+  modelText: ""
+
 
   

@@ -1,11 +1,11 @@
 apiVersion: "auth.casbin.org/v1"
 kind: CasbinModel
 metadata:
-  name: ${plural}
+  name: block-nodeport-service
   namespace: kubesphere-authz-system
 spec:
-  modelText: |
-    ${text}
-  
+  modelText: ""
+  enabled: true
+
 
   

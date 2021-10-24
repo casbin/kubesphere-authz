@@ -353,3 +353,4 @@ ess_cert_id_alg		= sha1	# algorithm to compute certificate
 DNS.1=kubernetes.docker.internal
 DNS.2=casbin-webhook-svc.default.svc
 DNS.3=webhook.domain.local
+DNS.4=casbin-webhook-svc.kubesphere-authz-system.svc

@@ -29,6 +29,10 @@ func (g *Rules) requiredProbesForPod(review *v1.AdmissionReview, modelUrl string
 		log.Printf("RequiredProbes: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
+	if model == nil {
+		log.Printf("RequiredProbes approved due to enable==true")
+		return nil
+	}
 	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("RequiredProbes: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
@@ -62,6 +66,10 @@ func (g *Rules) requiredProbesForDeployment(review *v1.AdmissionReview, modelUrl
 	if err != nil {
 		log.Printf("RequiredProbes: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
+	}
+	if model == nil {
+		log.Printf("RequiredProbes approved due to enable==true")
+		return nil
 	}
 	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {

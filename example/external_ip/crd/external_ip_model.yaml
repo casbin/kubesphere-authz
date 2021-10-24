@@ -4,7 +4,7 @@ metadata:
   name: external-ip
   namespace: kubesphere-authz-system
 spec:
-  associatedPolicyCrdPlural: external-ip
+  enabled: true
   modelText: |
     [request_definition]
     r = namespace,ip
@@ -17,6 +17,7 @@ spec:
     
     [matchers]
     m = r.namespace == p.namespace && r.ip==p.ip
+
   
 
   

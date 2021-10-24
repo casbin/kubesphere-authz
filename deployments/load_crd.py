@@ -15,13 +15,13 @@ for rule in exampleDirs:
     if not os.path.exists( ruleCrdDir):
         continue
     # the definition yaml rule is supposed to be this
-    rulePolicyDir=ruleCrdDir+"/policy"
-    ruleDefinitionFileName=ruleCrdDir+"/"+rule+"_definition.yaml"
     # the model yaml rule is supposed to be this
     ruleModelFileName=ruleCrdDir+"/"+rule+"_model.yaml"
-    policyCrdFiles=[rulePolicyDir+"/"+name for name in os.listdir(rulePolicyDir) if os.path.isfile(rulePolicyDir+"/"+name)]
+    rulePolicyDir=ruleCrdDir+"/policy"
+    policyCrdFile=[]
+    if os.path.exists(rulePolicyDir):
+        policyCrdFiles=[rulePolicyDir+"/"+name for name in os.listdir(rulePolicyDir) if os.path.isfile(rulePolicyDir+"/"+name)]
 
-    #os.system("kubectl apply -f %s "%(ruleDefinitionFileName))
     os.system("kubectl apply -f %s "%(ruleModelFileName))
     time.sleep(0.5)
     for policyCrdFile in policyCrdFiles:

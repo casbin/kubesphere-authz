@@ -4,7 +4,7 @@ metadata:
   name: permission
   namespace: kubesphere-authz-system
 spec:
-  associatedPolicyCrdPlural: permission
+  enabled: true
   modelText: |
     [request_definition]
     r = resourceName,resourceKind,operation
@@ -17,6 +17,7 @@ spec:
     
     [matchers]
     m = r.resourceName == p.resourceName && r.resourceKind == p.resourceKind && r.operation == p.operation
+
   
 
   

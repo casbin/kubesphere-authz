@@ -4,7 +4,7 @@ metadata:
   name: disallowed-tags
   namespace: kubesphere-authz-system
 spec:
-  associatedPolicyCrdPlural: disallowed-tags
+  enabled: true
   modelText: |
     [request_definition]
     r = namespace,tag
@@ -17,6 +17,8 @@ spec:
     
     [matchers]
     m = r.namespace == p.namespace && r.tag==p.tag
+status:
+  enabled: true
   
 
   
