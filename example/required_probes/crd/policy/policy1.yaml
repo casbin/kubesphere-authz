@@ -1,8 +1,10 @@
 apiVersion: "auth.casbin.org/v1"
-kind: RequiredProbes
+kind: UniversalPolicy
 metadata:
-  name: policy1
-  namespace: policy
+  name: required-probes-policy1
+  namespace: kubesphere-authz-system
+  labels:
+    model: required-probes
 spec:
   policyItem: |
     p, readinessProbe

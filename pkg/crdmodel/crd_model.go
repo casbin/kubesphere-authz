@@ -4,9 +4,11 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
-	"ksauth/pkg/crdadaptor"
+	crdadaptor "ksauth/pkg/crdadaptorv2"
 
 	"encoding/json"
+
+	crd "ksauth/api/v1"
 
 	model "github.com/casbin/casbin/v2/model"
 	"gopkg.in/yaml.v2"
@@ -14,7 +16,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic"
-	crd "ksauth/api/v1"
 )
 
 /**

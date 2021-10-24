@@ -3,7 +3,7 @@
 
          "ExternalIP":{
              "available":true,
-             "model":"crd://external-ip#policy",
+             "model":"crd://external-ip#kubesphere-authz-system",
              "policy":""
          }
      },

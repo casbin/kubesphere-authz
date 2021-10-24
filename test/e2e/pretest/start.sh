@@ -46,11 +46,11 @@ make fmt
 make vet
 make install
 
-make run &
+# make run &
 cd "${workspaceBaseDir}/deployments"
 python3 load_crd.py
-pid=$(netstat -nap | grep 8081 | tail -n1 | awk '{printf("%d/n"), $7}' | awk -F/ '{printf("%d\n"), $1}')
-kill $pid
+# pid=$(netstat -nap | grep 8081 | tail -n1 | awk '{printf("%d/n"), $7}' | awk -F/ '{printf("%d\n"), $1}')
+# kill $pid
 
 # 4. register external webhook into k8s
 echo "[E2E PreTest] configure admission webhook in k8s"

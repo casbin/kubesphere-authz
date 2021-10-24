@@ -3,7 +3,7 @@
 
          "RequiredProbes":{
              "available":true,
-             "model":"crd://required-probes#policy",
+             "model":"crd://required-probes#kubesphere-authz-system",
              "policy":""
          }
      },

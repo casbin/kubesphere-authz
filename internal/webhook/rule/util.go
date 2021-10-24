@@ -2,25 +2,21 @@ package rule
 
 import (
 	"fmt"
-	"ksauth/controllers"
+	//"ksauth/controllers"
 	"ksauth/internal/config"
-	"ksauth/pkg/crdadaptor"
+	crdadaptor "ksauth/pkg/crdadaptorv2"
 	"ksauth/pkg/crdmodel"
 	"strings"
 )
 
 func getModelAndPolicyObject(modelUrl, policyUrl string) (interface{}, interface{}, error) {
-	modelObject, policyPlural, namespace, err := getModelObject(modelUrl)
+	modelObject, modelName, namespace, err := getModelObject(modelUrl)
 	if err != nil {
 		return nil, nil, err
 	}
 	if policyUrl == "" {
-		if policyPlural == "" {
-			//shouldn't reach here
-			return nil, nil, fmt.Errorf("No policy specified or associated with model")
-		}
-		//should obtain policy adaptor associated with model
-		adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlString(namespace, controllers.GeneratePolicyCrdDefinition(policyPlural), config.GetClientMode())
+		//should obtain universal policy adaptor 
+		adaptor, err := crdadaptor.NewK8sCRDAdaptor(namespace, modelName, config.GetClientMode())
 		if err != nil {
 			return nil, nil, err
 		}
@@ -36,7 +32,7 @@ func getModelAndPolicyObject(modelUrl, policyUrl string) (interface{}, interface
 }
 
 /**
-2nd return value is string of the namespaced plural form of the associated policy crd  if model is crd form
+2nd return value is model name
 3rd return value is k8s namespace (if have)
 */
 func getModelObject(url string) (interface{}, string, string, error) {
@@ -55,8 +51,8 @@ func getModelObject(url string) (interface{}, string, string, error) {
 		yamlPath := "config/crd/bases/auth.casbin.org_casbinmodels.yaml"
 		modelName := tmp[0]
 		namespace := tmp[1]
-		model, policyPlural, err := crdmodel.GetModelFromCrdByYamlDefinition(yamlPath, namespace, modelName, config.GetClientMode())
-		return model, policyPlural, namespace, err
+		model, _, err := crdmodel.GetModelFromCrdByYamlDefinition(yamlPath, namespace, modelName, config.GetClientMode())
+		return model, modelName, namespace, err
 	}
 	return nil, "", "", fmt.Errorf("invalid scheme %s", scheme)
 }
@@ -70,18 +66,7 @@ func getAdaptorObject(url string) (interface{}, error) {
 	case "file":
 		return path, nil
 	case "crd":
-		tmp := strings.Split(path, "#")
-		if len(tmp) == 0 {
-			return nil, fmt.Errorf("invalid syntax for crd url path. correct syntax: <policy crd name plural form>#<namespace>")
-		}
-		policyPlural := tmp[0]
-		namespace := tmp[1]
-		adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlString(namespace, controllers.GeneratePolicyCrdDefinition(policyPlural), config.GetClientMode())
-		//adaptor, err := crdadaptor.NewK8sCRDAdaptorByYamlDefinition(namespace, yamlPath, config.GetClientMode())
-		if err != nil {
-			return nil, err
-		}
-		return adaptor, nil
+		// crd adaptor v1 is no longer supported
 	}
 	return nil, fmt.Errorf("invalid scheme %s", scheme)
 }

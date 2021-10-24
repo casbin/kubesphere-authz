@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"ksauth/pkg/crdadaptor"
+	crdadaptor "ksauth/pkg/crdadaptorv2"
 	"log"
 	"sync"
 	"time"

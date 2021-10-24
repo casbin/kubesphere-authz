@@ -2,7 +2,7 @@ apiVersion: "auth.casbin.org/v1"
 kind: CasbinModel
 metadata:
   name: required-labels
-  namespace: policy
+  namespace: kubesphere-authz-system
 spec:
   associatedPolicyCrdPlural: required-labels
   modelText: |

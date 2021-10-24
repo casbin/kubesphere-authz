@@ -1,8 +1,10 @@
 apiVersion: "auth.casbin.org/v1"
-kind: RequiredAnnotations
+kind: UniversalPolicy
 metadata:
-  name: policy1
-  namespace: policy
+  name: required-annotations-policy1
+  namespace: kubesphere-authz-system
+  labels:
+    model: required-annotations
 spec:
   policyItem: |
     p, "a8r.io/owner", "test\-\d*", allow

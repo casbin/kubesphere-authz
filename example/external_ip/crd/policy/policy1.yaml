@@ -1,8 +1,10 @@
 apiVersion: "auth.casbin.org/v1"
-kind: ExternalIp
+kind: UniversalPolicy
 metadata:
-  name: policy1
-  namespace: policy
+  name: external-ip-policy1
+  namespace: kubesphere-authz-system
+  labels:
+    model: external-ip
 spec:
   policyItem: |
     p,default,1.1.1.1, allow

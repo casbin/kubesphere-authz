@@ -3,7 +3,7 @@
 
          "RequiredAnnotations":{
              "available":true,
-             "model":"crd://required-annotations#policy",
+             "model":"crd://required-annotations#kubesphere-authz-system",
              "policy":""
          }
      },

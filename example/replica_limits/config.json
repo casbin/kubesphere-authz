@@ -3,7 +3,7 @@
 
          "ReplicaLimits":{
              "available":true,
-             "model":"crd://replica-limits#policy",
+             "model":"crd://replica-limits#kubesphere-authz-system",
              "policy":""
          }
      },

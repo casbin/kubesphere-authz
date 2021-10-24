@@ -1,8 +1,10 @@
 apiVersion: "auth.casbin.org/v1"
-kind: AllowedRepo
+kind: UniversalPolicy
 metadata:
-  name: policy1
-  namespace: policy
+  name: allowed-repo-policy1
+  namespace: kubesphere-authz-system
+  labels:
+    model: allowed-repo
 spec:
   policyItem: |
     p, default, test, allow

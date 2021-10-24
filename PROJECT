@@ -7,10 +7,17 @@ resources:
 - api:
     crdVersion: v1
     namespaced: true
-  controller: true
   domain: casbin.org
   group: auth
   kind: CasbinModel
+  path: ksauth/api/v1
+  version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: casbin.org
+  group: auth
+  kind: UniversalPolicy
   path: ksauth/api/v1
   version: v1
 version: "3"

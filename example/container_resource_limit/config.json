@@ -3,7 +3,7 @@
 
         "ContainerResourceLimit": {
             "available": true,
-            "model": "crd://container-resource-limit#policy",
+            "model": "crd://container-resource-limit#kubesphere-authz-system",
             "policy": ""
         }
     },
