@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: kubesphere-authz-system
+  name: casbin-webhook
+  labels:
+    app: casbin-webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: casbin-webhook
+  template:
+    metadata:
+      labels:
+        app: casbin-webhook
+    spec:
+      serviceAccountName: my-sa
+      containers:
+      - name: casbin-kubesphere-authz
+        image: tangjiaming1999/casbin-kubesphere-authz:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080

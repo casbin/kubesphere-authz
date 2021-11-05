@@ -29,30 +29,28 @@ minikube start --extra-config=apiserver.enable-admission-plugins=NodeRestriction
 4. (optional)Modify config/config/config.json to switch on or switch off some rules, or change the model and policy source.
 If you made changes to the config.json, make sure to rebuild the docker image.
 
-5. (optional)Maybe you have made some modifications on this plugin to implement your own customized features.<br/>
-If you want to build the docker image for this plugin. execute
+5. execute  in $pwd
 ```shell
-./build.sh
-```
-And then tag the new image or push it to remote docker image repositories as you wish.
+ helm install ksauth ./ksauth 
+``` 
+to deploy the webhook
 
-6. Deploy the webhook
-Execute the following command to start the admission webhook service
+6.  execute  in $pwd
 ```shell
-cd ${workspace}/deployment 
-kubectl apply -f webhook_register_internal_step1.yaml
+kubectl apply -f deployments/webhook_register_internal.yaml
 ```
+to trigger the webhook
 
-After the deployment and the service is correctly started, execute this command to tell k8s that the webhook is the service we started before.
+7. if you want to apply all example models and policies
 ```shell
-cd ${workspace}/deployment 
-kubectl apply -f webhook_register_internal_step2.yaml
-```
-
-7. Apply all example policies
-```shell
-cd ${workspace}
+cd ${workspace}/deployments
 python3 load_crd.py
+```
+
+or if you just want to load all pre-set models without enabling them, without any policies either:
+```shell
+cd ${workspace}/deployments
+kubectl apply -f model.yaml
 ```
 
 8. Now you can have a try to test that whether the casbin admission webhook is fully operational now.
