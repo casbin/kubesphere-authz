@@ -16,6 +16,10 @@ func (g *Rules) RequiredLabel(review *v1.AdmissionReview, modelUrl string, polic
 		log.Printf("RequiredLabel: %s %s:%s rejected due to error:%s", resourceKind, review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
+	if model == nil {
+		log.Printf("RequiredLabel: approved due to enable==true")
+		return nil
+	}
 	enforcer, err := casbin.NewEnforcer(model, adaptor)
 
 	if err != nil {

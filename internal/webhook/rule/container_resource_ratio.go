@@ -56,6 +56,10 @@ func (g *Rules) containerResourceRatioForPod(review *v1.AdmissionReview, modelUr
 		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
+	if model == nil {
+		log.Printf("ContainerResourceRatio: approved due to enable==false")
+		return nil
+	}
 	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
@@ -133,6 +137,10 @@ func (g *Rules) containerResourceRatioForDeployment(review *v1.AdmissionReview, 
 	if err != nil {
 		log.Printf("ContainerResourceRatio: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
+	}
+	if model == nil {
+		log.Printf("ContainerResourceRatio: approved due to enable==false")
+		return nil
 	}
 	enforcer, err := casbin.NewEnforcer(model, adaptor)
 

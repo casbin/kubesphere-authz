@@ -55,7 +55,7 @@ python3 load_crd.py
 # 4. register external webhook into k8s
 echo "[E2E PreTest] configure admission webhook in k8s"
 cd ${workspaceBaseDir}/deployments
-minikube kubectl -- apply -f webhook_register.yaml
+minikube kubectl -- apply -f webhook_register_external.yaml
  
 echo "[E2E PreTest] Successfully setup all enironments"
 

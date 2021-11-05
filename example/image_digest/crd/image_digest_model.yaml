@@ -1,0 +1,12 @@
+apiVersion: "auth.casbin.org/v1"
+kind: CasbinModel
+metadata:
+  name: image-digest
+  namespace: kubesphere-authz-system
+spec:
+  enabled: true
+  modelText: ""
+
+  
+
+  

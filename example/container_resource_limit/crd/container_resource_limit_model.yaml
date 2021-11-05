@@ -4,7 +4,8 @@ metadata:
   name: container-resource-limit
   namespace: kubesphere-authz-system
 spec:
-  associatedPolicyCrdPlural: container-resource-limit
+  enabled: true
+
   modelText: |
     [request_definition]
     r = namespace, cpu, memory
@@ -17,6 +18,6 @@ spec:
     
     [matchers]
     m = r.namespace == p.namespace && r.cpu < parseFloat(p.cpu) && r.memory < parseFloat(p.memory)
-  
+
 
   

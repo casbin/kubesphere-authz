@@ -1,7 +1,7 @@
 {
     "rules": {
         "ResourceOperationPermission": {
-            "available": false,
+            "available": true,
             "model": "crd://permission#kubesphere-authz-system",
             "policy": ""
         },
@@ -11,57 +11,57 @@
             "policy": ""
         },
         "ContainerResourceLimit": {
-            "available": false,
+            "available": true,
             "model": "crd://container-resource-limit#kubesphere-authz-system",
             "policy": ""
         },
         "BlockNodeportService": {
-            "available": false,
-            "model": "",
+            "available": true,
+            "model": "crd://block-nodeport-service#kubesphere-authz-system",
             "policy": ""
         },
         "ContainerResourceRatio":{
-            "available": false,
+            "available": true,
             "model": "crd://container-resource-ratio#kubesphere-authz-system",
             "policy": ""
         },
         "DisallowedTags":{
-            "available": false,
+            "available": true,
             "model": "crd://disallowed-tags#kubesphere-authz-system",
             "policy": ""
         },
         "ExternalIP":{
-             "available":false,
+             "available":true,
              "model":"crd://external-ip#kubesphere-authz-system",
              "policy":""
          },
         "HttpsOnly": {
-            "available": false,
-            "model": "",
+            "available": true,
+            "model": "crd://https-only#kubesphere-authz-system",
             "policy": ""
         },
         "ImageDigest": {
-            "available": false,
-            "model": "",
+            "available": true,
+            "model": "crd://image-digest#kubesphere-authz-system",
             "policy": ""
         },
         "ReplicaLimits":{
-            "available":false,
+            "available":true,
             "model":"crd://replica-limits#kubesphere-authz-system",
             "policy":""
         },
         "RequiredLabel":{
-            "available":false,
+            "available":true,
             "model":"crd://required-labels#kubesphere-authz-system",
             "policy":""
         },
         "RequiredAnnotations":{
-            "available":false,
+            "available":true,
             "model":"crd://required-annotations#kubesphere-authz-system",
             "policy":""
         },
         "RequiredProbes":{
-            "available":false,
+            "available":true,
             "model":"crd://required-probes#kubesphere-authz-system",
             "policy":""
         }
@@ -72,7 +72,7 @@
         "kube-node-lease",
         "kube-public",
         "kube-system",
-        "policy"
+        "kubesphere-authz-system"
     ],
     "debugMode": true,
     "certificateFile": "config/certificate/server.crt",

@@ -56,6 +56,11 @@ func (g *Rules) allowedReposForPod(review *v1.AdmissionReview, modelUrl string, 
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
 	}
+	if model == nil {
+		//this rule is not enabled, approve it
+		log.Printf("AllowedRepos: approved due to enabled==false")
+		return nil
+	}
 	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
@@ -100,10 +105,15 @@ func (g *Rules) allowedReposForPod(review *v1.AdmissionReview, modelUrl string, 
 func (g *Rules) allowedReposForDeployment(review *v1.AdmissionReview, modelUrl string, policy string) error {
 
 	model, adaptor, err := getModelAndPolicyObject(modelUrl, policy)
-
 	if err != nil {
 		log.Printf("AllowedRepos: pod %s:%s rejected due to error:%s", review.Request.Namespace, review.Request.Name, err.Error())
 		return err
+	}
+
+	if model == nil {
+		//this rule is not enabled, approve it
+		log.Printf("AllowedRepos: approved due to enabled==false")
+		return nil
 	}
 	enforcer, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {

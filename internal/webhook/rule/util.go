@@ -9,13 +9,18 @@ import (
 	"strings"
 )
 
+/**
+1st return value is the object of model, which is a stirng if the model is stored in a file, or a casbin.Model object if model is stored in other ways
+if the model is correctly got but this model is not enabled, the 1st and the 3rd value will be nil together.
+2nd return value is a policy object, which is a string if the model is stored in a file, or a casbin adaptor object if model is stored in other ways
+*/
 func getModelAndPolicyObject(modelUrl, policyUrl string) (interface{}, interface{}, error) {
 	modelObject, modelName, namespace, err := getModelObject(modelUrl)
 	if err != nil {
 		return nil, nil, err
 	}
 	if policyUrl == "" {
-		//should obtain universal policy adaptor 
+		//should obtain universal policy adaptor
 		adaptor, err := crdadaptor.NewK8sCRDAdaptor(namespace, modelName, config.GetClientMode())
 		if err != nil {
 			return nil, nil, err
@@ -32,6 +37,8 @@ func getModelAndPolicyObject(modelUrl, policyUrl string) (interface{}, interface
 }
 
 /**
+1st return value is the object of model, which is a stirng if the model is stored in a file, or a casbin.Model object if model is stored in other ways
+if the model is correctly got but this model is not enabled, the 1st and the 3rd value will be nil together.
 2nd return value is model name
 3rd return value is k8s namespace (if have)
 */
@@ -51,8 +58,13 @@ func getModelObject(url string) (interface{}, string, string, error) {
 		yamlPath := "config/crd/bases/auth.casbin.org_casbinmodels.yaml"
 		modelName := tmp[0]
 		namespace := tmp[1]
-		model, _, err := crdmodel.GetModelFromCrdByYamlDefinition(yamlPath, namespace, modelName, config.GetClientMode())
-		return model, modelName, namespace, err
+		model, enabled, err := crdmodel.GetModelFromCrdByYamlDefinition(yamlPath, namespace, modelName, config.GetClientMode())
+		if enabled {
+			return model, modelName, namespace, err
+		} else {
+			return nil, modelName, namespace, nil
+		}
+
 	}
 	return nil, "", "", fmt.Errorf("invalid scheme %s", scheme)
 }

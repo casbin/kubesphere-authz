@@ -4,7 +4,7 @@ metadata:
   name: allowed-repo
   namespace: kubesphere-authz-system
 spec:
-  associatedPolicyCrdPlural: allowed-repo
+  enabled: true
   modelText: |
     [request_definition]
     r = namespace,image
@@ -17,6 +17,7 @@ spec:
     
     [matchers]
     m = r.namespace == p.namespace && hasPrefix(r.image, p.image)
+
   
 
   

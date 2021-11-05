@@ -26,6 +26,10 @@ func (g *Rules) ResourceOperationPermission(review *v1.AdmissionReview, modelUrl
 	if err != nil {
 		return err
 	}
+	if model == nil {
+		log.Printf("ResourceOperationPermission: approved due to enable==true")
+		return nil
+	}
 	e, err := casbin.NewEnforcer(model, adaptor)
 	if err != nil {
 		return err

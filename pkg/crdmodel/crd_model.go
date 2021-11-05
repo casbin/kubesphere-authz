@@ -19,9 +19,11 @@ import (
 )
 
 /**
-2nd return value is string of the plural form of the associated policy crd
+1st return value is the object of model, which is a stirng if the model is stored in a file, or a casbin.Model object if model is stored in other ways
+if the model is correctly got but this model is not enabled, the 1st and the 3rd value will be nil together.
+2nd enabled
 */
-func GetModelFromCrd(group, version, namespace, modelResourcePlural, modelName string, clientType crdadaptor.ClientType) (model.Model, string, error) {
+func GetModelFromCrd(group, version, namespace, modelResourcePlural, modelName string, clientType crdadaptor.ClientType) (model.Model, bool, error) {
 	//establish client
 	var client dynamic.Interface
 	var err error
@@ -32,41 +34,48 @@ func GetModelFromCrd(group, version, namespace, modelResourcePlural, modelName s
 		client, err = establishInternalClient()
 	}
 	if err != nil {
-		return nil, "", err
+		return nil, false, err
 	}
-	modelText, policyCRDPlural, err := GetModelTextFromCrd(group, version, namespace, modelResourcePlural, modelName, client)
+	modelText, enabled, err := getModelTextFromCrd(group, version, namespace, modelResourcePlural, modelName, client)
 	if err != nil {
-		return nil, "", err
+		return nil, false, err
 	}
 	var res model.Model = model.NewModel()
-	err = res.LoadModelFromText(modelText)
-	return res, policyCRDPlural, err
+
+	if enabled {
+		err = res.LoadModelFromText(modelText)
+		return res, true, err
+	} else {
+		return nil, false, nil
+	}
+
 }
 
 /**
 2nd return value is string of the plural form of the associated policy crd
 */
-func GetModelFromCrdByYamlDefinition(yamlDefinitionPath string, namespace string, modelName string, clientType crdadaptor.ClientType) (model.Model, string, error) {
+func GetModelFromCrdByYamlDefinition(yamlDefinitionPath string, namespace string, modelName string, clientType crdadaptor.ClientType) (model.Model, bool, error) {
 	var definition apiextensions.CustomResourceDefinition
 	fileData, err := ioutil.ReadFile(yamlDefinitionPath)
 	if err != nil {
-		return nil, "", err
+		return nil, false, err
 	}
 	err = yaml.Unmarshal(fileData, &definition)
 	if err != nil {
-		return nil, "", err
+		return nil, false, err
 	}
 
 	if len(definition.Spec.Versions) == 0 {
-		return nil, "", fmt.Errorf("no versions information provided")
+		return nil, false, fmt.Errorf("no versions information provided")
 	}
 	return GetModelFromCrd(definition.Spec.Group, definition.Spec.Versions[0].Name, namespace, definition.Spec.Names.Plural, modelName, clientType)
 }
 
 /**
-2nd return value is string of the plural form of the associated policy crd
+1st value is the model text
+2nd is boolean marking whether this model is enabled
 */
-func GetModelTextFromCrd(group, version, namespace, modelResourcePlural, modelName string, client dynamic.Interface) (string, string, error) {
+func getModelTextFromCrd(group, version, namespace, modelResourcePlural, modelName string, client dynamic.Interface) (string, bool, error) {
 	var gvr = schema.GroupVersionResource{
 		Group:    group,
 		Version:  version,
@@ -75,19 +84,19 @@ func GetModelTextFromCrd(group, version, namespace, modelResourcePlural, modelNa
 
 	unstructured, err := client.Resource(gvr).Namespace(namespace).Get(context.TODO(), modelName, metav1.GetOptions{})
 	if err != nil {
-		return "", "", err
+		return "", false, err
 	}
 
 	raw, err := unstructured.MarshalJSON()
 	if err != nil {
-		return "", "", err
+		return "", false, err
 	}
 	var crdModel crd.CasbinModel
 	err = json.Unmarshal(raw, &crdModel)
 	if err != nil {
-		return "", "", err
+		return "", false, err
 	}
 
-	return crdModel.Spec.ModelText, crdModel.Spec.AssociatedPolicyCrdPlural, nil
+	return crdModel.Spec.ModelText, crdModel.Spec.Enabled, nil
 
 }

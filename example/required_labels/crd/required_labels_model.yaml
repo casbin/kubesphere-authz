@@ -4,7 +4,7 @@ metadata:
   name: required-labels
   namespace: kubesphere-authz-system
 spec:
-  associatedPolicyCrdPlural: required-labels
+  enabled: true
   modelText: |
     [request_definition]
     r = k,v
@@ -17,6 +17,7 @@ spec:
     
     [matchers]
     m = r.k == p.k && regexMatch(r.v,p.v)
+
   
 
   
