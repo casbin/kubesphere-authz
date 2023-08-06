@@ -1,7 +1,7 @@
 # casbin-kubesphere-auth
 [TOC]
 ## 0.Overview
-Casbin-kubesphere-auth is a plugin which apply several security authentication check on kubesphere via [casbin](https://casbin.org/docs/en/overview).
+Casbin-kubesphere-auth is a plugin which apply several security authentication check on kubesphere via [casbin](https://casbin.org/docs/overview).
 
 In fact, this plugin is an admission webhook of k8s, performing various kinds of checks and applying the security rules on each operation. 
 
@@ -197,7 +197,7 @@ Besides, each line of policy is generated as a crd object, defined in the files 
 
 After these files are generated, use kubectl apply -f to make them into effect. 
 
-As for the adaptor, you can find these code in pkg/crdadaptor. If you don't know what a casbin adaptor is, see <https://casbin.org/docs/en/adapters>
+As for the adaptor, you can find these code in pkg/crdadaptor. If you don't know what a casbin adaptor is, see <https://casbin.org/docs/adapters>
 
 ### 3.4 Reexamination of the config file.
 
